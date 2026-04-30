@@ -1,4 +1,4 @@
-const CACHE_NAME = 'travelogue-luxury-light-v2';
+const CACHE_NAME = 'travelogue-luxury-light-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -7,9 +7,24 @@ const ASSETS_TO_CACHE = [
   '/assets/css/global.css',
   '/assets/js/utils.js',
   '/auth/auth.js',
+  '/auth/auth.css',
   '/auth/login.html',
   '/auth/signup.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/pages/destinations.html',
+  '/pages/packages.html',
+  '/pages/about.html',
+  '/pages/blog.html',
+  '/pages/gallery.html',
+  '/pages/contact.html',
+  '/pages/faq.html',
+  '/pages/terms.html',
+  '/pages/privacy.html',
+  '/destinations/darjeeling.html',
+  '/destinations/sikkim.html',
+  '/destinations/dooars.html',
+  '/destinations/sittong.html',
+  '/destinations/mandarmani.html',
 ];
 
 // Install Event

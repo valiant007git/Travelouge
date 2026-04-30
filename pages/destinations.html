@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Travelogue</title>
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="preload" href="../assets/css/global.css" as="style">
     <link rel="stylesheet" href="../assets/css/global.css">
     
     <style>
@@ -219,7 +225,7 @@
             <div class="dest-card" data-category="sikkim">
                 <div class="dest-img-container">
                     <span class="dest-badge">High Altitude Adventure</span>
-                    <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80" alt="Sikkim">
+                    <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=75&fm=webp&auto=format&fit=crop" alt="Sikkim" fetchpriority="high">
                 </div>
                 <div class="dest-info">
                     <h2 class="brand-font">Sikkim</h2>
@@ -243,7 +249,7 @@
             <div class="dest-card" data-category="darjeeling">
                 <div class="dest-img-container">
                     <span class="dest-badge">Queen of the Hills</span>
-                    <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80" alt="Darjeeling">
+                    <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=75&fm=webp&auto=format&fit=crop" alt="Darjeeling" loading="lazy">
                 </div>
                 <div class="dest-info">
                     <h2 class="brand-font">Darjeeling</h2>
@@ -267,7 +273,7 @@
             <div class="dest-card" data-category="sittong">
                 <div class="dest-img-container">
                     <span class="dest-badge">Hidden Orange Village</span>
-                    <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=800&q=80" alt="Sitong">
+                    <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=800&q=75&fm=webp&auto=format&fit=crop" alt="Sitong" loading="lazy">
                 </div>
                 <div class="dest-info">
                     <h2 class="brand-font">Sitong</h2>
@@ -291,7 +297,7 @@
             <div class="dest-card" data-category="dooars">
                 <div class="dest-img-container">
                     <span class="dest-badge">Wildlife Sanctuary</span>
-                    <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=800&q=80" alt="Dooars">
+                    <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=800&q=75&fm=webp&auto=format&fit=crop" alt="Dooars" loading="lazy">
                 </div>
                 <div class="dest-info">
                     <h2 class="brand-font">Dooars</h2>
@@ -315,7 +321,7 @@
             <div class="dest-card" data-category="mandarmani">
                 <div class="dest-img-container">
                     <span class="dest-badge">Luxury Coastal Reset</span>
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Mandarmani">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=75&fm=webp&auto=format&fit=crop" alt="Mandarmani" loading="lazy">
                 </div>
                 <div class="dest-info">
                     <h2 class="brand-font">Mandarmani</h2>
@@ -480,8 +486,8 @@
         </div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Auth Logic

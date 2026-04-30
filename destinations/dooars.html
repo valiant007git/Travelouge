@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dooars | Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../assets/css/global.css">
     
     <style>
@@ -188,28 +189,28 @@
                     <h3>Top Attractions</h3>
                     <div class="attraction-grid">
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=150" alt="Jaldapara">
+                            <img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=150&fm=webp&q=75" alt="Jaldapara" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Jaldapara National Park</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">Famous for its population of the Indian one-horned rhinoceros.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=150" alt="Gorumara">
+                            <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=150&fm=webp&q=75" alt="Gorumara" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Gorumara National Park</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">Offers excellent elephant safaris and watchtower views.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150" alt="Jayanti">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&fm=webp&q=75" alt="Jayanti" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Jayanti River</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A picturesque river bed surrounded by the Buxa Tiger Reserve.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=150" alt="Murti">
+                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=150&fm=webp&q=75" alt="Murti" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Murti River</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A crystal clear river perfect for camping and relaxation.</p>
@@ -268,12 +269,12 @@
                 <div class="overview-section">
                     <h3>Dooars Gallery</h3>
                     <div class="gallery-grid">
-                        <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -337,8 +338,8 @@
         <div class="footer-bottom"><p>&copy; 2026 Travelogue. All Rights Reserved.</p></div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const authActions = document.getElementById('desktop-auth-actions');

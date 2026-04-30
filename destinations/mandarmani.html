@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mandarmani | Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../assets/css/global.css">
     <style>
         .dest-hero {
@@ -352,28 +353,28 @@
                     <h3>Top Experiences</h3>
                     <div class="attraction-grid">
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Mandarmani beach">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&fm=webp&q=75" alt="Mandarmani beach" loading="lazy">
                             <div>
                                 <h4>Slow Beach Mornings</h4>
                                 <p style="font-size:0.9rem; color:var(--text-light);">Early walks, soft light, and unhurried resort breakfasts.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300" alt="Premium resort">
+                            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300&fm=webp&q=75" alt="Premium resort" loading="lazy">
                             <div>
                                 <h4>Premium Resort Stays</h4>
                                 <p style="font-size:0.9rem; color:var(--text-light);">Comfortable rooms, pools, lawns, and sea-facing upgrades where available.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300" alt="Seafood dining">
+                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300&fm=webp&q=75" alt="Seafood dining" loading="lazy">
                             <div>
                                 <h4>Seafood Trail</h4>
                                 <p style="font-size:0.9rem; color:var(--text-light);">Fresh local plates with relaxed lunch stops along the route.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=300" alt="Coastal road">
+                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=300&fm=webp&q=75" alt="Coastal road" loading="lazy">
                             <div>
                                 <h4>Coastal Drive</h4>
                                 <p style="font-size:0.9rem; color:var(--text-light);">A comfortable private transfer from Kolkata with planned refreshment stops.</p>
@@ -405,10 +406,10 @@
                 <div class="overview-section">
                     <h3>Mandarmani Gallery</h3>
                     <div class="gallery-grid">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700" class="gal-img" alt="Mandarmani beach">
-                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700" class="gal-img" alt="Luxury resort">
-                        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=700" class="gal-img" alt="Sea waves">
-                        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700" class="gal-img" alt="Coastal road">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&fm=webp&q=75" class="gal-img" alt="Mandarmani beach" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700&fm=webp&q=75" class="gal-img" alt="Luxury resort" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=700&fm=webp&q=75" class="gal-img" alt="Sea waves" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700&fm=webp&q=75" class="gal-img" alt="Coastal road" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -466,8 +467,8 @@
         <div class="footer-bottom"><p>&copy; 2026 Travelogue. All Rights Reserved.</p></div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const tabBtns = document.querySelectorAll('.tab-btn');

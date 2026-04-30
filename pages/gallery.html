@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../assets/css/global.css">
     
     <style>
@@ -236,26 +237,26 @@
 
         <div class="masonry-grid" id="gallery-grid">
             <!-- 20 Images with relevant categories -->
-            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600" alt="Sikkim Mountains"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
-            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600" alt="Darjeeling Tea"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
-            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600" alt="Local Monks"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
-            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600" alt="Sitong Oranges"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
-            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600" alt="Dooars Safari"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
-            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1589301773812-7fb2a4da553c?w=600" alt="Momos"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
-            <div class="gallery-item" data-cat="sikkim adventure"><img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600" alt="Tsomgo Lake"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
-            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Toy Train"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
-            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="Sitong Hills"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
-            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600" alt="Tea Plucker"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
-            <div class="gallery-item" data-cat="dooars"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600" alt="Jungle Camp"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
-            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?w=600" alt="Trekking"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
-            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" alt="Nathula"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
-            <div class="gallery-item" data-cat="darjeeling food"><img src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=600" alt="Darjeeling Tea"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
-            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600" alt="Hiking"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
-            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" alt="Local Kid"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
-            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600" alt="Monastery"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
-            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=600" alt="Rhino"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
-            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600" alt="Thukpa"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
-            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1582200840431-7b79cc83e9ea?w=600" alt="Kanchenjunga View"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&fm=webp&q=75" alt="Sikkim Mountains" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&fm=webp&q=75" alt="Darjeeling Tea" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&fm=webp&q=75" alt="Local Monks" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600&fm=webp&q=75" alt="Sitong Oranges" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
+            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&fm=webp&q=75" alt="Dooars Safari" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1589301773812-7fb2a4da553c?w=600&fm=webp&q=75" alt="Momos" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="sikkim adventure"><img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600&fm=webp&q=75" alt="Tsomgo Lake" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&fm=webp&q=75" alt="Toy Train" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&fm=webp&q=75" alt="Sitong Hills" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&fm=webp&q=75" alt="Tea Plucker" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="dooars"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&fm=webp&q=75" alt="Jungle Camp" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?w=600&fm=webp&q=75" alt="Trekking" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&fm=webp&q=75" alt="Nathula" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling food"><img src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=600&fm=webp&q=75" alt="Darjeeling Tea" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&fm=webp&q=75" alt="Hiking" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&fm=webp&q=75" alt="Local Kid" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600&fm=webp&q=75" alt="Monastery" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=600&fm=webp&q=75" alt="Rhino" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&fm=webp&q=75" alt="Thukpa" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1582200840431-7b79cc83e9ea?w=600&fm=webp&q=75" alt="Kanchenjunga View" loading="lazy"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
         </div>
     </section>
 
@@ -330,8 +331,8 @@
         </div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Auth Logic

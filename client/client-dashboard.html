@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard - Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     
     <style>
         :root {
@@ -223,8 +224,8 @@
         </div>
     </main>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         protectPage('client');
         
@@ -296,7 +297,7 @@
             myBookings.forEach(b => {
                 bookGrid.innerHTML += `
                     <div class="booking-card">
-                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=80" class="booking-img">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&fm=webp&q=75" class="booking-img" loading="lazy">
                         <div class="booking-info">
                             <h4>${b.destination} - ${b.package}</h4>
                             <p><i class="fa-solid fa-calendar"></i> ${b.dates}</p>

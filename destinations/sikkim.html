@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sikkim | Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../assets/css/global.css">
     
     <style>
@@ -244,28 +245,28 @@
                     <h3>Top Attractions</h3>
                     <div class="attraction-grid">
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=150" alt="Tsomgo">
+                            <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=150&fm=webp&q=75" alt="Tsomgo" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Tsomgo Lake</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A glacial lake at 12,400 ft, known for its changing colors.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=150" alt="Rumtek">
+                            <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=150&fm=webp&q=75" alt="Rumtek" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Rumtek Monastery</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">The largest monastery in Sikkim, rich in Tibetan architecture.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=150" alt="Nathula">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=150&fm=webp&q=75" alt="Nathula" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Nathula Pass</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A historic mountain pass on the Indo-China border at 14,140 ft.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150" alt="Yumthang">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&fm=webp&q=75" alt="Yumthang" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Yumthang Valley</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">The 'Valley of Flowers', spectacular in the spring.</p>
@@ -341,12 +342,12 @@
                 <div class="overview-section">
                     <h3>Sikkim Gallery</h3>
                     <div class="gallery-grid">
-                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1589301773812-7fb2a4da553c?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1589301773812-7fb2a4da553c?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -458,8 +459,8 @@
         </div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Auth Logic

@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travelogue | Premium Darjeeling, Sikkim & Dooars Journeys</title>
     <meta name="description" content="Curated luxury journeys through Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani with Travelogue.">
-    <!-- Google Fonts -->
+    <!-- DNS Prefetch & Preconnect for performance -->
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Critical CSS preload -->
+    <link rel="preload" href="assets/css/global.css" as="style">
+    <link rel="preload" href="style.css" as="style">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -119,7 +126,7 @@
                                 <!-- Card 1 -->
                 <div class="dest-card fade-in">
                     <div class="dest-img">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Darjeeling, India">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75&fm=webp" alt="Darjeeling, India" fetchpriority="high">
                         <div class="dest-overlay">
                             <a href="destinations/darjeeling.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
                         </div>
@@ -143,7 +150,7 @@
                 <!-- Card 2 -->
                 <div class="dest-card fade-in">
                     <div class="dest-img">
-                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sikkim, India">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75&fm=webp" alt="Sikkim, India" loading="lazy">
                         <div class="dest-overlay">
                             <a href="destinations/sikkim.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
                         </div>
@@ -167,7 +174,7 @@
                 <!-- Card 3 -->
                 <div class="dest-card fade-in">
                     <div class="dest-img">
-                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sitong, India">
+                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75&fm=webp" alt="Sitong, India" loading="lazy">
                         <div class="dest-overlay">
                             <a href="destinations/sittong.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
                         </div>
@@ -191,7 +198,7 @@
                 <!-- Card 4 -->
                 <div class="dest-card fade-in">
                     <div class="dest-img">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mandarmani, India">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75&fm=webp" alt="Mandarmani, India" loading="lazy">
                         <div class="dest-overlay">
                             <a href="destinations/mandarmani.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
                         </div>
@@ -215,7 +222,7 @@
                 <!-- Card 5 -->
                 <div class="dest-card fade-in">
                     <div class="dest-img">
-                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dooars, India">
+                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75&fm=webp" alt="Dooars, India" loading="lazy">
                         <div class="dest-overlay">
                             <a href="destinations/dooars.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
                         </div>
@@ -344,7 +351,7 @@
                     <!-- Review 1 -->
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Sarah J." class="testi-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=75&fm=webp" alt="Sarah J." class="testi-avatar" loading="lazy">
                             <div class="testi-rating">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -360,7 +367,7 @@
                     <!-- Review 2 -->
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Michael T." class="testi-avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=75&fm=webp" alt="Michael T." class="testi-avatar" loading="lazy">
                             <div class="testi-rating">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -376,7 +383,7 @@
                     <!-- Review 3 -->
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Elena R." class="testi-avatar">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=75&fm=webp" alt="Elena R." class="testi-avatar" loading="lazy">
                             <div class="testi-rating">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -392,7 +399,7 @@
                     <!-- Review 4 -->
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="David L." class="testi-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=75&fm=webp" alt="David L." class="testi-avatar" loading="lazy">
                             <div class="testi-rating">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -489,11 +496,10 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Interactions -->
-    <!-- Scripts -->
-    <script src="assets/js/utils.js"></script>
-    <script src="auth/auth.js"></script>
-    <script src="script.js"></script>
+    <!-- Scripts deferred to not block rendering -->
+    <script defer src="assets/js/utils.js"></script>
+    <script defer src="auth/auth.js"></script>
+    <script defer src="script.js"></script>
     <script>
         // Check Auth Status for index.html Navbar
         document.addEventListener('DOMContentLoaded', () => {
@@ -520,9 +526,7 @@
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered:', registration))
-                    .catch(error => console.log('SW registration failed:', error));
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
             });
         }
     </script>

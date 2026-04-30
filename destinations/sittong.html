@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sitong | Travelogue</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="../assets/css/global.css">
     
     <style>
@@ -188,28 +189,28 @@
                     <h3>Top Attractions</h3>
                     <div class="attraction-grid">
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=150" alt="Orchards">
+                            <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=150&fm=webp&q=75" alt="Orchards" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Orange Orchards</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">Walk through the vibrant orchards in winter.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=150" alt="Ahaldara">
+                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=150&fm=webp&q=75" alt="Ahaldara" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Ahaldara Viewpoint</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">Offers a stunning 360-degree view of Kanchenjunga and the Teesta river.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=150" alt="Namthing Pokhari">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=150&fm=webp&q=75" alt="Namthing Pokhari" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Namthing Pokhari</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A seasonal lake known for the rare Himalayan Salamander.</p>
                             </div>
                         </div>
                         <div class="attraction-card">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150" alt="Monastery">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&fm=webp&q=75" alt="Monastery" loading="lazy">
                             <div class="attraction-info">
                                 <h4>Old Bamboo Monastery</h4>
                                 <p style="font-size:0.85rem; color:var(--text-light);">A quaint, peaceful monastery made mostly of bamboo.</p>
@@ -254,10 +255,10 @@
                 <div class="overview-section">
                     <h3>Sitong Gallery</h3>
                     <div class="gallery-grid">
-                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600" class="gal-img">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&fm=webp&q=75" class="gal-img" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -321,8 +322,8 @@
         <div class="footer-bottom"><p>&copy; 2026 Travelogue. All Rights Reserved.</p></div>
     </footer>
 
-    <script src="../assets/js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
+    <script defer src="../assets/js/utils.js"></script>
+    <script defer src="../auth/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const authActions = document.getElementById('desktop-auth-actions');

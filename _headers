@@ -1,0 +1,57 @@
+# Netlify _headers - Browser caching for performance
+
+# CSS and JS - cache for 1 year (hashed by filename)
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/admin/admin.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/admin/admin.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/auth/auth.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/auth/auth.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/script.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/style.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts and icons from CDN are already cached by CDNJS
+# Service worker - no cache (always fresh)
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Manifest
+/manifest.json
+  Cache-Control: public, max-age=86400
+
+# HTML pages - short cache (content can change)
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/pages/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/destinations/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/auth/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/client/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Security headers for all pages
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
