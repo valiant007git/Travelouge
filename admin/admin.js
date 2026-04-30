@@ -1,7 +1,7 @@
 /* admin/admin.js */
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // Auth Check
     if (typeof protectPage === 'function') protectPage('admin');
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nav Logic
     const navLinks = document.querySelectorAll('.nav-link[data-target]');
     const pageSections = document.querySelectorAll('.page-section');
-    
+
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             navLinks.forEach(l => l.classList.remove('active'));
@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = link.getAttribute('data-target');
             pageSections.forEach(sec => {
                 sec.classList.remove('active');
-                if(sec.id === target) sec.classList.add('active');
+                if (sec.id === target) sec.classList.add('active');
             });
         });
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {
-        if(typeof logoutUser === 'function') logoutUser();
+        if (typeof logoutUser === 'function') logoutUser();
     });
 
     // Toasts
@@ -78,14 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     let inqPage = 1;
     const inqPerPage = 10;
-    
+
     const renderInquiries = () => {
         let inquiries = loadData('travelogue_inquiries').reverse();
-        
+
         // Filters
         const search = document.getElementById('inq-search').value.toLowerCase();
         const statFilter = document.getElementById('inq-filter-status').value;
-        
+
         if (search) inquiries = inquiries.filter(i => i.refNo.toLowerCase().includes(search) || i.clientName.toLowerCase().includes(search));
         if (statFilter) inquiries = inquiries.filter(i => i.status === statFilter);
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.editInqStatus = (id) => {
         const inqs = loadData('travelogue_inquiries');
         const i = inqs.find(x => x.id === id);
-        if(i) {
+        if (i) {
             document.getElementById('edit-inq-id').value = id;
             document.getElementById('edit-inq-status').value = i.status;
             document.getElementById('inq-modal').classList.add('active');
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const stat = document.getElementById('edit-inq-status').value;
         const inqs = loadData('travelogue_inquiries');
         const idx = inqs.findIndex(x => x.id === id);
-        if(idx !== -1) {
+        if (idx !== -1) {
             inqs[idx].status = stat;
             saveData('travelogue_inquiries', inqs);
             showToast('Inquiry status updated');
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.deleteInquiry = (id) => {
-        if(confirm('Delete inquiry?')) {
+        if (confirm('Delete inquiry?')) {
             let inqs = loadData('travelogue_inquiries');
             inqs = inqs.filter(i => i.id !== id);
             saveData('travelogue_inquiries', inqs);
@@ -160,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('export-csv').addEventListener('click', () => {
         const inqs = loadData('travelogue_inquiries');
-        if(inqs.length === 0) return alert('No data to export');
-        
+        if (inqs.length === 0) return alert('No data to export');
+
         const headers = ['RefNo', 'Client', 'Email', 'Destination', 'Type', 'Budget', 'Status', 'Submitted'];
         const rows = inqs.map(i => [i.refNo, i.clientName, i.email, i.destination, i.type, i.budget, i.status, i.submittedOn]);
-        
+
         let csvContent = "data:text/csv;charset=utf-8," + headers.join(',') + "\n" + rows.map(e => e.join(",")).join("\n");
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleReview = (id) => {
         const revs = loadData('travelogue_reviews');
         const r = revs.find(x => x.id === id);
-        if(r) {
+        if (r) {
             r.status = r.status === 'published' ? 'hidden' : 'published';
             saveData('travelogue_reviews', revs);
             showToast(`Review ${r.status}`);
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // WEBSITE CUSTOMISATION & LIVE PREVIEW
     // ==========================================
-    
+
     // Tab Switching
     const customTabs = document.querySelectorAll('.customisation-tabs .tab-btn');
     const customPanes = document.querySelectorAll('.customisation-content .tab-pane');
@@ -261,11 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
         heading.style.fontFamily = fd.get('headingFont').replace(/['"]/g, '');
         text.style.color = fd.get('textSecondaryColor');
         text.style.fontFamily = fd.get('bodyFont').replace(/['"]/g, '');
-        
+
         btn.style.backgroundColor = fd.get('accentColor');
         btn.style.color = '#fff';
         btn.style.fontFamily = fd.get('bodyFont').replace(/['"]/g, '');
-        
+
         let br = fd.get('buttonBorderRadius') + 'px';
         if (fd.get('buttonStyle') === 'Square') br = '0px';
         if (fd.get('buttonStyle') === 'Pill') br = '50px';
@@ -282,33 +282,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updatePreviewIframe = () => {
         const iframe = document.getElementById('preview-iframe');
-        if(iframe) iframe.contentWindow.location.reload();
+        if (iframe) iframe.contentWindow.location.reload();
     };
 
     // Generic Form Load & Save
     const loadForm = (key, formId) => {
         const data = loadData(key);
-        if(!data || Object.keys(data).length === 0) return;
+        if (!data || Object.keys(data).length === 0) return;
         const form = document.getElementById(formId);
-        if(!form) return;
-        
+        if (!form) return;
+
         Object.keys(data).forEach(k => {
             const el = form.elements[k];
-            if(el) {
-                if(el.type === 'checkbox') el.checked = data[k];
+            if (el) {
+                if (el.type === 'checkbox') el.checked = data[k];
                 else el.value = data[k];
-                
+
                 // Trigger input for counters/sliders
-                if(el.oninput) el.oninput();
+                if (el.oninput) el.oninput();
             }
         });
-        
-        if(formId === 'form-theme') updateThemePreview();
-        if(data.bgImage && document.getElementById('hero-bg-preview')) {
+
+        if (formId === 'form-theme') updateThemePreview();
+        if (data.bgImage && document.getElementById('hero-bg-preview')) {
             document.getElementById('hero-bg-preview').src = data.bgImage;
             document.getElementById('hero-bg-preview').style.display = 'block';
         }
-        if(data.ogImage && document.getElementById('seo-og-preview')) {
+        if (data.ogImage && document.getElementById('seo-og-preview')) {
             document.getElementById('seo-og-preview').src = data.ogImage;
             document.getElementById('seo-og-preview').style.display = 'block';
         }
@@ -316,15 +316,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveForm = (key, formId) => {
         const form = document.getElementById(formId);
-        if(!form) return;
+        if (!form) return;
         const fd = new FormData(form);
         const data = {};
-        for(let [k, v] of fd.entries()) {
+        for (let [k, v] of fd.entries()) {
             data[k] = v;
         }
         // Handle checkboxes (unchecked checkboxes are not in FormData)
         Array.from(form.elements).forEach(el => {
-            if(el.type === 'checkbox') {
+            if (el.type === 'checkbox') {
                 data[el.name] = el.checked;
             }
         });
@@ -343,41 +343,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     basicForms.forEach(f => {
         const form = document.getElementById(f.id);
-        if(form) {
+        if (form) {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 saveForm(f.key, f.id);
             });
             // Auto preview inputs
             form.addEventListener('input', () => {
-                if(f.id === 'form-theme') updateThemePreview();
+                if (f.id === 'form-theme') updateThemePreview();
             });
         }
     });
 
     document.getElementById('hero-bg-input')?.addEventListener('input', (e) => {
         const img = document.getElementById('hero-bg-preview');
-        if(e.target.value) { img.src = e.target.value; img.style.display = 'block'; }
+        if (e.target.value) { img.src = e.target.value; img.style.display = 'block'; }
         else img.style.display = 'none';
     });
-    
+
     document.getElementById('seo-og-input')?.addEventListener('input', (e) => {
         const img = document.getElementById('seo-og-preview');
-        if(e.target.value) { img.src = e.target.value; img.style.display = 'block'; }
+        if (e.target.value) { img.src = e.target.value; img.style.display = 'block'; }
         else img.style.display = 'none';
     });
 
     window.resetForm = (tab) => {
-        if(confirm('Are you sure you want to reset this tab to defaults?')) {
+        if (confirm('Are you sure you want to reset this tab to defaults?')) {
             const keyMap = {
                 'general': 'travelogue_general', 'navbar': 'travelogue_navbar', 'hero': 'travelogue_hero',
-                'destinations': 'travelogue_destinations', 'packages': 'travelogue_packages', 
-                'reviews': 'travelogue_reviews', 'footer': 'travelogue_footer', 
+                'destinations': 'travelogue_destinations', 'packages': 'travelogue_packages',
+                'reviews': 'travelogue_reviews', 'footer': 'travelogue_footer',
                 'seo': 'travelogue_seo', 'theme': 'travelogue_theme'
             };
             localStorage.removeItem(keyMap[tab]);
             const form = document.getElementById('form-' + tab);
-            if(form) form.reset();
+            if (form) form.reset();
             showToast('Reset to defaults');
             updatePreviewIframe();
             initCustomisation(); // reload structures
@@ -388,17 +388,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Destinations
     const renderDestinationsForm = () => {
         let dests = loadData('travelogue_destinations');
-        if(!Array.isArray(dests) || dests.length === 0) {
+        if (!Array.isArray(dests) || dests.length === 0) {
             // Default 4
             dests = [
                 { id: Date.now(), show: true, name: 'Sikkim', region: 'India', image: '', rating: 5, price: '₹12,999', badge: 'Most Popular', link: '#' },
-                { id: Date.now()+1, show: true, name: 'Darjeeling', region: 'India', image: '', rating: 4.5, price: '₹8,999', badge: '', link: '#' },
-                { id: Date.now()+2, show: true, name: 'Sittong', region: 'India', image: '', rating: 4.8, price: '₹5,999', badge: '', link: '#' },
-                { id: Date.now()+3, show: true, name: 'Dooars', region: 'India', image: '', rating: 4.7, price: '₹9,999', badge: '', link: '#' }
+                { id: Date.now() + 1, show: true, name: 'Darjeeling', region: 'India', image: '', rating: 4.5, price: '₹8,999', badge: '', link: '#' },
+                { id: Date.now() + 2, show: true, name: 'Sittong', region: 'India', image: '', rating: 4.8, price: '₹5,999', badge: '', link: '#' },
+                { id: Date.now() + 3, show: true, name: 'Dooars', region: 'India', image: '', rating: 4.7, price: '₹9,999', badge: '', link: '#' }
             ];
         }
         const container = document.getElementById('destinations-container');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
         dests.forEach((d, index) => {
             container.innerHTML += `
@@ -475,13 +475,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Packages
     const renderPackagesForm = () => {
         let pkgs = loadData('travelogue_packages');
-        if(!Array.isArray(pkgs) || pkgs.length === 0) {
+        if (!Array.isArray(pkgs) || pkgs.length === 0) {
             pkgs = [
                 { id: Date.now(), show: true, name: 'Explorer', price: '₹8,999', per: '/person', duration: '3 Days / 2 Nights', popular: false, buttonText: 'Book Now', link: '#', features: ['Hotel', 'Breakfast'] }
             ];
         }
         const container = document.getElementById('packages-container');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
         pkgs.forEach(p => {
             const fHtml = (p.features || []).map(f => `
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.getElementById('packages-container')?.addEventListener('click', (e) => {
-        if(e.target.closest('.add-feature-btn')) {
+        if (e.target.closest('.add-feature-btn')) {
             const list = e.target.closest('.pkg-item').querySelector('.features-list');
             list.insertAdjacentHTML('beforeend', `
                 <div style="display:flex; gap:10px; margin-bottom:5px;" class="feature-row">
@@ -539,7 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-package-btn')?.addEventListener('click', () => {
         // Quick add empty package
         const pkgs = loadData('travelogue_packages');
-        if(!Array.isArray(pkgs)) pkgs = [];
+        if (!Array.isArray(pkgs)) pkgs = [];
         pkgs.push({ id: Date.now(), show: true, name: 'New Package', price: '', per: '/person', duration: '', popular: false, buttonText: 'Book Now', link: '#', features: [] });
         saveData('travelogue_packages', pkgs);
         renderPackagesForm();
@@ -572,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderCustomReviewsForm = () => {
         let revs = loadData('travelogue_reviews');
         const container = document.getElementById('custom-reviews-container');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
         revs.forEach(r => {
             container.innerHTML += `
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { show: true, label: 'Contact', url: 'pages/contact.html' }
         ];
         const container = document.getElementById('nav-links-container');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
         links.forEach((l, i) => {
             container.innerHTML += `
@@ -693,9 +693,9 @@ document.addEventListener('DOMContentLoaded', () => {
             { show: true, label: 'Sittong', url: '#' },
             { show: true, label: 'Dooars', url: '#' }
         ];
-        
+
         const qlCont = document.getElementById('footer-quick-links-container');
-        if(qlCont) {
+        if (qlCont) {
             qlCont.innerHTML = ql.map((l, i) => `
                 <div class="form-row fql-item" style="margin-bottom:10px; align-items:flex-end;">
                     <div class="form-group toggle-group" style="padding:8px; width:60px;">
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const dlCont = document.getElementById('footer-dest-links-container');
-        if(dlCont) {
+        if (dlCont) {
             dlCont.innerHTML = dl.map((l, i) => `
                 <div class="form-row fdl-item" style="margin-bottom:10px; align-items:flex-end;">
                     <div class="form-group toggle-group" style="padding:8px; width:60px;">
@@ -744,15 +744,15 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCustomReviewsForm();
         renderNavLinksForm();
         renderFooterLinksForm();
-        
+
         // Load reviews settings specifically
         const revSet = loadData('travelogue_reviews_settings');
-        if(revSet && document.getElementById('form-reviews')) {
+        if (revSet && document.getElementById('form-reviews')) {
             const form = document.getElementById('form-reviews');
-            if(form.elements['showSection']) form.elements['showSection'].checked = revSet.showSection !== false;
-            if(form.elements['sectionTitle']) form.elements['sectionTitle'].value = revSet.sectionTitle || '';
-            if(form.elements['sectionSubtitle']) form.elements['sectionSubtitle'].value = revSet.sectionSubtitle || '';
-            if(form.elements['autoSlideSpeed']) form.elements['autoSlideSpeed'].value = revSet.autoSlideSpeed || '3s';
+            if (form.elements['showSection']) form.elements['showSection'].checked = revSet.showSection !== false;
+            if (form.elements['sectionTitle']) form.elements['sectionTitle'].value = revSet.sectionTitle || '';
+            if (form.elements['sectionSubtitle']) form.elements['sectionSubtitle'].value = revSet.sectionSubtitle || '';
+            if (form.elements['autoSlideSpeed']) form.elements['autoSlideSpeed'].value = revSet.autoSlideSpeed || '3s';
         }
     };
 
@@ -760,9 +760,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const iframe = document.getElementById('preview-iframe');
     const iframeWrapper = document.getElementById('preview-wrapper');
     const pageSelect = document.getElementById('preview-page-select');
-    
+
     pageSelect?.addEventListener('change', (e) => {
-        if(iframe) iframe.src = e.target.value;
+        if (iframe) iframe.src = e.target.value;
     });
 
     document.querySelectorAll('.device-btn').forEach(btn => {
@@ -776,25 +776,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('refresh-preview-btn')?.addEventListener('click', updatePreviewIframe);
     document.getElementById('open-new-tab-btn')?.addEventListener('click', () => {
-        window.open(iframe.src, '_blank');
+        window.open(new URL(iframe.src, location.origin), '_blank');
     });
 
     // Export & Import Settings
     const customKeys = [
-        'travelogue_general', 'travelogue_navbar', 'travelogue_hero', 
-        'travelogue_destinations', 'travelogue_packages', 'travelogue_reviews', 
+        'travelogue_general', 'travelogue_navbar', 'travelogue_hero',
+        'travelogue_destinations', 'travelogue_packages', 'travelogue_reviews',
         'travelogue_reviews_settings', 'travelogue_footer', 'travelogue_seo', 'travelogue_theme'
     ];
 
     document.getElementById('export-settings-btn')?.addEventListener('click', () => {
         const allSettings = {};
         customKeys.forEach(k => { allSettings[k] = loadData(k); });
-        
+
         const blob = new Blob([JSON.stringify(allSettings, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `travelogue_settings_${new Date().toISOString().slice(0,10)}.json`;
+        a.download = `travelogue_settings_${new Date().toISOString().slice(0, 10)}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -807,18 +807,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('import-settings-file')?.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if(!file) return;
+        if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
             try {
                 const settings = JSON.parse(ev.target.result);
                 customKeys.forEach(k => {
-                    if(settings[k] !== undefined) saveData(k, settings[k]);
+                    if (settings[k] !== undefined) saveData(k, settings[k]);
                 });
                 showToast('Settings imported successfully!');
                 initCustomisation();
                 updatePreviewIframe();
-            } catch(err) {
+            } catch (err) {
                 showToast('Error importing settings', 'error');
             }
         };
