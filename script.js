@@ -1,5 +1,77 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+function applyCustomisation() {
+    const theme = JSON.parse(localStorage.getItem('travelogue_theme') || '{}');
+    if (theme.primaryColor) document.documentElement.style.setProperty('--navy', theme.primaryColor);
+    if (theme.accentColor) document.documentElement.style.setProperty('--gold', theme.accentColor);
+    if (theme.bgColor) document.documentElement.style.setProperty('--bg-primary', theme.bgColor);
+    if (theme.textColor) document.documentElement.style.setProperty('--text-primary', theme.textColor);
+    if (theme.cardBg) document.documentElement.style.setProperty('--bg-card', theme.cardBg);
+    if (theme.borderColor) document.documentElement.style.setProperty('--border-light', theme.borderColor);
+
+    const general = JSON.parse(localStorage.getItem('travelogue_general') || '{}');
+    if (general.whatsappNumber) {
+        const waBtn = document.querySelector('.whatsapp-btn');
+        if (waBtn) waBtn.href = 'https://wa.me/' + general.whatsappNumber.replace(/\D/g,'');
+    }
+    if (general.maintenanceMode) {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'background:#c0392b;color:#fff;text-align:center;padding:10px;font-weight:600;position:fixed;top:0;width:100%;z-index:99999;';
+        banner.textContent = 'This website is currently under maintenance. We will be back shortly.';
+        document.body.prepend(banner);
+    }
+
+    const navbar = JSON.parse(localStorage.getItem('travelogue_navbar') || '{}');
+    if (navbar.ctaText) document.querySelectorAll('.desktop-cta, .mobile-cta').forEach(el => el.textContent = navbar.ctaText);
+    if (navbar.showTopBar === false) {
+        const topBar = document.querySelector('.top-bar');
+        if (topBar) topBar.style.display = 'none';
+    }
+
+    const hero = JSON.parse(localStorage.getItem('travelogue_hero') || '{}');
+    if (hero.headline) { const h1 = document.querySelector('.hero h1'); if (h1) h1.textContent = hero.headline; }
+    if (hero.subheading) { const p = document.querySelector('.hero p'); if (p) p.textContent = hero.subheading; }
+    if (hero.bgImage) { const heroEl = document.querySelector('.hero'); if (heroEl) heroEl.style.backgroundImage = "url('" + hero.bgImage + "')"; }
+    if (hero.showSearchBar === false) { const sb = document.querySelector('.search-bar'); if (sb) sb.style.display = 'none'; }
+
+    const destinations = JSON.parse(localStorage.getItem('travelogue_destinations') || '[]');
+    if (destinations.length > 0) {
+        const grid = document.querySelector('.dest-grid');
+        if (grid) {
+            grid.innerHTML = destinations.filter(d => d.show !== false).map(d => `<div class="dest-card fade-in"><div class="dest-img"><img src="${d.image}" alt="${d.name}"><div class="dest-overlay"><a href="${d.link || '#'}" class="btn">Explore</a></div>${d.badge ? '<span class="dest-badge">' + d.badge + '</span>' : ''}</div><div class="dest-info"><div class="dest-header"><div class="dest-title"><h3>${d.name}</h3><p><i class="fa-solid fa-location-dot"></i> ${d.region}</p></div><div class="dest-rating"><i class="fa-solid fa-star"></i> ${d.rating}</div></div><div class="dest-price"><span>From </span>${d.price}</div></div></div>`).join('');
+        }
+    }
+
+    const packages = JSON.parse(localStorage.getItem('travelogue_packages') || '[]');
+    if (packages.length > 0) {
+        const grid = document.querySelector('.pricing-grid');
+        if (grid) {
+            grid.innerHTML = packages.filter(p => p.show !== false).map(p => `<div class="pricing-card ${p.popular ? 'popular' : ''} fade-in">${p.popular ? '<div class="popular-badge">Most Popular</div>' : ''}<h3 class="pkg-name">${p.name}</h3><div class="pkg-price">${p.price}<span>${p.per || '/person'}</span></div><span class="pkg-duration">${p.duration}</span><ul class="pkg-features">${(p.features || []).map(f => '<li><i class="fa-solid fa-check"></i> ' + f + '</li>').join('')}</ul><a href="${p.link || '#'}" class="btn ${p.popular ? '' : 'btn-outline'}">${p.buttonText || 'Book Now'}</a></div>`).join('');
+        }
+    }
+
+    const reviews = JSON.parse(localStorage.getItem('travelogue_reviews') || '[]');
+    const published = reviews.filter(r => r.status === 'published');
+    if (published.length > 0) {
+        // The user provided '.testi-track' in the prompt but script.js uses '.testimonial-slider'
+        const track = document.querySelector('.testi-track') || document.querySelector('.testimonial-slider');
+        if (track) {
+            track.innerHTML = published.map(r => `<div class="testimonial-slide"><div class="testimonial-card"><img src="${r.avatar}" alt="${r.name}" class="testi-avatar"><div class="testi-rating">${'★'.repeat(r.rating || 5)}</div><p class="testi-text">"${r.text}"</p><h4 class="testi-name">${r.name}</h4><span class="testi-location">${r.location}</span></div></div>`).join('');
+        }
+    }
+
+    const footer = JSON.parse(localStorage.getItem('travelogue_footer') || '{}');
+    if (footer.phone) document.querySelectorAll('.footer-phone').forEach(el => el.textContent = footer.phone);
+    if (footer.email) document.querySelectorAll('.footer-email').forEach(el => el.textContent = footer.email);
+    if (footer.address) document.querySelectorAll('.footer-address').forEach(el => el.textContent = footer.address);
+    if (footer.copyright) { const copy = document.querySelector('.footer-bottom p'); if (copy) copy.textContent = footer.copyright; }
+
+    const seo = JSON.parse(localStorage.getItem('travelogue_seo') || '{}');
+    if (seo.title) document.title = seo.title;
+    if (seo.description) { let meta = document.querySelector('meta[name="description"]'); if (meta) meta.content = seo.description; }
+}
+applyCustomisation();
+
     // 1. Sticky Navbar & Background Change on Scroll
     const header = document.getElementById('header');
     if (header) {

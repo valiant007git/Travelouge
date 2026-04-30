@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Travelogue</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -21,9 +25,13 @@
             <li class="nav-link" data-target="inquiries"><i class="fa-solid fa-envelope-open-text"></i> Inquiries</li>
             <li class="nav-link" data-target="bookings"><i class="fa-solid fa-suitcase-rolling"></i> Bookings</li>
             <li class="nav-link" data-target="reviews"><i class="fa-solid fa-star"></i> Reviews</li>
-            <li class="nav-link" data-target="destinations"><i class="fa-solid fa-map-location-dot"></i> Destinations</li>
+            <li class="nav-link" data-target="destinations"><i class="fa-solid fa-map-location-dot"></i> Destinations
+            </li>
             <li class="nav-link" data-target="revenue"><i class="fa-solid fa-sack-dollar"></i> Revenue</li>
             <li class="nav-link" data-target="settings"><i class="fa-solid fa-gear"></i> Settings</li>
+            <li class="nav-link" data-target="customisation"><i class="fa-solid fa-palette"></i> Website Customisation
+            </li>
+            <li class="nav-link" data-target="live-preview"><i class="fa-solid fa-eye"></i> Live Preview</li>
         </ul>
     </aside>
 
@@ -41,27 +49,39 @@
         </header>
 
         <div class="content-wrapper">
-            
+
             <!-- OVERVIEW PAGE -->
             <section id="overview" class="page-section active">
                 <h2 class="page-title brand-font">Overview</h2>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-                        <div class="stat-details"><h3>Total Clients</h3><p class="stat-number" id="stat-clients">0</p></div>
+                        <div class="stat-details">
+                            <h3>Total Clients</h3>
+                            <p class="stat-number" id="stat-clients">0</p>
+                        </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
-                        <div class="stat-details"><h3>Total Inquiries</h3><p class="stat-number" id="stat-inq">0</p></div>
+                        <div class="stat-details">
+                            <h3>Total Inquiries</h3>
+                            <p class="stat-number" id="stat-inq">0</p>
+                        </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
-                        <div class="stat-details"><h3>Pending Inquiries</h3><p class="stat-number" id="stat-inq-pend" style="color:var(--orange)">0</p></div>
+                        <div class="stat-details">
+                            <h3>Pending Inquiries</h3>
+                            <p class="stat-number" id="stat-inq-pend" style="color:var(--orange)">0</p>
+                        </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-star-half-stroke"></i></div>
-                        <div class="stat-details"><h3>Pending Reviews</h3><p class="stat-number" id="stat-rev-pend">0</p></div>
+                        <div class="stat-details">
+                            <h3>Pending Reviews</h3>
+                            <p class="stat-number" id="stat-rev-pend">0</p>
+                        </div>
                     </div>
                 </div>
 
@@ -69,12 +89,24 @@
                     <div class="card">
                         <h3 style="color:var(--navy); margin-bottom:15px;">Monthly Bookings</h3>
                         <div class="css-chart">
-                            <div class="bar" style="height: 40%;"><span>Jan</span><div class="val">40</div></div>
-                            <div class="bar" style="height: 60%;"><span>Feb</span><div class="val">60</div></div>
-                            <div class="bar" style="height: 30%;"><span>Mar</span><div class="val">30</div></div>
-                            <div class="bar" style="height: 80%;"><span>Apr</span><div class="val">80</div></div>
-                            <div class="bar" style="height: 50%;"><span>May</span><div class="val">50</div></div>
-                            <div class="bar" style="height: 90%;"><span>Jun</span><div class="val">90</div></div>
+                            <div class="bar" style="height: 40%;"><span>Jan</span>
+                                <div class="val">40</div>
+                            </div>
+                            <div class="bar" style="height: 60%;"><span>Feb</span>
+                                <div class="val">60</div>
+                            </div>
+                            <div class="bar" style="height: 30%;"><span>Mar</span>
+                                <div class="val">30</div>
+                            </div>
+                            <div class="bar" style="height: 80%;"><span>Apr</span>
+                                <div class="val">80</div>
+                            </div>
+                            <div class="bar" style="height: 50%;"><span>May</span>
+                                <div class="val">50</div>
+                            </div>
+                            <div class="bar" style="height: 90%;"><span>Jun</span>
+                                <div class="val">90</div>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -92,14 +124,15 @@
                     <h2 class="page-title brand-font" style="margin:0;">Inquiries Management</h2>
                     <button class="btn" id="export-csv"><i class="fa-solid fa-download"></i> Export CSV</button>
                 </div>
-                
+
                 <div class="card">
                     <div class="table-controls">
                         <div class="search-box">
                             <i class="fa-solid fa-search"></i>
                             <input type="text" id="inq-search" placeholder="Search by name or Ref No...">
                         </div>
-                        <select id="inq-filter-status" style="padding:10px; border:1px solid #ddd; border-radius:4px; outline:none;">
+                        <select id="inq-filter-status"
+                            style="padding:10px; border:1px solid #ddd; border-radius:4px; outline:none;">
                             <option value="">All Statuses</option>
                             <option value="Pending">Pending</option>
                             <option value="Under Review">Under Review</option>
@@ -135,7 +168,14 @@
                 <div class="card">
                     <table class="data-table">
                         <thead>
-                            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Country</th><th>Status</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="clients-tbody"></tbody>
                     </table>
@@ -148,7 +188,13 @@
                 <div class="card">
                     <table class="data-table">
                         <thead>
-                            <tr><th>Name</th><th>Rating</th><th>Review Text</th><th>Status</th><th>Actions</th></tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rating</th>
+                                <th>Review Text</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody id="reviews-tbody"></tbody>
                     </table>
@@ -159,9 +205,21 @@
             <section id="bookings" class="page-section">
                 <h2 class="page-title brand-font">Bookings Management</h2>
                 <div class="module-grid">
-                    <div class="module-card"><div class="module-kpi">18</div><h3>Upcoming Departures</h3><p>Confirmed hill, forest, and coastal trips scheduled for the next 30 days.</p></div>
-                    <div class="module-card"><div class="module-kpi">7</div><h3>Awaiting Vendor Confirmation</h3><p>Hotel, vehicle, and guide confirmations that need team follow-up.</p></div>
-                    <div class="module-card"><div class="module-kpi">4</div><h3>High-Touch Journeys</h3><p>Premium itineraries with concierge notes and special guest preferences.</p></div>
+                    <div class="module-card">
+                        <div class="module-kpi">18</div>
+                        <h3>Upcoming Departures</h3>
+                        <p>Confirmed hill, forest, and coastal trips scheduled for the next 30 days.</p>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-kpi">7</div>
+                        <h3>Awaiting Vendor Confirmation</h3>
+                        <p>Hotel, vehicle, and guide confirmations that need team follow-up.</p>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-kpi">4</div>
+                        <h3>High-Touch Journeys</h3>
+                        <p>Premium itineraries with concierge notes and special guest preferences.</p>
+                    </div>
                 </div>
                 <div class="card">
                     <h3 style="color:var(--navy); margin-bottom:15px;">Priority Booking Queue</h3>
@@ -176,20 +234,47 @@
             <section id="destinations" class="page-section">
                 <h2 class="page-title brand-font">Destinations</h2>
                 <div class="module-grid">
-                    <div class="module-card"><h3>Darjeeling</h3><p>Tea estates, Tiger Hill, heritage hotels, and slow hill-town days.</p></div>
-                    <div class="module-card"><h3>Sikkim</h3><p>Gangtok, Pelling, monasteries, glacial lakes, and private mountain drives.</p></div>
-                    <div class="module-card"><h3>Dooars</h3><p>Jungle resorts, safaris, river landscapes, and family wildlife stays.</p></div>
-                    <div class="module-card"><h3>Sitong</h3><p>Orange orchards, boutique homestays, viewpoints, and quiet village routes.</p></div>
-                    <div class="module-card"><h3>Mandarmani</h3><p>Premium coastal stays, beach leisure, seafood trails, and Kolkata transfers.</p></div>
+                    <div class="module-card">
+                        <h3>Darjeeling</h3>
+                        <p>Tea estates, Tiger Hill, heritage hotels, and slow hill-town days.</p>
+                    </div>
+                    <div class="module-card">
+                        <h3>Sikkim</h3>
+                        <p>Gangtok, Pelling, monasteries, glacial lakes, and private mountain drives.</p>
+                    </div>
+                    <div class="module-card">
+                        <h3>Dooars</h3>
+                        <p>Jungle resorts, safaris, river landscapes, and family wildlife stays.</p>
+                    </div>
+                    <div class="module-card">
+                        <h3>Sitong</h3>
+                        <p>Orange orchards, boutique homestays, viewpoints, and quiet village routes.</p>
+                    </div>
+                    <div class="module-card">
+                        <h3>Mandarmani</h3>
+                        <p>Premium coastal stays, beach leisure, seafood trails, and Kolkata transfers.</p>
+                    </div>
                 </div>
             </section>
 
             <section id="revenue" class="page-section">
                 <h2 class="page-title brand-font">Revenue Reports</h2>
                 <div class="module-grid">
-                    <div class="module-card"><div class="module-kpi">₹8.4L</div><h3>Projected Monthly Sales</h3><p>Estimated from confirmed journeys and active quotes.</p></div>
-                    <div class="module-card"><div class="module-kpi">42%</div><h3>Premium Package Mix</h3><p>Share of boutique, private-transfer, and concierge itineraries.</p></div>
-                    <div class="module-card"><div class="module-kpi">₹31K</div><h3>Average Trip Value</h3><p>Across Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani inquiries.</p></div>
+                    <div class="module-card">
+                        <div class="module-kpi">₹8.4L</div>
+                        <h3>Projected Monthly Sales</h3>
+                        <p>Estimated from confirmed journeys and active quotes.</p>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-kpi">42%</div>
+                        <h3>Premium Package Mix</h3>
+                        <p>Share of boutique, private-transfer, and concierge itineraries.</p>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-kpi">₹31K</div>
+                        <h3>Average Trip Value</h3>
+                        <p>Across Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani inquiries.</p>
+                    </div>
                 </div>
                 <div class="card">
                     <h3 style="color:var(--navy); margin-bottom:15px;">Top Performing Routes</h3>
@@ -204,9 +289,575 @@
             <section id="settings" class="page-section">
                 <h2 class="page-title brand-font">Settings</h2>
                 <div class="card">
-                    <div class="settings-row"><div><strong style="color:var(--navy);">Luxury Light Theme</strong><br><span>Public website and dashboards use the premium light palette.</span></div><span class="status-badge status-Confirmed">Active</span></div>
-                    <div class="settings-row"><div><strong style="color:var(--navy);">Inquiry Notifications</strong><br><span>New custom-trip inquiries are surfaced in the admin queue.</span></div><span class="status-badge status-Confirmed">Enabled</span></div>
-                    <div class="settings-row"><div><strong style="color:var(--navy);">Destination Focus</strong><br><span>Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani are the active brand regions.</span></div><span class="status-badge status-Confirmed">Aligned</span></div>
+                    <div class="settings-row">
+                        <div><strong style="color:var(--navy);">Luxury Light Theme</strong><br><span>Public website and
+                                dashboards use the premium light palette.</span></div><span
+                            class="status-badge status-Confirmed">Active</span>
+                    </div>
+                    <div class="settings-row">
+                        <div><strong style="color:var(--navy);">Inquiry Notifications</strong><br><span>New custom-trip
+                                inquiries are surfaced in the admin queue.</span></div><span
+                            class="status-badge status-Confirmed">Enabled</span>
+                    </div>
+                    <div class="settings-row">
+                        <div><strong style="color:var(--navy);">Destination Focus</strong><br><span>Darjeeling, Sikkim,
+                                Dooars, Sitong, and Mandarmani are the active brand regions.</span></div><span
+                            class="status-badge status-Confirmed">Aligned</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WEBSITE CUSTOMISATION -->
+            <section id="customisation" class="page-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                    <h2 class="page-title brand-font" style="margin:0;">Website Customisation</h2>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-outline" id="import-settings-btn"><i class="fa-solid fa-upload"></i>
+                            Import</button>
+                        <button class="btn btn-outline" id="export-settings-btn"><i class="fa-solid fa-download"></i>
+                            Export</button>
+                        <input type="file" id="import-settings-file" style="display:none;" accept=".json">
+                    </div>
+                </div>
+
+                <div class="customisation-tabs">
+                    <button class="tab-btn active" data-tab="general">General</button>
+                    <button class="tab-btn" data-tab="navbar">Navbar</button>
+                    <button class="tab-btn" data-tab="hero">Hero</button>
+                    <button class="tab-btn" data-tab="destinations">Destinations</button>
+                    <button class="tab-btn" data-tab="packages">Packages</button>
+                    <button class="tab-btn" data-tab="reviews">Testimonials</button>
+                    <button class="tab-btn" data-tab="footer">Footer</button>
+                    <button class="tab-btn" data-tab="seo">SEO</button>
+                    <button class="tab-btn" data-tab="theme">Theme</button>
+                </div>
+
+                <div class="card customisation-content">
+                    <!-- Tab 1: General Settings -->
+                    <div class="tab-pane active" id="tab-general">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">General Settings</h3>
+                        <form id="form-general" class="custom-form">
+                            <div class="form-row">
+                                <div class="form-group"><label>Website Name</label><input type="text" name="name"
+                                        placeholder="Travelogue"></div>
+                                <div class="form-group"><label>Tagline</label><input type="text" name="tagline"
+                                        placeholder="Your Story Begins Here"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Logo Text</label><input type="text" name="logoText"
+                                        placeholder="Travelogue"></div>
+                                <div class="form-group">
+                                    <label>Logo Icon</label>
+                                    <select name="logoIcon">
+                                        <option value="compass">Compass</option>
+                                        <option value="map-pin">Map Pin</option>
+                                        <option value="plane">Plane</option>
+                                        <option value="mountain">Mountain</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>WhatsApp Number</label><input type="text"
+                                        name="whatsappNumber" placeholder="+91-XXXXXXXXXX"></div>
+                                <div class="form-group"><label>WhatsApp Chat Message</label><input type="text"
+                                        name="whatsappMessage" placeholder="Hello Travelogue..."></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Google Analytics ID</label><input type="text" name="gaId"
+                                        placeholder="G-XXXXXXXXXX"></div>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Maintenance Mode <small>(Shows red banner on top)</small></label>
+                                <label class="switch"><input type="checkbox" name="maintenanceMode"><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('general')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 2: Navbar -->
+                    <div class="tab-pane" id="tab-navbar">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Navbar Customisation</h3>
+                        <form id="form-navbar" class="custom-form">
+                            <h4 class="section-subtitle">Top Bar</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Top Bar</label>
+                                <label class="switch"><input type="checkbox" name="showTopBar" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Top Bar Phone</label><input type="text"
+                                        name="topBarPhone"></div>
+                                <div class="form-group"><label>Top Bar Email</label><input type="text"
+                                        name="topBarEmail"></div>
+                                <div class="form-group"><label>Top Bar Background Color</label><input type="color"
+                                        name="topBarBgColor"></div>
+                            </div>
+
+                            <h4 class="section-subtitle">Nav Links</h4>
+                            <div id="nav-links-container"></div>
+
+                            <h4 class="section-subtitle">CTA Button</h4>
+                            <div class="form-row">
+                                <div class="form-group"><label>CTA Button Text</label><input type="text" name="ctaText"
+                                        placeholder="Plan Trip"></div>
+                                <div class="form-group"><label>CTA Button Link</label><input type="text" name="ctaLink">
+                                </div>
+                                <div class="form-group"><label>CTA Button Color</label><input type="color"
+                                        name="ctaColor"></div>
+                                <div class="form-group"><label>CTA Text Color</label><input type="color"
+                                        name="ctaTextColor"></div>
+                            </div>
+
+                            <h4 class="section-subtitle">Navbar Styling</h4>
+                            <div class="form-row">
+                                <div class="form-group"><label>Scrolled Background Color</label><input type="color"
+                                        name="navScrolledBg"></div>
+                                <div class="form-group"><label>Nav Link Color</label><input type="color"
+                                        name="navLinkColor"></div>
+                                <div class="form-group"><label>Nav Link Hover Color</label><input type="color"
+                                        name="navLinkHoverColor"></div>
+                            </div>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('navbar')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 3: Hero -->
+                    <div class="tab-pane" id="tab-hero">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Hero Section</h3>
+                        <form id="form-hero" class="custom-form">
+                            <h4 class="section-subtitle">Background</h4>
+                            <div class="form-group">
+                                <label>Hero Background Image URL</label>
+                                <input type="text" name="bgImage" id="hero-bg-input">
+                                <img id="hero-bg-preview" src=""
+                                    style="max-width:200px; max-height:100px; display:none; margin-top:10px; border-radius:8px;">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Overlay Color</label><input type="color"
+                                        name="overlayColor"></div>
+                                <div class="form-group">
+                                    <label>Overlay Opacity (<span id="hero-opacity-val">40</span>%)</label>
+                                    <input type="range" name="overlayOpacity" min="0" max="80" value="40"
+                                        oninput="document.getElementById('hero-opacity-val').innerText=this.value">
+                                </div>
+                            </div>
+
+                            <h4 class="section-subtitle">Content</h4>
+                            <div class="form-group"><label>Hero Headline</label><input type="text" name="headline">
+                            </div>
+                            <div class="form-group"><label>Hero Subheading</label><textarea name="subheading"
+                                    rows="3"></textarea></div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Hero Text Color</label><input type="color"
+                                        name="textColor"></div>
+                                <div class="form-group">
+                                    <label>Hero Min Height</label>
+                                    <select name="minHeight">
+                                        <option value="60vh">60vh</option>
+                                        <option value="80vh">80vh</option>
+                                        <option value="100vh">100vh</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h4 class="section-subtitle">Search Bar</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Search Bar</label>
+                                <label class="switch"><input type="checkbox" name="showSearchBar" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Destination Placeholder</label><input type="text"
+                                        name="searchPlaceholder"></div>
+                                <div class="form-group"><label>Search Button Text</label><input type="text"
+                                        name="searchBtnText"></div>
+                                <div class="form-group"><label>Search Button Color</label><input type="color"
+                                        name="searchBtnColor"></div>
+                            </div>
+
+                            <h4 class="section-subtitle">Scroll Arrow</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Scroll Arrow</label>
+                                <label class="switch"><input type="checkbox" name="showScrollArrow" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-group"><label>Arrow Color</label><input type="color" name="arrowColor">
+                            </div>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('hero')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 4: Destinations -->
+                    <div class="tab-pane" id="tab-destinations">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Destinations Section</h3>
+                        <form id="form-destinations" class="custom-form">
+                            <h4 class="section-subtitle">Section Settings</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Section</label>
+                                <label class="switch"><input type="checkbox" name="showSection" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Section Title</label><input type="text"
+                                        name="sectionTitle"></div>
+                                <div class="form-group"><label>Section Subtitle</label><input type="text"
+                                        name="sectionSubtitle"></div>
+                            </div>
+
+                            <h4 class="section-subtitle">Destination Cards</h4>
+                            <div id="destinations-container"></div>
+                            <button type="button" class="btn btn-outline" id="add-destination-btn"
+                                style="margin-top:10px;"><i class="fa-solid fa-plus"></i> Add New Destination</button>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('destinations')">Reset
+                                    to Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 5: Packages -->
+                    <div class="tab-pane" id="tab-packages">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Packages Section</h3>
+                        <form id="form-packages" class="custom-form">
+                            <h4 class="section-subtitle">Section Settings</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Section</label>
+                                <label class="switch"><input type="checkbox" name="showSection" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Section Title</label><input type="text"
+                                        name="sectionTitle"></div>
+                                <div class="form-group"><label>Section Subtitle</label><input type="text"
+                                        name="sectionSubtitle"></div>
+                            </div>
+
+                            <h4 class="section-subtitle">Package Cards</h4>
+                            <div id="packages-container"></div>
+                            <button type="button" class="btn btn-outline" id="add-package-btn"
+                                style="margin-top:10px;"><i class="fa-solid fa-plus"></i> Add New Package</button>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('packages')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 6: Testimonials -->
+                    <div class="tab-pane" id="tab-reviews">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Testimonials Section</h3>
+                        <form id="form-reviews" class="custom-form">
+                            <h4 class="section-subtitle">Section Settings</h4>
+                            <div class="form-group toggle-group">
+                                <label>Show Section</label>
+                                <label class="switch"><input type="checkbox" name="showSection" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Section Title</label><input type="text"
+                                        name="sectionTitle"></div>
+                                <div class="form-group"><label>Section Subtitle</label><input type="text"
+                                        name="sectionSubtitle"></div>
+                                <div class="form-group">
+                                    <label>Auto Slide Speed</label>
+                                    <select name="autoSlideSpeed">
+                                        <option value="3s">3s</option>
+                                        <option value="4s">4s</option>
+                                        <option value="5s">5s</option>
+                                        <option value="6s">6s</option>
+                                        <option value="off">Off</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h4 class="section-subtitle">Testimonial Cards</h4>
+                            <div id="custom-reviews-container"></div>
+                            <button type="button" class="btn btn-outline" id="add-review-btn"
+                                style="margin-top:10px;"><i class="fa-solid fa-plus"></i> Add New Testimonial</button>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('reviews')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 7: Footer -->
+                    <div class="tab-pane" id="tab-footer">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Footer Customisation</h3>
+                        <form id="form-footer" class="custom-form">
+                            <h4 class="section-subtitle">About Column</h4>
+                            <div class="form-group"><label>About Text</label><textarea name="aboutText"
+                                    rows="3"></textarea></div>
+                            <div class="form-group toggle-group">
+                                <label>Show Social Icons</label>
+                                <label class="switch"><input type="checkbox" name="showSocial" checked><span
+                                        class="slider round"></span></label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Instagram URL</label><input type="text"
+                                        name="instagramUrl"></div>
+                                <div class="form-group"><label>Facebook URL</label><input type="text"
+                                        name="facebookUrl"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Twitter URL</label><input type="text" name="twitterUrl">
+                                </div>
+                                <div class="form-group"><label>YouTube URL</label><input type="text" name="youtubeUrl">
+                                </div>
+                            </div>
+
+                            <h4 class="section-subtitle">Contact Info</h4>
+                            <div class="form-row">
+                                <div class="form-group"><label>Address Line 1</label><input type="text" name="address1">
+                                </div>
+                                <div class="form-group"><label>Address Line 2</label><input type="text" name="address2">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Phone Number</label><input type="text" name="phone">
+                                </div>
+                                <div class="form-group"><label>Email Address</label><input type="text" name="email">
+                                </div>
+                            </div>
+
+                            <h4 class="section-subtitle">Quick Links</h4>
+                            <div id="footer-quick-links-container"></div>
+
+                            <h4 class="section-subtitle">Destinations Links</h4>
+                            <div id="footer-dest-links-container"></div>
+
+                            <h4 class="section-subtitle">Design</h4>
+                            <div class="form-row">
+                                <div class="form-group"><label>Footer Background Color</label><input type="color"
+                                        name="footerBgColor"></div>
+                                <div class="form-group"><label>Footer Text Color</label><input type="color"
+                                        name="footerTextColor"></div>
+                                <div class="form-group"><label>Footer Bottom Bar Color</label><input type="color"
+                                        name="footerBottomBgColor"></div>
+                            </div>
+                            <div class="form-group"><label>Copyright Text</label><input type="text" name="copyright">
+                            </div>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('footer')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 8: SEO -->
+                    <div class="tab-pane" id="tab-seo">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">SEO Settings</h3>
+                        <form id="form-seo" class="custom-form">
+                            <div class="form-group">
+                                <label>Page Title (<span id="seo-title-count">0</span>/60)</label>
+                                <input type="text" name="title"
+                                    oninput="document.getElementById('seo-title-count').innerText=this.value.length">
+                            </div>
+                            <div class="form-group">
+                                <label>Meta Description (<span id="seo-desc-count">0</span>/160)</label>
+                                <textarea name="description" rows="3"
+                                    oninput="document.getElementById('seo-desc-count').innerText=this.value.length"></textarea>
+                            </div>
+                            <div class="form-group"><label>Meta Keywords (comma separated)</label><input type="text"
+                                    name="keywords"></div>
+
+                            <h4 class="section-subtitle">Open Graph (Social Sharing)</h4>
+                            <div class="form-group"><label>OG Title</label><input type="text" name="ogTitle"></div>
+                            <div class="form-group"><label>OG Description</label><textarea name="ogDescription"
+                                    rows="2"></textarea></div>
+                            <div class="form-group">
+                                <label>OG Image URL</label>
+                                <input type="text" name="ogImage" id="seo-og-input">
+                                <img id="seo-og-preview" src=""
+                                    style="max-width:200px; max-height:100px; display:none; margin-top:10px; border-radius:8px;">
+                            </div>
+
+                            <h4 class="section-subtitle">Advanced</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Robots</label>
+                                    <select name="robots">
+                                        <option value="index,follow">index, follow</option>
+                                        <option value="noindex,nofollow">noindex, nofollow</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Canonical URL</label><input type="text" name="canonical">
+                                </div>
+                            </div>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('seo')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab 9: Theme -->
+                    <div class="tab-pane" id="tab-theme">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Theme & Design</h3>
+                        <form id="form-theme" class="custom-form">
+                            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
+                                <div>
+                                    <h4 class="section-subtitle">Colors</h4>
+                                    <div class="form-row">
+                                        <div class="form-group"><label>Primary Navy</label><input type="color"
+                                                name="primaryColor" value="#1B3A5C"></div>
+                                        <div class="form-group"><label>Accent Gold</label><input type="color"
+                                                name="accentColor" value="#C9972A"></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label>Background Color</label><input type="color"
+                                                name="bgColor" value="#FAFAF8"></div>
+                                        <div class="form-group"><label>Secondary Background</label><input type="color"
+                                                name="bgSecondary" value="#F4F1EC"></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label>Text Primary</label><input type="color"
+                                                name="textColor" value="#1A2332"></div>
+                                        <div class="form-group"><label>Text Secondary</label><input type="color"
+                                                name="textSecondaryColor" value="#4A5568"></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label>Card Background</label><input type="color"
+                                                name="cardBg" value="#FFFFFF"></div>
+                                        <div class="form-group"><label>Border Color</label><input type="color"
+                                                name="borderColor" value="#EEE8DC"></div>
+                                    </div>
+
+                                    <h4 class="section-subtitle">Typography</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Heading Font</label>
+                                            <select name="headingFont">
+                                                <option value="'Playfair Display', serif">Playfair Display</option>
+                                                <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+                                                <option value="'Lora', serif">Lora</option>
+                                                <option value="'Merriweather', serif">Merriweather</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Body Font</label>
+                                            <select name="bodyFont">
+                                                <option value="'Inter', sans-serif">Inter</option>
+                                                <option value="'Poppins', sans-serif">Poppins</option>
+                                                <option value="'DM Sans', sans-serif">DM Sans</option>
+                                                <option value="'Nunito', sans-serif">Nunito</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="section-subtitle">Styling</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Card Border Radius (<span id="theme-card-radius">14</span>px)</label>
+                                            <input type="range" name="cardBorderRadius" min="0" max="20" value="14"
+                                                oninput="document.getElementById('theme-card-radius').innerText=this.value; updateThemePreview();">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Button Border Radius (<span
+                                                    id="theme-btn-radius">12</span>px)</label>
+                                            <input type="range" name="buttonBorderRadius" min="0" max="50" value="12"
+                                                oninput="document.getElementById('theme-btn-radius').innerText=this.value; updateThemePreview();">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Button Style</label>
+                                            <select name="buttonStyle" onchange="updateThemePreview()">
+                                                <option value="Rounded">Rounded</option>
+                                                <option value="Square">Square</option>
+                                                <option value="Pill">Pill</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Shadow Intensity</label>
+                                            <select name="shadowIntensity" onchange="updateThemePreview()">
+                                                <option value="None">None</option>
+                                                <option value="Light">Light</option>
+                                                <option value="Medium" selected>Medium</option>
+                                                <option value="Strong">Strong</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="section-subtitle">Live Preview Box</h4>
+                                    <div id="theme-live-preview" class="theme-preview-box">
+                                        <h3 class="preview-heading">Preview Heading</h3>
+                                        <p class="preview-text">This is how your text will look with the selected colors
+                                            and fonts.</p>
+                                        <button class="preview-btn">Button Sample</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions sticky-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm('theme')">Reset to
+                                    Default</button>
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIVE PREVIEW SECTION -->
+            <section id="live-preview" class="page-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                    <h2 class="page-title brand-font" style="margin:0;">Live Preview</h2>
+                    <div class="preview-controls">
+                        <select id="preview-page-select" class="preview-select">
+                            <option value="http://localhost:3000/index.html">Home</option>
+                            <option value="http://localhost:3000/pages/destinations.html">Destinations</option>
+                            <option value="http://localhost:3000/pages/packages.html">Packages</option>
+                            <option value="http://localhost:3000/pages/about.html">About</option>
+                            <option value="http://localhost:3000/pages/blog.html">Blog</option>
+                            <option value="http://localhost:3000/pages/gallery.html">Gallery</option>
+                            <option value="http://localhost:3000/pages/contact.html">Contact</option>
+                            <option value="http://localhost:3000/pages/faq.html">FAQ</option>
+                        </select>
+                        <div class="device-toggles">
+                            <button class="device-btn active" data-device="desktop"><i
+                                    class="fa-solid fa-desktop"></i></button>
+                            <button class="device-btn" data-device="tablet"><i
+                                    class="fa-solid fa-tablet-screen-button"></i></button>
+                            <button class="device-btn" data-device="mobile"><i
+                                    class="fa-solid fa-mobile-screen-button"></i></button>
+                        </div>
+                        <button class="btn btn-outline" id="refresh-preview-btn"><i
+                                class="fa-solid fa-rotate-right"></i> Refresh</button>
+                        <button class="btn btn-outline" id="open-new-tab-btn"><i class="fa-solid fa-external-link"></i>
+                            Open</button>
+                    </div>
+                </div>
+
+                <div class="iframe-wrapper desktop" id="preview-wrapper">
+                    <iframe id="preview-iframe" src="http://localhost:3000/index.html"></iframe>
                 </div>
             </section>
         </div>
@@ -243,4 +894,5 @@
     <script src="../auth/auth.js"></script>
     <script src="admin.js"></script>
 </body>
+
 </html>
