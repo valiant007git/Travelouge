@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Journey - Travelogue</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .inquiry-hero {
+            padding: 150px 20px 80px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        .inquiry-hero h1 {
+            font-size: 3.5rem;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+        .inquiry-section {
+            padding: 80px 20px;
+            background: var(--bg-primary);
+        }
+        .inquiry-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 18px 50px rgba(22, 50, 79, 0.12);
+            padding: 40px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .form-col h3 {
+            color: var(--navy);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+            font-family: 'Playfair Display', serif;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        .input-group input[type="text"], 
+        .input-group input[type="email"], 
+        .input-group input[type="tel"], 
+        .input-group input[type="number"], 
+        .input-group input[type="date"], 
+        .input-group select, 
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(22, 50, 79, 0.12);
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            border-color: var(--gold);
+        }
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .radio-item {
+            padding: 10px;
+            border: 1px solid rgba(22, 50, 79, 0.12);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .radio-item:hover {
+            border-color: var(--gold);
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .slider-container input[type="range"] {
+            flex: 1;
+            accent-color: var(--gold);
+        }
+        .budget-val {
+            font-weight: bold;
+            color: var(--gold);
+            min-width: 80px;
+        }
+        .submit-btn {
+            background: var(--gold);
+            color: var(--white);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background: var(--gold-hover);
+            transform: translateY(-2px);
+        }
+        .success-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .success-card {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+        }
+        .success-card i {
+            font-size: 4rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        .ref-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 6px;
+            letter-spacing: 0;
+        }
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Same as index) -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="inquiry-hero">
+        <h1 class="brand-font">Plan Your Journey</h1>
+        <p>Tell us your dream destination, and our experts will craft the perfect itinerary.</p>
+    </section>
+
+    <section class="inquiry-section">
+        <div class="inquiry-container">
+            <form id="inquiry-form">
+                <div class="form-grid">
+                    
+                    <!-- LEFT COL: Trip Details -->
+                    <div class="form-col">
+                        <h3 class="brand-font">1. Trip Details</h3>
+                        
+                        <div class="input-group">
+                            <label>Inquiry Type</label>
+                            <select id="inq-type" required>
+                                <option value="Package Booking">Package Booking</option>
+                                <option value="Custom Tour">Custom Tour</option>
+                                <option value="Honeymoon">Honeymoon</option>
+                                <option value="Group Travel">Group Travel</option>
+                                <option value="Corporate Travel">Corporate Travel</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Preferred Destination</label>
+                            <select id="inq-dest" required>
+                                <option value="" disabled selected>Select a destination</option>
+                                <option value="Darjeeling">Darjeeling</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Sitong">Sitong</option>
+                                <option value="Mandarmani">Mandarmani</option>
+                                <option value="Dooars">Dooars</option>
+                                <option value="Other">Other (Specify in notes)</option>
+                            </select>
+                        </div>
+
+                        <div style="display:flex; gap:15px;">
+                            <div class="input-group" style="flex:1;">
+                                <label>Travel Date From</label>
+                                <input type="date" id="inq-date-from" required>
+                            </div>
+                            <div class="input-group" style="flex:1;">
+                                <label>Travel Date To</label>
+                                <input type="date" id="inq-date-to" required>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:15px;">
+                            <div class="input-group" style="flex:1;">
+                                <label>Adults</label>
+                                <input type="number" id="inq-adults" min="1" value="2" required>
+                            </div>
+                            <div class="input-group" style="flex:1;">
+                                <label>Children</label>
+                                <input type="number" id="inq-children" min="0" value="0" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Budget Range</label>
+                            <div class="slider-container">
+                                <input type="range" id="inq-budget" min="500" max="10000" step="100" value="2500">
+                                <span class="budget-val">₹<span id="budget-display">2,500</span>+</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Accommodation Preference</label>
+                            <div class="radio-group">
+                                <label class="radio-item"><input type="radio" name="acc" value="Budget Hotel"> Budget Hotel</label>
+                                <label class="radio-item"><input type="radio" name="acc" value="3-Star"> 3-Star</label>
+                                <label class="radio-item"><input type="radio" name="acc" value="4-Star" checked> 4-Star</label>
+                                <label class="radio-item"><input type="radio" name="acc" value="5-Star"> 5-Star</label>
+                                <label class="radio-item"><input type="radio" name="acc" value="Resort"> Resort</label>
+                                <label class="radio-item"><input type="radio" name="acc" value="Villa"> Villa</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COL: Personal Details -->
+                    <div class="form-col">
+                        <h3 class="brand-font">2. Personal Details</h3>
+                        
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="inq-name" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="inq-email" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="inq-phone" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Country of Residence</label>
+                            <select id="inq-country" required>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Preferred Contact Method</label>
+                            <div class="radio-group">
+                                <label class="radio-item"><input type="radio" name="contact" value="Email" checked> Email</label>
+                                <label class="radio-item"><input type="radio" name="contact" value="Phone"> Phone</label>
+                                <label class="radio-item"><input type="radio" name="contact" value="WhatsApp"> WhatsApp</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Special Requirements / Notes</label>
+                            <textarea id="inq-notes" rows="4" placeholder="Any dietary needs, medical conditions, or specific requests?"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> Submit Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="success-overlay">
+        <div class="success-card">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2 class="brand-font" style="color:var(--navy); margin-bottom:10px;">Inquiry Received!</h2>
+            <p>Thank you for reaching out. Our travel experts will review your request and get back to you shortly.</p>
+            <div class="ref-number" id="ref-number-display">TRV-XXXXXX</div>
+            <a href="client-dashboard.html" class="btn" style="color:var(--navy);">Go to Dashboard</a>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        // Setup Date min
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('inq-date-from').setAttribute('min', today);
+        document.getElementById('inq-date-to').setAttribute('min', today);
+
+        // Prefill details from destination and package links.
+        const inquiryParams = new URLSearchParams(window.location.search);
+        const destinationParam = (inquiryParams.get('dest') || inquiryParams.get('destination') || '').replace('Sittong', 'Sitong');
+        const packageParam = inquiryParams.get('pkg');
+        const dateParam = inquiryParams.get('date');
+        const paxParam = inquiryParams.get('pax');
+        const durationParam = inquiryParams.get('dur');
+
+        if (destinationParam) {
+            const destinationSelect = document.getElementById('inq-dest');
+            const hasDestination = Array.from(destinationSelect.options).some(option => option.value === destinationParam);
+            if (hasDestination) destinationSelect.value = destinationParam;
+        }
+
+        if (dateParam) document.getElementById('inq-date-from').value = dateParam;
+        if (paxParam) document.getElementById('inq-adults').value = Math.max(1, Number(paxParam) || 1);
+        if (packageParam || durationParam) {
+            const notes = document.getElementById('inq-notes');
+            const noteParts = [];
+            if (packageParam) noteParts.push(`Interested package: ${packageParam}`);
+            if (durationParam) noteParts.push(`Preferred duration: ${durationParam}`);
+            notes.value = noteParts.join('\n');
+        }
+
+        // Update Slider Display
+        const budgetSlider = document.getElementById('inq-budget');
+        const budgetDisplay = document.getElementById('budget-display');
+        budgetSlider.addEventListener('input', (e) => {
+            budgetDisplay.innerText = Number(e.target.value).toLocaleString();
+        });
+
+        // Auto Fill if Logged in
+        if (isLoggedIn() && isClient()) {
+            const user = getCurrentUser();
+            document.getElementById('inq-name').value = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+            document.getElementById('inq-email').value = user.email || '';
+            if(user.phone) document.getElementById('inq-phone').value = user.phone;
+            
+            // Update Nav
+            const authNavLink = document.getElementById('auth-nav-link');
+            if (authNavLink) {
+                authNavLink.innerHTML = `<a href="client-dashboard.html" class="btn" style="color:var(--navy);">My Dashboard</a>`;
+            }
+        }
+
+        // Form Submit
+        document.getElementById('inquiry-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Generate Ref
+            const refNo = 'TRV-' + Math.floor(100000 + Math.random() * 900000);
+            
+            const formData = {
+                id: Date.now(),
+                refNo: refNo,
+                clientId: isLoggedIn() ? getCurrentUser().id : null,
+                clientName: document.getElementById('inq-name').value,
+                email: document.getElementById('inq-email').value,
+                phone: document.getElementById('inq-phone').value,
+                country: document.getElementById('inq-country').value,
+                type: document.getElementById('inq-type').value,
+                destination: document.getElementById('inq-dest').value,
+                dateFrom: document.getElementById('inq-date-from').value,
+                dateTo: document.getElementById('inq-date-to').value,
+                adults: document.getElementById('inq-adults').value,
+                children: document.getElementById('inq-children').value,
+                budget: document.getElementById('inq-budget').value,
+                accommodation: document.querySelector('input[name="acc"]:checked').value,
+                contactMethod: document.querySelector('input[name="contact"]:checked').value,
+                notes: document.getElementById('inq-notes').value,
+                status: 'Pending',
+                submittedOn: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            const inquiries = JSON.parse(localStorage.getItem('travelogue_inquiries')) || [];
+            inquiries.push(formData);
+            localStorage.setItem('travelogue_inquiries', JSON.stringify(inquiries));
+
+            // Show Success
+            document.getElementById('ref-number-display').innerText = refNo;
+            document.getElementById('success-overlay').style.display = 'flex';
+            
+            // Log activity
+            if(isLoggedIn() && isClient()) {
+                const activities = JSON.parse(localStorage.getItem('travelogue_client_activity')) || [];
+                activities.push({ user: getCurrentUser().id, action: `Submitted inquiry for ${formData.destination}`, time: new Date().toLocaleString() });
+                localStorage.setItem('travelogue_client_activity', JSON.stringify(activities));
+            }
+        });
+    </script>
+</body>
+</html>

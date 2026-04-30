@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --navy: #16324F;
+            --gold: #C9A227;
+            --white: #FFFFFF;
+            --bg-gray: #FAF9F6;
+            --bg-beige: #F5EFE6;
+            --text-dark: #2C2C2C;
+            --text-light: rgba(44, 44, 44, 0.62);
+            --border: rgba(22, 50, 79, 0.12);
+            --green: #2ecc71;
+            --yellow: #f1c40f;
+            --blue: #3498db;
+            --red: #e74c3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        .brand-font { font-family: 'Playfair Display', serif; }
+        body { background-color: var(--bg-gray); color: var(--text-dark); display: flex; height: 100vh; overflow: hidden; }
+        a { text-decoration: none; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background: rgba(255,255,255,0.82); color: var(--navy); display: flex; flex-direction: column; height: 100vh; border-right: 1px solid var(--border); backdrop-filter: blur(14px); }
+        .sidebar-header { padding: 22px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+        .sidebar-header h2 { color: var(--navy); }
+        .nav-links { padding: 20px 0; flex: 1; list-style: none; }
+        .nav-link { display: flex; align-items: center; padding: 14px 22px; color: rgba(22, 50, 79, 0.70); gap: 15px; border-left: 3px solid transparent; cursor: pointer; transition: 0.25s; }
+        .nav-link i { width: 20px; text-align: center; }
+        .nav-link:hover, .nav-link.active { background: rgba(22, 50, 79, 0.06); color: var(--navy); border-left-color: var(--gold); }
+        
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+        .topbar { background: rgba(255,255,255,0.72); height: 72px; padding: 0 30px; display: flex; justify-content: flex-end; align-items: center; box-shadow: 0 10px 26px rgba(22, 50, 79, 0.08); border-bottom: 1px solid var(--border); backdrop-filter: blur(14px); position: sticky; top: 0; z-index: 10; }
+        .user-info { display: flex; align-items: center; gap: 15px; font-weight: 500; color: var(--navy); }
+        .user-info img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+        
+        .content-wrapper { padding: 30px; }
+        .page-section { display: none; animation: fadeIn 0.4s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .page-title { color: var(--navy); margin-bottom: 25px; font-size: 2rem; }
+        
+        /* Cards */
+        .card { background: var(--white); border-radius: 14px; padding: 26px; box-shadow: 0 10px 26px rgba(22, 50, 79, 0.08); margin-bottom: 25px; border: 1px solid var(--border); }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--white); padding: 20px; border-radius: 14px; box-shadow: 0 10px 26px rgba(22, 50, 79, 0.08); display: flex; align-items: center; gap: 15px; border: 1px solid var(--border); }
+        .stat-icon { background: rgba(201, 162, 39, 0.12); color: var(--navy); width: 52px; height: 52px; border-radius: 14px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+        .stat-details h3 { font-size: 0.9rem; color: var(--text-light); font-weight: 500; }
+        .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--navy); }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { color: var(--navy); font-weight: 600; background: #f8f9fa; }
+        .status-badge { padding: 5px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        .status-Pending { background: rgba(241, 196, 15, 0.1); color: var(--yellow); }
+        .status-UnderReview { background: rgba(52, 152, 219, 0.1); color: var(--blue); }
+        .status-Confirmed { background: rgba(46, 204, 113, 0.1); color: var(--green); }
+        .status-Cancelled { background: rgba(231, 76, 60, 0.1); color: var(--red); }
+
+        /* Buttons */
+        .btn { background: linear-gradient(135deg, var(--gold) 0%, rgba(201,162,39,0.84) 100%); color: var(--white); border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.25s; display: inline-block; }
+        .btn:hover { background: linear-gradient(135deg, #B8901F 0%, var(--gold) 100%); transform: translateY(-2px); box-shadow: 0 18px 40px rgba(201, 162, 39, 0.22); }
+        .btn-outline { background: rgba(255,255,255,0.72); border: 1px solid var(--border); color: var(--navy); padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: 0.25s; backdrop-filter: blur(10px); }
+        .btn-outline:hover { border-color: rgba(201, 162, 39, 0.45); transform: translateY(-1px); }
+        .btn-danger { background: var(--red); color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+
+        /* Bookings Grid */
+        .bookings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .booking-card { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 26px rgba(22, 50, 79, 0.08); border: 1px solid var(--border); }
+        .booking-img { width: 100%; height: 150px; object-fit: cover; }
+        .booking-info { padding: 20px; }
+        .booking-info h4 { color: var(--navy); font-size: 1.2rem; margin-bottom: 10px; }
+        .booking-info p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 5px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--navy); }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; }
+        .form-group input:focus { border-color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-link active" data-target="home"><i class="fa-solid fa-house"></i> My Dashboard</li>
+            <li class="nav-link" data-target="inquiries"><i class="fa-solid fa-paper-plane"></i> My Inquiries</li>
+            <li class="nav-link" data-target="bookings"><i class="fa-solid fa-suitcase-rolling"></i> My Bookings</li>
+            <li class="nav-link" data-target="reviews"><i class="fa-solid fa-star"></i> My Reviews</li>
+            <li class="nav-link" data-target="profile"><i class="fa-solid fa-user"></i> My Profile</li>
+            <li class="nav-link" id="logout-btn"><i class="fa-solid fa-sign-out-alt"></i> Logout</li>
+        </ul>
+        <div style="margin-top:auto; padding: 20px; text-align:center;">
+            <a href="../index.html" class="btn-outline" style="width:100%;"><i class="fa-solid fa-globe"></i> Back to Site</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="user-info">
+                <span id="top-user-name">Loading...</span>
+                <img src="https://via.placeholder.com/40" id="top-user-img" alt="Profile">
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            
+            <!-- HOME PAGE -->
+            <section id="home" class="page-section active">
+                <h2 class="page-title brand-font" id="welcome-title">Welcome back!</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="stat-details"><h3>Total Inquiries</h3><p class="stat-number" id="stat-inquiries">0</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                        <div class="stat-details"><h3>Active Bookings</h3><p class="stat-number" id="stat-bookings">0</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                        <div class="stat-details"><h3>Reviews Given</h3><p class="stat-number" id="stat-reviews">0</p></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                        <h3 style="color:var(--navy);">Recent Inquiries</h3>
+                        <a href="inquiry.html" class="btn"><i class="fa-solid fa-plus"></i> New Inquiry</a>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Ref No</th><th>Destination</th><th>Date Submitted</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="recent-inquiries-tbody">
+                            <!-- JS injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- INQUIRIES PAGE -->
+            <section id="inquiries" class="page-section">
+                <h2 class="page-title brand-font">My Inquiries</h2>
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Ref No</th><th>Destination</th><th>Travel Date</th><th>Status</th><th>Submitted On</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="all-inquiries-tbody">
+                            <!-- JS injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- BOOKINGS PAGE -->
+            <section id="bookings" class="page-section">
+                <h2 class="page-title brand-font">My Bookings</h2>
+                <div class="bookings-grid" id="bookings-grid">
+                    <!-- JS injected -->
+                </div>
+            </section>
+
+            <!-- REVIEWS PAGE -->
+            <section id="reviews" class="page-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 class="page-title brand-font" style="margin:0;">My Reviews</h2>
+                </div>
+                <div class="card" id="my-reviews-container">
+                    <!-- JS injected -->
+                    <p style="color:var(--text-light);">You haven't submitted any reviews yet.</p>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom:15px; color:var(--navy);">Write a New Review</h3>
+                    <form id="add-review-form">
+                        <div class="form-group">
+                            <label>Star Rating (1-5)</label>
+                            <input type="number" id="rev-rating" min="1" max="5" value="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Review</label>
+                            <textarea id="rev-text" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Submit Review for Approval</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- PROFILE PAGE -->
+            <section id="profile" class="page-section">
+                <h2 class="page-title brand-font">My Profile</h2>
+                <div class="card" style="max-width: 600px;">
+                    <form id="profile-form">
+                        <div style="display:flex; gap:15px;">
+                            <div class="form-group" style="flex:1;"><label>First Name</label><input type="text" id="prof-fname" required></div>
+                            <div class="form-group" style="flex:1;"><label>Last Name</label><input type="text" id="prof-lname" required></div>
+                        </div>
+                        <div class="form-group"><label>Email</label><input type="email" id="prof-email" readonly style="background:#eee;"></div>
+                        <div class="form-group"><label>Phone</label><input type="text" id="prof-phone"></div>
+                        <div class="form-group"><label>Profile Photo URL</label><input type="url" id="prof-avatar"></div>
+                        <button type="submit" class="btn">Update Profile</button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        protectPage('client');
+        
+        const user = getCurrentUser();
+        
+        // Setup UI
+        document.getElementById('top-user-name').innerText = `${user.firstName || 'Client'} ${user.lastName || ''}`.trim();
+        if(user.avatar) document.getElementById('top-user-img').src = user.avatar;
+        document.getElementById('welcome-title').innerText = `Welcome back, ${user.firstName || 'Traveler'}!`;
+
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-link[data-target]');
+        const pageSections = document.querySelectorAll('.page-section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const target = link.getAttribute('data-target');
+                pageSections.forEach(sec => {
+                    sec.classList.remove('active');
+                    if(sec.id === target) sec.classList.add('active');
+                });
+            });
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+
+        // Load Data
+        const loadDashboardData = () => {
+            const allInquiries = JSON.parse(localStorage.getItem('travelogue_inquiries')) || [];
+            const myInquiries = allInquiries.filter(i => i.clientId === user.id);
+            
+            const allBookings = JSON.parse(localStorage.getItem('travelogue_bookings')) || [];
+            const myBookings = allBookings.filter(b => b.clientId === user.id);
+
+            const allReviews = JSON.parse(localStorage.getItem('travelogue_reviews')) || [];
+            // Basic matching by name since reviews didn't originally have clientIds
+            const myName = `${user.firstName} ${user.lastName}`.trim();
+            const myReviews = allReviews.filter(r => r.name === myName);
+
+            // Stats
+            document.getElementById('stat-inquiries').innerText = myInquiries.length;
+            document.getElementById('stat-bookings').innerText = myBookings.length;
+            document.getElementById('stat-reviews').innerText = myReviews.length;
+
+            // Recent Inquiries
+            const recentBody = document.getElementById('recent-inquiries-tbody');
+            recentBody.innerHTML = '';
+            myInquiries.slice(-3).reverse().forEach(i => {
+                let sClass = i.status.replace(' ', '');
+                recentBody.innerHTML += `<tr><td>${i.refNo}</td><td>${i.destination}</td><td>${new Date(i.submittedOn).toLocaleDateString()}</td><td><span class="status-badge status-${sClass}">${i.status}</span></td></tr>`;
+            });
+
+            // All Inquiries
+            const allBody = document.getElementById('all-inquiries-tbody');
+            allBody.innerHTML = '';
+            if(myInquiries.length === 0) allBody.innerHTML = '<tr><td colspan="6">No inquiries found.</td></tr>';
+            myInquiries.reverse().forEach(i => {
+                let sClass = i.status.replace(' ', '');
+                let actionBtn = i.status === 'Pending' ? `<button class="btn-outline" onclick="cancelInquiry(${i.id})" style="color:var(--red); border-color:var(--red);">Cancel</button>` : '-';
+                allBody.innerHTML += `<tr><td>${i.refNo}</td><td>${i.destination}</td><td>${i.dateFrom}</td><td><span class="status-badge status-${sClass}">${i.status}</span></td><td>${new Date(i.submittedOn).toLocaleDateString()}</td><td>${actionBtn}</td></tr>`;
+            });
+
+            // Bookings
+            const bookGrid = document.getElementById('bookings-grid');
+            bookGrid.innerHTML = '';
+            if(myBookings.length === 0) bookGrid.innerHTML = '<p>You have no active bookings.</p>';
+            myBookings.forEach(b => {
+                bookGrid.innerHTML += `
+                    <div class="booking-card">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&q=80" class="booking-img">
+                        <div class="booking-info">
+                            <h4>${b.destination} - ${b.package}</h4>
+                            <p><i class="fa-solid fa-calendar"></i> ${b.dates}</p>
+                            <p><i class="fa-solid fa-money-bill"></i> ${b.price}</p>
+                            <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
+                                <span class="status-badge status-Confirmed">Confirmed</span>
+                                <button class="btn-outline" onclick="alert('Downloading invoice for ${b.refNo}...')">Invoice</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Reviews
+            const revContainer = document.getElementById('my-reviews-container');
+            if(myReviews.length > 0) {
+                revContainer.innerHTML = '';
+                myReviews.forEach(r => {
+                    const starsHTML = Array(5).fill(0).map((_, i) => `<i class="fa-solid fa-star${i < r.rating ? '' : ' fa-regular'}" style="color:var(--gold)"></i>`).join('');
+                    const statColor = r.status === 'published' ? 'green' : 'gray';
+                    revContainer.innerHTML += `
+                        <div style="padding:15px; border:1px solid #eee; margin-bottom:15px; border-radius:4px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <div>${starsHTML}</div>
+                                <span style="font-size:0.8rem; color:${statColor};">${r.status.toUpperCase()}</span>
+                            </div>
+                            <p style="margin-top:10px; font-style:italic;">"${r.text}"</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // Profile
+            document.getElementById('prof-fname').value = user.firstName || '';
+            document.getElementById('prof-lname').value = user.lastName || '';
+            document.getElementById('prof-email').value = user.email || '';
+            document.getElementById('prof-phone').value = user.phone || '';
+            document.getElementById('prof-avatar').value = user.avatar || '';
+        };
+
+        window.cancelInquiry = (id) => {
+            if(confirm('Cancel this inquiry?')) {
+                const inqs = JSON.parse(localStorage.getItem('travelogue_inquiries')) || [];
+                const idx = inqs.findIndex(i => i.id === id);
+                if(idx !== -1) {
+                    inqs[idx].status = 'Cancelled';
+                    localStorage.setItem('travelogue_inquiries', JSON.stringify(inqs));
+                    loadDashboardData();
+                }
+            }
+        };
+
+        document.getElementById('add-review-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const reviews = JSON.parse(localStorage.getItem('travelogue_reviews')) || [];
+            const rData = {
+                id: Date.now(),
+                name: `${user.firstName} ${user.lastName}`.trim(),
+                location: user.country || 'Unknown Location',
+                avatar: user.avatar || 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
+                rating: parseInt(document.getElementById('rev-rating').value),
+                text: document.getElementById('rev-text').value,
+                status: 'hidden' // Needs admin approval
+            };
+            reviews.push(rData);
+            localStorage.setItem('travelogue_reviews', JSON.stringify(reviews));
+            alert('Review submitted to admins for approval!');
+            e.target.reset();
+            loadDashboardData();
+        });
+
+        document.getElementById('profile-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const users = JSON.parse(localStorage.getItem('travelogue_users')) || [];
+            const idx = users.findIndex(u => u.id === user.id);
+            if(idx !== -1) {
+                users[idx].firstName = document.getElementById('prof-fname').value;
+                users[idx].lastName = document.getElementById('prof-lname').value;
+                users[idx].phone = document.getElementById('prof-phone').value;
+                users[idx].avatar = document.getElementById('prof-avatar').value;
+                localStorage.setItem('travelogue_users', JSON.stringify(users));
+                setSession(users[idx]); // update session
+                alert('Profile updated!');
+                window.location.reload();
+            }
+        });
+
+        loadDashboardData();
+    </script>
+</body>
+</html>

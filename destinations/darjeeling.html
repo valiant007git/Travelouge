@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darjeeling | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .dest-hero {
+            height: 80vh;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.70), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--navy); position: relative;
+        }
+        .dest-hero h1 { font-size: 5rem; color: var(--navy); margin-bottom: 20px; animation: scaleIn 1s ease; }
+        .dest-hero p { font-size: 1.5rem; max-width: 800px; animation: slideUp 1s ease 0.3s forwards; opacity: 0; }
+        
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+
+        .tabs-header { display: flex; gap: 10px; border-bottom: 2px solid var(--border); margin-bottom: 30px; position: sticky; top: 80px; background: var(--bg-light); z-index: 100; padding-top: 20px; }
+        .tab-btn { background: none; border: none; padding: 15px 20px; font-size: 1.1rem; font-weight: 600; color: var(--text-light); cursor: pointer; position: relative; transition: var(--transition); }
+        .tab-btn.active { color: var(--navy); }
+        .tab-btn::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: var(--gold); transition: var(--transition); }
+        .tab-btn.active::after { width: 100%; }
+        
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        .overview-section { margin-bottom: 40px; }
+        .overview-section h3 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        
+        .weather-chart { display: flex; align-items: flex-end; gap: 5px; height: 150px; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .weather-bar { flex: 1; background: rgba(22, 50, 79, 0.18); position: relative; border-radius: 10px 10px 0 0; transition: var(--transition); }
+        .weather-bar:hover { background: var(--gold); }
+        .weather-bar span { position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; font-weight: bold; }
+        .weather-bar .temp { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
+        
+        .attraction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .attraction-card { display: flex; gap: 15px; background: var(--white); padding: 15px; border-radius: 8px; box-shadow: var(--shadow-sm); }
+        .attraction-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; }
+        .attraction-info h4 { color: var(--navy); margin-bottom: 5px; }
+
+        .itinerary-day { background: var(--white); padding: 25px; border-radius: 8px; box-shadow: var(--shadow-sm); margin-bottom: 20px; border-left: 4px solid var(--gold); }
+        .day-title { display: flex; justify-content: space-between; cursor: pointer; }
+        .day-title h4 { color: var(--navy); font-size: 1.2rem; }
+        .day-content { margin-top: 15px; display: none; color: var(--text-light); }
+        .itinerary-day.active .day-content { display: block; }
+        
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .gallery-grid img:hover { filter: brightness(0.8); }
+
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.78); backdrop-filter: blur(12px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .lightbox.active { display: flex; }
+        .lb-img { max-width: 90%; max-height: 90vh; }
+        .lb-close { position: absolute; top: 30px; right: 40px; color: var(--navy); font-size: 2rem; background: none; border: none; cursor: pointer; }
+
+        .review-card { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); margin-bottom: 15px; }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .review-stars { color: var(--gold); }
+        .review-form { background: var(--white); padding: 25px; border-radius: 8px; box-shadow: var(--shadow-sm); margin-top: 30px; }
+
+        .booking-sidebar { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: var(--shadow-md); position: sticky; top: 100px; height: fit-content; }
+        .price-tag { font-size: 2.5rem; color: var(--navy); font-family: 'Playfair Display', serif; margin-bottom: 20px; font-weight: bold; }
+        .price-tag span { font-size: 1rem; color: var(--text-light); font-family: 'Inter', sans-serif; font-weight: normal; }
+        .sidebar-group { margin-bottom: 20px; }
+        .sidebar-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--navy); }
+        .sidebar-group input, .sidebar-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px; outline: none; }
+        .book-btn { background: linear-gradient(135deg, var(--gold) 0%, rgba(201,162,39,0.84) 100%); color: var(--white); border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.25s; margin-top: 10px; }
+        .book-btn:hover { background: linear-gradient(135deg, #B8901F 0%, var(--gold) 100%); transform: translateY(-2px); box-shadow: 0 18px 40px rgba(201, 162, 39, 0.22); }
+        .sidebar-features { list-style: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .sidebar-features li { margin-bottom: 10px; color: var(--text-light); }
+        .sidebar-features i { color: var(--success); width: 25px; }
+
+        @media (max-width: 992px) { .main-layout { grid-template-columns: 1fr; } .booking-sidebar { position: static; margin-top: 40px; } .attraction-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 576px) { .tabs-header { overflow-x: auto; white-space: nowrap; } .gallery-grid { grid-template-columns: 1fr 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html" class="active">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html" class="active">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="dest-hero">
+        <div>
+            <h1 class="brand-font">Darjeeling</h1>
+            <p>The Queen of the Hills & Home of the World Famous Tea</p>
+        </div>
+    </section>
+
+    <div class="main-layout">
+        <div class="main-content">
+            
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="itinerary">Itinerary</button>
+                <button class="tab-btn" data-tab="gallery">Gallery</button>
+                <button class="tab-btn" data-tab="reviews">Reviews</button>
+            </div>
+
+            <!-- OVERVIEW -->
+            <div class="tab-content active" id="overview">
+                <div class="overview-section">
+                    <h3>About Darjeeling</h3>
+                    <p style="color:var(--text-light); line-height:1.8;">Darjeeling, affectionately known as the 'Queen of the Hills', offers breathtaking vistas of Mount Kanchenjunga, lush green tea gardens rolling down the mountainsides, and a charming colonial heritage. From the iconic Darjeeling Himalayan Railway (Toy Train) to the spectacular sunrise at Tiger Hill, it is the perfect romantic getaway and family destination.</p>
+                </div>
+
+                <div class="overview-section">
+                    <h3>Best Time To Visit</h3>
+                    <p style="color:var(--text-light); margin-bottom: 20px;">September to December for the clearest views of Kanchenjunga, and March to May for pleasant summer weather.</p>
+                    <div class="weather-chart">
+                        <div class="weather-bar" style="height:25%;"><span class="temp">10°</span><span>Jan</span></div>
+                        <div class="weather-bar" style="height:35%;"><span class="temp">12°</span><span>Feb</span></div>
+                        <div class="weather-bar" style="height:55%; background:var(--gold);"><span class="temp">16°</span><span>Mar</span></div>
+                        <div class="weather-bar" style="height:70%; background:var(--gold);"><span class="temp">20°</span><span>Apr</span></div>
+                        <div class="weather-bar" style="height:85%; background:var(--gold);"><span class="temp">23°</span><span>May</span></div>
+                        <div class="weather-bar" style="height:90%;"><span class="temp">25°</span><span>Jun</span></div>
+                        <div class="weather-bar" style="height:90%;"><span class="temp">25°</span><span>Jul</span></div>
+                        <div class="weather-bar" style="height:85%;"><span class="temp">24°</span><span>Aug</span></div>
+                        <div class="weather-bar" style="height:75%; background:var(--gold);"><span class="temp">22°</span><span>Sep</span></div>
+                        <div class="weather-bar" style="height:60%; background:var(--gold);"><span class="temp">18°</span><span>Oct</span></div>
+                        <div class="weather-bar" style="height:45%; background:var(--gold);"><span class="temp">15°</span><span>Nov</span></div>
+                        <div class="weather-bar" style="height:30%;"><span class="temp">11°</span><span>Dec</span></div>
+                    </div>
+                </div>
+
+                <div class="overview-section">
+                    <h3>Top Attractions</h3>
+                    <div class="attraction-grid">
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=150" alt="Tiger Hill">
+                            <div class="attraction-info">
+                                <h4>Tiger Hill</h4>
+                                <p style="font-size:0.85rem; color:var(--text-light);">Famous for spectacular sunrise over Mt. Kanchenjunga.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=150" alt="Tea Gardens">
+                            <div class="attraction-info">
+                                <h4>Happy Valley Tea Estate</h4>
+                                <p style="font-size:0.85rem; color:var(--text-light);">Experience the processing of world-class Darjeeling tea.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=150" alt="Toy Train">
+                            <div class="attraction-info">
+                                <h4>Batasia Loop</h4>
+                                <p style="font-size:0.85rem; color:var(--text-light);">A spiral railway track with a panoramic view of Darjeeling.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1582200840431-7b79cc83e9ea?w=150" alt="Mall Road">
+                            <div class="attraction-info">
+                                <h4>Chowrasta (Mall Road)</h4>
+                                <p style="font-size:0.85rem; color:var(--text-light);">The bustling heart of Darjeeling, perfect for evening walks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-section">
+                    <h3>Local Food Highlights</h3>
+                    <ul style="list-style:none; color:var(--text-light);">
+                        <li style="margin-bottom:10px;"><i class="fa-solid fa-mug-hot" style="color:var(--gold); margin-right:10px;"></i> <strong>Darjeeling Tea:</strong> The 'Champagne of Teas'.</li>
+                        <li style="margin-bottom:10px;"><i class="fa-solid fa-utensils" style="color:var(--gold); margin-right:10px;"></i> <strong>Keventers Breakfast:</strong> Iconic sausages and hot chocolate.</li>
+                        <li style="margin-bottom:10px;"><i class="fa-solid fa-utensils" style="color:var(--gold); margin-right:10px;"></i> <strong>Alu Dum:</strong> Spicy local potato curry.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ITINERARY -->
+            <div class="tab-content" id="itinerary">
+                <div class="overview-section">
+                    <h3>Sample Itinerary (3D/2N)</h3>
+                    
+                    <div class="itinerary-day active">
+                        <div class="day-title"><h4>Day 1: Arrival & Local Walk</h4><i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="day-content">
+                            <p>Arrive at Bagdogra/NJP and transfer to Darjeeling (3 hours). Check-in and relax. In the evening, take a stroll down the famous Mall Road (Chowrasta) and enjoy the colonial architecture. Overnight stay in Darjeeling.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="itinerary-day">
+                        <div class="day-title"><h4>Day 2: Tiger Hill & Sightseeing</h4><i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="day-content">
+                            <p>Wake up at 4 AM to visit Tiger Hill for the majestic sunrise over Kanchenjunga. On the way back, visit Ghoom Monastery and Batasia Loop. Post breakfast, visit the Himalayan Mountaineering Institute, Zoo, and a Tea Garden. Overnight stay in Darjeeling.</p>
+                        </div>
+                    </div>
+
+                    <div class="itinerary-day">
+                        <div class="day-title"><h4>Day 3: Departure</h4><i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="day-content">
+                            <p>After breakfast, enjoy some last-minute shopping for Darjeeling Tea. Proceed to Bagdogra/NJP for your onward journey.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GALLERY -->
+            <div class="tab-content" id="gallery">
+                <div class="overview-section">
+                    <h3>Darjeeling Gallery</h3>
+                    <div class="gallery-grid">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1582200840431-7b79cc83e9ea?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600" class="gal-img">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600" class="gal-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- REVIEWS -->
+            <div class="tab-content" id="reviews">
+                <div class="overview-section">
+                    <h3>Traveler Reviews</h3>
+                    <div id="reviews-container">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <strong>John Doe</strong>
+                                <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            </div>
+                            <p style="color:var(--text-light); font-size:0.9rem;">"Tiger Hill sunrise was magical. The tea gardens were so peaceful."</p>
+                        </div>
+                    </div>
+
+                    <div class="review-form" id="add-review-section" style="display:none;">
+                        <h4>Write a Review</h4>
+                        <form id="dest-review-form">
+                            <div class="sidebar-group" style="margin-top:15px;"><label>Rating (1-5)</label><input type="number" id="rev-rate" min="1" max="5" value="5" required></div>
+                            <div class="sidebar-group"><label>Your Review</label><textarea id="rev-text" rows="3" required></textarea></div>
+                            <button type="submit" class="btn">Submit Review</button>
+                        </form>
+                    </div>
+                    <div id="login-prompt" style="margin-top:20px; padding:20px; background:#f9f9f9; text-align:center; border-radius:8px;">
+                        <p>Please <a href="../auth/login.html" style="text-decoration:underline;">login</a> to write a review.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <aside>
+            <div class="booking-sidebar">
+                <div class="price-tag">₹5,999<span> /person</span></div>
+                <div class="sidebar-group"><label>Duration</label><select id="book-dur"><option value="3D/2N">3 Days / 2 Nights</option><option value="4D/3N">4 Days / 3 Nights</option></select></div>
+                <div class="sidebar-group"><label>Travel Date</label><input type="date" id="book-date"></div>
+                <div class="sidebar-group"><label>Group Size</label><input type="number" id="book-pax" min="1" value="2"></div>
+                <button class="book-btn" id="sidebar-book-btn">Request to Book</button>
+                <ul class="sidebar-features">
+                    <li><i class="fa-solid fa-check"></i> Free Cancellation</li>
+                    <li><i class="fa-solid fa-check"></i> Instant Confirmation</li>
+                    <li><i class="fa-solid fa-check"></i> Local Support</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close"><i class="fa-solid fa-times"></i></button>
+        <img src="" class="lb-img" id="lb-img">
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col"><h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3></div>
+            <div class="footer-col"><h3 class="brand-font">Quick Links</h3><ul><li><a href="../pages/about.html">About Us</a></li><li><a href="../pages/contact.html">Contact Us</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 Travelogue. All Rights Reserved.</p></div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
+                if(isClient()) {
+                    document.getElementById('add-review-section').style.display = 'block';
+                    document.getElementById('login-prompt').style.display = 'none';
+                }
+            } else {
+                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
+            }
+
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            const dayTitles = document.querySelectorAll('.day-title');
+            dayTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    const parent = title.parentElement;
+                    const isActive = parent.classList.contains('active');
+                    document.querySelectorAll('.itinerary-day').forEach(d => d.classList.remove('active'));
+                    if(!isActive) parent.classList.add('active');
+                });
+            });
+
+            const galImgs = document.querySelectorAll('.gal-img');
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            
+            galImgs.forEach(img => {
+                img.addEventListener('click', () => {
+                    lbImg.src = img.src.replace('w=600', 'w=1200');
+                    lightbox.classList.add('active');
+                });
+            });
+            document.querySelector('.lb-close').addEventListener('click', () => lightbox.classList.remove('active'));
+
+            document.getElementById('sidebar-book-btn').addEventListener('click', () => {
+                const date = document.getElementById('book-date').value;
+                const pax = document.getElementById('book-pax').value;
+                const dur = document.getElementById('book-dur').value;
+                window.location.href = `../client/inquiry.html?dest=Darjeeling&date=${date}&pax=${pax}&dur=${dur}`;
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('book-date').setAttribute('min', today);
+        });
+    </script>
+</body>
+</html>

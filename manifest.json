@@ -1,0 +1,21 @@
+{
+  "name": "Travelogue",
+  "short_name": "Travelogue",
+  "description": "Premium travel planning for Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FBFAF6",
+  "theme_color": "#C49A2C",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

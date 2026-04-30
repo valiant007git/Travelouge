@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .page-hero {
+            padding: 180px 20px 100px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        
+        .section-padding { padding: 80px 20px; }
+        
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .blog-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .blog-img { height: 200px; position: relative; overflow: hidden; }
+        .blog-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .blog-card:hover .blog-img img { transform: scale(1.05); }
+        .blog-cat {
+            position: absolute; top: 15px; left: 15px;
+            background: var(--gold); color: var(--navy);
+            padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;
+        }
+        .blog-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .blog-meta { color: var(--text-light); font-size: 0.85rem; margin-bottom: 10px; display: flex; gap: 15px; }
+        .blog-meta i { color: var(--gold); margin-right: 5px; }
+        .blog-title { font-size: 1.3rem; color: var(--navy); margin-bottom: 15px; font-family: 'Playfair Display', serif; line-height: 1.4; }
+        .blog-title a { color: inherit; text-decoration: none; transition: var(--transition); }
+        .blog-title a:hover { color: var(--gold); }
+        .blog-excerpt { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; flex: 1; }
+        .read-more { color: var(--navy); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: var(--transition); }
+        .read-more:hover { color: var(--gold); gap: 8px; }
+
+        /* Pagination */
+        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 50px; }
+        .page-btn { background: var(--white); border: 1px solid var(--border); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; transition: var(--transition); color: var(--navy); text-decoration: none; font-weight: 600; }
+        .page-btn:hover, .page-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+
+        /* Sidebar */
+        .blog-sidebar { position: sticky; top: 100px; height: fit-content; }
+        .sidebar-widget { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 30px; }
+        .widget-title { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.3rem; margin-bottom: 20px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; display: inline-block; }
+        
+        .search-box { display: flex; }
+        .search-box input { flex: 1; padding: 12px 15px; border: 1px solid var(--border); border-radius: 4px 0 0 4px; outline: none; }
+        .search-box button { background: rgba(255,255,255,0.86); color: var(--navy); border: 1px solid var(--border); padding: 0 15px; border-radius: 0 10px 10px 0; cursor: pointer; transition: var(--transition); }
+        .search-box button:hover { background: var(--gold); color: var(--navy); }
+
+        .cat-list { list-style: none; }
+        .cat-list li { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .cat-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .cat-list a { color: var(--text-light); text-decoration: none; display: flex; justify-content: space-between; transition: var(--transition); }
+        .cat-list a:hover { color: var(--gold); padding-left: 5px; }
+
+        .recent-posts { list-style: none; }
+        .recent-post-item { display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
+        .recent-post-img { width: 70px; height: 70px; border-radius: 4px; object-fit: cover; }
+        .recent-post-info h4 { font-size: 0.95rem; margin-bottom: 5px; }
+        .recent-post-info a { color: var(--navy); text-decoration: none; transition: var(--transition); }
+        .recent-post-info a:hover { color: var(--gold); }
+        .recent-post-info span { color: var(--text-light); font-size: 0.8rem; }
+
+        @media (max-width: 992px) {
+            .blog-layout { grid-template-columns: 1fr; }
+            .blog-sidebar { position: static; }
+        }
+        @media (max-width: 768px) {
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html" class="active">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html" class="active">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="page-hero">
+        <h1 class="brand-font">Travelogue Blog</h1>
+        <p>Stories, tips, and guides to inspire your next adventure.</p>
+    </section>
+
+    <section class="section-padding" style="background: var(--bg-light);">
+        <div class="blog-layout">
+            
+            <div class="blog-main">
+                <div class="blog-grid" id="blog-grid">
+                    
+                    <!-- Post 1 -->
+                    <div class="blog-card" data-cat="guides">
+                        <div class="blog-img">
+                            <span class="blog-cat">Guides</span>
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80" alt="Darjeeling">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Oct 12, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=1">Top 10 Things to Do in Darjeeling for First-Timers</a></h3>
+                            <p class="blog-excerpt">Planning your first trip to the Queen of the Hills? Here is a curated list of must-visit spots and experiences you simply cannot miss...</p>
+                            <a href="blog-single.html?id=1" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="blog-card" data-cat="culture">
+                        <div class="blog-img">
+                            <span class="blog-cat">Culture</span>
+                            <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600&q=80" alt="Monastery">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Sep 28, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=2">Understanding the Monastic Culture of Sikkim</a></h3>
+                            <p class="blog-excerpt">Sikkim is home to over 200 monasteries. Delve deep into the spiritual heart of the Himalayas and learn about Tibetan Buddhism...</p>
+                            <a href="blog-single.html?id=2" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="blog-card" data-cat="tips">
+                        <div class="blog-img">
+                            <span class="blog-cat">Tips</span>
+                            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" alt="Trekking">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Sep 15, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=3">A Beginner's Guide to High Altitude Trekking</a></h3>
+                            <p class="blog-excerpt">Preparing for your first Himalayan trek? Read our comprehensive guide on acclimatization, packing, and fitness preparation...</p>
+                            <a href="blog-single.html?id=3" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 4 -->
+                    <div class="blog-card" data-cat="food">
+                        <div class="blog-img">
+                            <span class="blog-cat">Food</span>
+                            <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80" alt="Food">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Aug 30, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=4">5 Local Dishes You Must Try in North Bengal</a></h3>
+                            <p class="blog-excerpt">From steaming bowls of Thukpa to spicy Alu Dum, discover the culinary delights that make North Bengal a foodie's paradise...</p>
+                            <a href="blog-single.html?id=4" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 5 -->
+                    <div class="blog-card" data-cat="guides">
+                        <div class="blog-img">
+                            <span class="blog-cat">Guides</span>
+                            <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&q=80" alt="Dooars">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Aug 12, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=5">The Ultimate Dooars Wildlife Safari Guide</a></h3>
+                            <p class="blog-excerpt">Everything you need to know about booking safaris in Jaldapara and Gorumara, including timings and best seasons...</p>
+                            <a href="blog-single.html?id=5" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 6 -->
+                    <div class="blog-card" data-cat="tips">
+                        <div class="blog-img">
+                            <span class="blog-cat">Tips</span>
+                            <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?w=600&q=80" alt="Packing">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="fa-regular fa-calendar"></i> Jul 25, 2025</span>
+                                <span><i class="fa-regular fa-user"></i> Admin</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blog-single.html?id=6">What to Pack for a Winter Trip to Sikkim</a></h3>
+                            <p class="blog-excerpt">Don't let the cold catch you off guard. Here is our expert packing list to keep you warm and comfortable in sub-zero temperatures...</p>
+                            <a href="blog-single.html?id=6" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="pagination">
+                    <a href="#" class="page-btn active">1</a>
+                    <a href="#" class="page-btn">2</a>
+                    <a href="#" class="page-btn"><i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <aside class="blog-sidebar">
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Search</h3>
+                    <div class="search-box">
+                        <input type="text" id="blog-search" placeholder="Search posts...">
+                        <button><i class="fa-solid fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Categories</h3>
+                    <ul class="cat-list">
+                        <li><a href="#" class="cat-filter" data-cat="all">All Posts <span>(24)</span></a></li>
+                        <li><a href="#" class="cat-filter" data-cat="guides">Destination Guides <span>(8)</span></a></li>
+                        <li><a href="#" class="cat-filter" data-cat="tips">Travel Tips <span>(6)</span></a></li>
+                        <li><a href="#" class="cat-filter" data-cat="culture">Culture & Heritage <span>(5)</span></a></li>
+                        <li><a href="#" class="cat-filter" data-cat="food">Local Food <span>(5)</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Recent Posts</h3>
+                    <ul class="recent-posts">
+                        <li class="recent-post-item">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=100" class="recent-post-img">
+                            <div class="recent-post-info">
+                                <h4><a href="blog-single.html?id=1">Top 10 Things to Do in Darjeeling</a></h4>
+                                <span>Oct 12, 2025</span>
+                            </div>
+                        </li>
+                        <li class="recent-post-item">
+                            <img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=100" class="recent-post-img">
+                            <div class="recent-post-info">
+                                <h4><a href="blog-single.html?id=2">Understanding Monastic Culture</a></h4>
+                                <span>Sep 28, 2025</span>
+                            </div>
+                        </li>
+                        <li class="recent-post-item">
+                            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=100" class="recent-post-img">
+                            <div class="recent-post-info">
+                                <h4><a href="blog-single.html?id=3">Guide to Altitude Trekking</a></h4>
+                                <span>Sep 15, 2025</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </aside>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Your trusted partner for exploring the untouched beauty of Eastern India and Sikkim.</p>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Travelogue. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Logic
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
+            } else {
+                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
+            }
+
+            // Category Filtering
+            const catFilters = document.querySelectorAll('.cat-filter');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            catFilters.forEach(filter => {
+                filter.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    catFilters.forEach(f => f.style.color = '');
+                    filter.style.color = 'var(--gold)';
+                    
+                    const cat = filter.getAttribute('data-cat');
+                    
+                    blogCards.forEach(card => {
+                        if(cat === 'all' || card.getAttribute('data-cat') === cat) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Search filtering
+            const searchInput = document.getElementById('blog-search');
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                blogCards.forEach(card => {
+                    const title = card.querySelector('.blog-title').innerText.toLowerCase();
+                    const excerpt = card.querySelector('.blog-excerpt').innerText.toLowerCase();
+                    if(title.includes(term) || excerpt.includes(term)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

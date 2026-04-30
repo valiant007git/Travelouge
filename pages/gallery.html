@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .page-hero {
+            padding: 180px 20px 100px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        
+        .section-padding { padding: 80px 20px; }
+        
+        /* Filter Tabs */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .filter-tab {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        .filter-tab.active, .filter-tab:hover {
+            background: rgba(201, 162, 39, 0.18);
+            border-color: rgba(201, 162, 39, 0.45);
+            color: var(--navy);
+        }
+
+        /* Masonry Grid */
+        .masonry-grid {
+            column-count: 4;
+            column-gap: 20px;
+            width: 100%;
+        }
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            transform-origin: center;
+        }
+        .gallery-item.hide {
+            opacity: 0;
+            transform: scale(0.8);
+            display: none;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--navy);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(22, 50, 79, 0.10);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; transform: translateY(20px); transition: transform 0.3s ease; }
+        .gallery-overlay p { font-family: 'Playfair Display', serif; font-size: 1.2rem; transform: translateY(20px); transition: transform 0.3s ease 0.1s; }
+        .gallery-item:hover .gallery-overlay i, .gallery-item:hover .gallery-overlay p { transform: translateY(0); }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 34, 55, 0.95);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox.active { display: flex; opacity: 1; }
+        .lb-img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 4px;
+            box-shadow: 0 18px 60px rgba(22, 50, 79, 0.14);
+        }
+        .lb-caption {
+            position: absolute;
+            bottom: 30px; left: 0; width: 100%;
+            text-align: center;
+            color: var(--white);
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .lb-close, .lb-prev, .lb-next {
+            position: absolute;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .lb-close:hover, .lb-prev:hover, .lb-next:hover { color: var(--gold); }
+        .lb-close { top: 30px; right: 40px; }
+        .lb-prev { left: 40px; top: 50%; transform: translateY(-50%); }
+        .lb-next { right: 40px; top: 50%; transform: translateY(-50%); }
+
+        /* Video Section */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        @media (max-width: 992px) { .masonry-grid { column-count: 3; } .video-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .masonry-grid { column-count: 2; } }
+        @media (max-width: 480px) { .masonry-grid { column-count: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html" class="active">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html" class="active">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="page-hero">
+        <h1 class="brand-font">Captured Moments</h1>
+        <p>A visual journey through the mystical landscapes of Eastern India and Sikkim.</p>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="section-padding container">
+        
+        <div class="gallery-filters">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="sikkim">Sikkim</button>
+            <button class="filter-tab" data-filter="darjeeling">Darjeeling</button>
+            <button class="filter-tab" data-filter="sittong">Sitong</button>
+            <button class="filter-tab" data-filter="dooars">Dooars</button>
+            <button class="filter-tab" data-filter="people">People</button>
+            <button class="filter-tab" data-filter="food">Food</button>
+            <button class="filter-tab" data-filter="adventure">Adventure</button>
+        </div>
+
+        <div class="masonry-grid" id="gallery-grid">
+            <!-- 20 Images with relevant categories -->
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600" alt="Sikkim Mountains"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600" alt="Darjeeling Tea"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600" alt="Local Monks"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600" alt="Sitong Oranges"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
+            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600" alt="Dooars Safari"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1589301773812-7fb2a4da553c?w=600" alt="Momos"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="sikkim adventure"><img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600" alt="Tsomgo Lake"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Toy Train"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+            <div class="gallery-item" data-cat="sittong"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="Sitong Hills"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sitong</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600" alt="Tea Plucker"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="dooars"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600" alt="Jungle Camp"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?w=600" alt="Trekking"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" alt="Nathula"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling food"><img src="https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=600" alt="Darjeeling Tea"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="adventure"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600" alt="Hiking"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Adventure</p></div></div>
+            <div class="gallery-item" data-cat="people"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" alt="Local Kid"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>People</p></div></div>
+            <div class="gallery-item" data-cat="sikkim"><img src="https://images.unsplash.com/photo-1605649487212-4d4ce3837228?w=600" alt="Monastery"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Sikkim</p></div></div>
+            <div class="gallery-item" data-cat="dooars adventure"><img src="https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?w=600" alt="Rhino"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Dooars</p></div></div>
+            <div class="gallery-item" data-cat="food"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600" alt="Thukpa"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Food</p></div></div>
+            <div class="gallery-item" data-cat="darjeeling"><img src="https://images.unsplash.com/photo-1582200840431-7b79cc83e9ea?w=600" alt="Kanchenjunga View"><div class="gallery-overlay"><i class="fa-solid fa-expand"></i><p>Darjeeling</p></div></div>
+        </div>
+    </section>
+
+    <!-- Videos -->
+    <section class="section-padding" style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title brand-font">Travel Vlogs</h2>
+            <p class="section-subtitle">Experience the magic through motion.</p>
+            
+            <div class="video-grid">
+                <div class="video-wrapper">
+                    <!-- Placeholder YouTube Iframe -->
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&mute=1" title="Sikkim Tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&mute=1" title="Darjeeling Tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close"><i class="fa-solid fa-times"></i></button>
+        <button class="lb-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <img src="" alt="Gallery Image" class="lb-img" id="lb-img">
+        <div class="lb-caption" id="lb-caption"></div>
+        <button class="lb-next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Your trusted partner for exploring the untouched beauty of Eastern India and Sikkim.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="blog.html">Travel Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Contact Info</h3>
+                <ul style="">
+                    <li><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 10px;"></i> Mall Road, Darjeeling, WB 734101</li>
+                    <li><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 10px;"></i> +91 98765 43210</li>
+                    <li><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 10px;"></i> info@travelogue.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Travelogue. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Logic
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
+            } else {
+                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
+            }
+
+            // Filtering
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const items = document.querySelectorAll('.gallery-item');
+            
+            // For Lightbox state
+            let currentVisibleItems = Array.from(items);
+            let currentIndex = 0;
+
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const filter = tab.getAttribute('data-filter');
+                    
+                    items.forEach(item => {
+                        item.classList.remove('hide');
+                        if(filter !== 'all' && !item.getAttribute('data-cat').includes(filter)) {
+                            setTimeout(() => { item.style.display = 'none'; }, 400);
+                            item.classList.add('hide');
+                        } else {
+                            item.style.display = 'block';
+                            setTimeout(() => { item.classList.remove('hide'); }, 10);
+                        }
+                    });
+
+                    // Update visible items array for lightbox
+                    setTimeout(() => {
+                        currentVisibleItems = Array.from(items).filter(i => !i.classList.contains('hide'));
+                    }, 450);
+                });
+            });
+
+            // Lightbox
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            const lbCaption = document.getElementById('lb-caption');
+            const lbClose = document.querySelector('.lb-close');
+            const lbPrev = document.querySelector('.lb-prev');
+            const lbNext = document.querySelector('.lb-next');
+
+            const openLightbox = (index) => {
+                currentIndex = index;
+                const item = currentVisibleItems[currentIndex];
+                lbImg.src = item.querySelector('img').src.replace('w=600', 'w=1200');
+                lbCaption.innerText = item.querySelector('p').innerText;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            };
+
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const idx = currentVisibleItems.indexOf(item);
+                    if(idx !== -1) openLightbox(idx);
+                });
+            });
+
+            lbClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if(e.target === lightbox) closeLightbox();
+            });
+
+            lbPrev.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + currentVisibleItems.length) % currentVisibleItems.length;
+                openLightbox(currentIndex);
+            });
+
+            lbNext.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % currentVisibleItems.length;
+                openLightbox(currentIndex);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if(!lightbox.classList.contains('active')) return;
+                if(e.key === 'Escape') closeLightbox();
+                if(e.key === 'ArrowLeft') lbPrev.click();
+                if(e.key === 'ArrowRight') lbNext.click();
+            });
+        });
+    </script>
+</body>
+</html>

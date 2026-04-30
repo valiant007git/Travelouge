@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Left Side Image -->
+        <div class="auth-image">
+            <h1 class="logo brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h1>
+            <p>Join thousands of travelers who have found their perfect journey with us.</p>
+        </div>
+
+        <!-- Right Side Form -->
+        <div class="auth-form-wrapper">
+            <div class="auth-form-content signup-wide">
+                
+                <h2 style="color: var(--navy); margin-bottom: 20px;" class="brand-font">Create your Account</h2>
+                
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
+                <div class="step-indicator" id="step-indicator">
+                    <span>Step 1: Personal Info</span>
+                    <span>1 of 3</span>
+                </div>
+
+                <div id="main-error" class="main-error"></div>
+
+                <form id="signup-form">
+                    
+                    <!-- STEP 1: Personal Info -->
+                    <div class="step-content active" id="step-1">
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <input type="text" id="fname" placeholder=" " required>
+                                <label>First Name</label>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <input type="text" id="lname" placeholder=" " required>
+                                <label>Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" id="signup-email" placeholder=" " required>
+                            <label>Email Address</label>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <input type="tel" id="phone" placeholder=" " required>
+                                <label>Phone Number</label>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <input type="date" id="dob" placeholder=" " required>
+                                <label style="top: 0; font-size: 0.8rem; color: var(--gold);">Date of Birth</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="position: static; transform: none; display: block; margin-bottom: 10px; color: var(--text-light); pointer-events: auto;">Profile Photo (URL)</label>
+                            <input type="url" id="photo-url" placeholder="https://..." style="padding-top: 10px;">
+                        </div>
+
+                        <button type="button" class="btn" onclick="nextStep(2)">Continue to Travel Preferences</button>
+                    </div>
+
+                    <!-- STEP 2: Travel Preferences -->
+                    <div class="step-content" id="step-2">
+                        
+                        <div class="form-group">
+                            <label style="position: static; transform: none; display: block; margin-bottom: 10px; color: var(--text-light);">Preferred Destinations</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
+                                <label><input type="checkbox" name="dest" value="Darjeeling"> Darjeeling</label>
+                                <label><input type="checkbox" name="dest" value="Sikkim"> Sikkim</label>
+                                <label><input type="checkbox" name="dest" value="Dooars"> Dooars</label>
+                                <label><input type="checkbox" name="dest" value="Sitong"> Sitong</label>
+                                <label><input type="checkbox" name="dest" value="Mandarmani"> Mandarmani</label>
+                                <label><input type="checkbox" name="dest" value="Custom Route"> Custom Route</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="position: static; transform: none; display: block; margin-bottom: 10px; color: var(--text-light);">Travel Style</label>
+                            <select id="travel-style" required style="padding-top: 10px;">
+                                <option value="" disabled selected>Select a style</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="Luxury">Luxury</option>
+                                <option value="Budget">Budget</option>
+                                <option value="Family">Family</option>
+                                <option value="Solo">Solo</option>
+                                <option value="Honeymoon">Honeymoon</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="position: static; transform: none; display: block; margin-bottom: 10px; color: var(--text-light);">Preferred Package</label>
+                            <select id="pref-package" required style="padding-top: 10px;">
+                                <option value="Explorer">Explorer</option>
+                                <option value="Voyager">Voyager</option>
+                                <option value="Elite">Elite</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <button type="button" class="btn-outline" style="flex: 1;" onclick="prevStep(1)">Back</button>
+                            <button type="button" class="btn" style="flex: 2;" onclick="nextStep(3)">Continue to Account Setup</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Account Setup -->
+                    <div class="step-content" id="step-3">
+                        
+                        <div class="form-group">
+                            <input type="password" id="signup-password" placeholder=" " required minlength="8">
+                            <label>Password</label>
+                            <i class="fa-solid fa-eye toggle-password" onclick="toggleVis('signup-password', this)"></i>
+                        </div>
+                        
+                        <div class="pw-strength" id="pw-strength">
+                            <div class="pw-strength-bar" id="pw-bar"></div>
+                        </div>
+                        <div class="pw-text" id="pw-text">Weak</div>
+
+                        <div class="form-group">
+                            <input type="password" id="confirm-password" placeholder=" " required>
+                            <label>Confirm Password</label>
+                            <i class="fa-solid fa-eye toggle-password" onclick="toggleVis('confirm-password', this)"></i>
+                        </div>
+
+                        <div class="form-extras" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                            <label>
+                                <input type="checkbox" id="terms" required> I agree to the <a href="#">Terms & Conditions</a>
+                            </label>
+                            <label>
+                                <input type="checkbox" id="newsletter"> Subscribe to newsletter
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <button type="button" class="btn-outline" style="flex: 1;" onclick="prevStep(2)">Back</button>
+                            <button type="submit" class="btn" style="flex: 2;" id="submit-btn">Create Account</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Success -->
+                    <div class="step-content success-screen" id="step-4">
+                        <div class="checkmark-circle">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h2 style="color: var(--navy); margin-bottom: 10px;" class="brand-font" id="welcome-msg">Welcome to Travelogue!</h2>
+                        <p style="color: var(--text-light); margin-bottom: 20px;">Your account has been successfully created.</p>
+                        <p style="font-size: 0.9rem;">Redirecting to login in <span id="countdown" style="font-weight: bold; color: var(--gold);">3</span> seconds...</p>
+                    </div>
+
+                </form>
+
+                <div style="text-align: center; margin-top: 30px;" id="login-link-section">
+                    <span style="color: var(--text-light);">Already have an account?</span> 
+                    <a href="login.html">Login</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        protectPage('guest');
+
+        let currentStep = 1;
+        const mainError = document.getElementById('main-error');
+        const progressBar = document.getElementById('progress-bar');
+        const stepIndicator = document.getElementById('step-indicator');
+        
+        // Password visibility
+        window.toggleVis = (id, icon) => {
+            const input = document.getElementById(id);
+            if(input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        };
+
+        // Password Strength
+        const pwInput = document.getElementById('signup-password');
+        const pwBar = document.getElementById('pw-bar');
+        const pwText = document.getElementById('pw-text');
+        const pwContainer = document.getElementById('pw-strength');
+
+        pwInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if(val.length > 0) {
+                pwContainer.style.display = 'block';
+                pwText.style.display = 'block';
+                
+                let strength = 0;
+                if(val.length >= 8) strength += 1;
+                if(/[A-Z]/.test(val)) strength += 1;
+                if(/[0-9]/.test(val)) strength += 1;
+                if(/[^A-Za-z0-9]/.test(val)) strength += 1;
+
+                pwBar.className = 'pw-strength-bar';
+                pwText.className = 'pw-text';
+
+                if(strength === 1 || strength === 0) {
+                    pwBar.classList.add('weak');
+                    pwText.innerText = 'Weak';
+                    pwText.classList.add('text-weak');
+                } else if(strength === 2) {
+                    pwBar.classList.add('fair');
+                    pwText.innerText = 'Fair';
+                    pwText.classList.add('text-fair');
+                } else if(strength === 3) {
+                    pwBar.classList.add('good');
+                    pwText.innerText = 'Strong';
+                    pwText.classList.add('text-good');
+                } else if(strength === 4) {
+                    pwBar.classList.add('strong');
+                    pwText.innerText = 'Very Strong';
+                    pwText.classList.add('text-strong');
+                }
+            } else {
+                pwContainer.style.display = 'none';
+                pwText.style.display = 'none';
+            }
+        });
+
+        const validateStep = (step) => {
+            mainError.style.display = 'none';
+            if(step === 1) {
+                const fname = document.getElementById('fname').value;
+                const lname = document.getElementById('lname').value;
+                const email = document.getElementById('signup-email').value;
+                if(!fname || !lname || !email) {
+                    mainError.innerText = 'Please fill all required fields.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+                
+                // check email duplicate
+                const users = JSON.parse(localStorage.getItem('travelogue_users')) || [];
+                if(users.find(u => u.email === email)) {
+                    mainError.innerText = 'Email is already registered. Please login.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+            }
+            if(step === 2) {
+                const style = document.getElementById('travel-style').value;
+                if(!style) {
+                    mainError.innerText = 'Please select a travel style.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+            }
+            if(step === 3) {
+                const pw = pwInput.value;
+                const cpw = document.getElementById('confirm-password').value;
+                if(pw !== cpw) {
+                    mainError.innerText = 'Passwords do not match.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+                if(!document.getElementById('terms').checked) {
+                    mainError.innerText = 'You must agree to the Terms & Conditions.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        window.nextStep = (step) => {
+            if(validateStep(currentStep)) {
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                currentStep = step;
+                document.getElementById(`step-${currentStep}`).classList.add('active');
+                updateProgress();
+            }
+        };
+
+        window.prevStep = (step) => {
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            updateProgress();
+        };
+
+        const updateProgress = () => {
+            if(currentStep <= 3) {
+                progressBar.style.width = `${(currentStep / 3) * 100}%`;
+                const titles = ['Personal Info', 'Travel Preferences', 'Account Setup'];
+                stepIndicator.innerHTML = `<span>Step ${currentStep}: ${titles[currentStep-1]}</span><span>${currentStep} of 3</span>`;
+            } else {
+                document.getElementById('progress-container').style.display = 'none';
+                document.getElementById('step-indicator').style.display = 'none';
+                document.getElementById('login-link-section').style.display = 'none';
+            }
+        };
+
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(validateStep(3)) {
+                // Submit
+                const formData = {
+                    firstName: document.getElementById('fname').value,
+                    lastName: document.getElementById('lname').value,
+                    email: document.getElementById('signup-email').value,
+                    phone: document.getElementById('phone').value,
+                    dob: document.getElementById('dob').value,
+                    avatar: document.getElementById('photo-url').value,
+                    travelStyle: document.getElementById('travel-style').value,
+                    package: document.getElementById('pref-package').value,
+                    password: pwInput.value
+                };
+
+                const res = signupClient(formData);
+                if(res.success) {
+                    document.getElementById(`step-3`).classList.remove('active');
+                    currentStep = 4;
+                    document.getElementById(`step-4`).classList.add('active');
+                    updateProgress();
+                    
+                    document.getElementById('welcome-msg').innerText = `Welcome to Travelogue, ${formData.firstName}!`;
+                    
+                    let count = 3;
+                    const cd = document.getElementById('countdown');
+                    const interval = setInterval(() => {
+                        count--;
+                        cd.innerText = count;
+                        if(count === 0) {
+                            clearInterval(interval);
+                            window.location.href = 'login.html'; // Or directly to dashboard
+                        }
+                    }, 1000);
+                } else {
+                    mainError.innerText = res.message;
+                    mainError.style.display = 'block';
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

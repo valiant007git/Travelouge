@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        body { background-color: var(--bg-light); display: flex; min-height: 100vh; }
+        
+        /* Client Sidebar */
+        .sidebar { width: 280px; background: rgba(255,255,255,0.82); color: var(--navy); display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; transition: transform 0.3s; border-right: 1px solid var(--border); backdrop-filter: blur(14px); }
+        .sidebar-header { padding: 30px 20px; border-bottom: 1px solid var(--border); text-align: center; }
+        .sidebar-header h2 { font-size: 1.8rem; color: var(--navy); }
+        .client-profile { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); }
+        .client-avatar { width: 70px; height: 70px; background: rgba(201,162,39,0.16); color: var(--navy); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; margin: 0 auto 10px; border: 1px solid rgba(201,162,39,0.35); }
+        .nav-links { list-style: none; padding: 20px 0; flex: 1; }
+        .nav-link { padding: 15px 22px; display: flex; align-items: center; cursor: pointer; transition: 0.25s; text-decoration: none; color: rgba(22, 50, 79, 0.78); border-left: 3px solid transparent; }
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; color: var(--gold); }
+        .nav-link:hover, .nav-link.active { background: rgba(22, 50, 79, 0.06); border-left-color: var(--gold); color: var(--navy); }
+        
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; display: flex; flex-direction: column; min-height: 100vh; transition: margin-left 0.3s; }
+        .topbar { background: rgba(255,255,255,0.72); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 90; border-bottom: 1px solid var(--border); backdrop-filter: blur(14px); }
+        .hamburger { font-size: 1.5rem; cursor: pointer; display: none; color: var(--navy); }
+        .topbar-right { display: flex; align-items: center; gap: 20px; }
+        
+        .content-wrapper { padding: 40px; flex: 1; }
+        .page-title { color: var(--navy); font-size: 2rem; margin-bottom: 30px; }
+
+        /* Tabs */
+        .booking-tabs { display: flex; gap: 10px; border-bottom: 2px solid var(--border); margin-bottom: 30px; }
+        .tab-btn { background: none; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--text-light); cursor: pointer; position: relative; }
+        .tab-btn.active { color: var(--navy); }
+        .tab-btn::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: var(--gold); transition: 0.3s; }
+        .tab-btn.active::after { width: 100%; }
+
+        /* Booking Cards */
+        .bookings-grid { display: grid; gap: 20px; }
+        .booking-card { background: var(--white); border-radius: 8px; box-shadow: var(--shadow-sm); padding: 25px; display: flex; flex-direction: column; gap: 15px; border-left: 4px solid var(--gold); }
+        .booking-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .booking-ref { font-size: 0.9rem; color: var(--text-light); margin-bottom: 5px; }
+        .booking-title { font-size: 1.3rem; color: var(--navy); font-family: 'Playfair Display', serif; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .status-confirmed { background: rgba(46, 204, 113, 0.1); color: var(--success); }
+        .status-pending { background: rgba(243, 156, 18, 0.1); color: var(--orange); }
+        .status-cancelled { background: rgba(231, 76, 60, 0.1); color: var(--red); }
+        
+        .booking-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .detail-item { font-size: 0.9rem; }
+        .detail-item span { display: block; color: var(--text-light); margin-bottom: 5px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0; }
+        .detail-item strong { color: var(--navy); }
+
+        .booking-actions { display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 10px; }
+        .booking-actions .btn { font-size: 0.9rem; padding: 8px 15px; }
+        
+        .empty-state { text-align: center; padding: 50px; background: var(--white); border-radius: 8px; color: var(--text-light); }
+        .empty-state i { font-size: 3rem; color: var(--border); margin-bottom: 20px; }
+
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .hamburger { display: block; }
+        }
+        @media (max-width: 576px) {
+            .content-wrapper { padding: 20px; }
+            .booking-header { flex-direction: column; gap: 10px; }
+            .booking-actions { flex-direction: column; }
+            .booking-actions .btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h2>
+        </div>
+        <div class="client-profile">
+            <div class="client-avatar" id="client-avatar">U</div>
+            <h3 id="client-name" class="brand-font">User</h3>
+            <p id="client-email" style="font-size:0.8rem; color:rgba(44,44,44,0.62);"></p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="client-dashboard.html" class="nav-link"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="inquiry.html" class="nav-link"><i class="fa-solid fa-paper-plane"></i> Plan a Trip</a></li>
+            <li><a href="booking.html" class="nav-link active"><i class="fa-solid fa-suitcase"></i> My Bookings</a></li>
+            <li class="nav-link" id="logout-btn" style="margin-top:auto;"><i class="fa-solid fa-sign-out-alt"></i> Logout</li>
+        </ul>
+        <div style="padding: 20px; text-align:center;">
+            <a href="../index.html" class="btn-outline" style="width:100%;"><i class="fa-solid fa-globe"></i> Back to Site</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            <div style="flex:1;"></div>
+            <div class="topbar-right">
+                <a href="inquiry.html" class="btn">New Inquiry</a>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <h1 class="page-title brand-font">My Bookings</h1>
+
+            <div class="booking-tabs">
+                <button class="tab-btn active" data-filter="all">All</button>
+                <button class="tab-btn" data-filter="Confirmed">Confirmed</button>
+                <button class="tab-btn" data-filter="Pending">Pending</button>
+                <button class="tab-btn" data-filter="Cancelled">Cancelled</button>
+            </div>
+
+            <div class="bookings-grid" id="bookings-container">
+                <!-- Injected via JS -->
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        protectPage('client');
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            document.getElementById('client-name').innerText = `${user.firstName} ${user.lastName}`;
+            document.getElementById('client-email').innerText = user.email;
+            document.getElementById('client-avatar').innerText = user.firstName.charAt(0).toUpperCase();
+
+            // Mobile Sidebar Toggle
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+            hamburger.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                logout();
+            });
+
+            // Load Bookings (from inquiries logic)
+            const inquiries = JSON.parse(localStorage.getItem('travelogue_inquiries')) || [];
+            const userInquiries = inquiries.filter(inq => inq.email === user.email);
+            
+            const renderBookings = (filter = 'all') => {
+                const container = document.getElementById('bookings-container');
+                container.innerHTML = '';
+                
+                const filtered = userInquiries.filter(inq => filter === 'all' || inq.status === filter);
+                
+                if(filtered.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-box-open"></i>
+                            <h3>No bookings found</h3>
+                            <p>You don't have any ${filter !== 'all' ? filter.toLowerCase() : ''} bookings yet.</p>
+                            <a href="inquiry.html" class="btn" style="margin-top:15px;">Plan a Trip</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filtered.forEach(inq => {
+                    let statusClass = 'status-pending';
+                    if(inq.status === 'Confirmed') statusClass = 'status-confirmed';
+                    if(inq.status === 'Cancelled') statusClass = 'status-cancelled';
+
+                    // Mock cost for display
+                    const cost = inq.status === 'Confirmed' ? `₹${(inq.pax * 8500).toLocaleString()}` : 'Pending Quote';
+
+                    const card = document.createElement('div');
+                    card.className = 'booking-card';
+                    card.innerHTML = `
+                        <div class="booking-header">
+                            <div>
+                                <div class="booking-ref">Ref No: TRV-${inq.id}</div>
+                                <h3 class="booking-title">${inq.destination}</h3>
+                            </div>
+                            <span class="status-badge ${statusClass}">${inq.status}</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="detail-item">
+                                <span>Travel Date</span>
+                                <strong>${new Date(inq.date).toLocaleDateString()}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <span>Duration</span>
+                                <strong>${inq.duration || 'Not specified'}</strong>
+                            </div>
+                            <div class="detail-item">
+                                <span>Travelers</span>
+                                <strong>${inq.pax} Person(s)</strong>
+                            </div>
+                            <div class="detail-item">
+                                <span>Total Cost</span>
+                                <strong>${cost}</strong>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            ${inq.status === 'Confirmed' ? `<a href="invoice.html?id=${inq.id}" class="btn"><i class="fa-solid fa-file-invoice"></i> View Invoice</a>` : ''}
+                            ${inq.status === 'Pending' ? `<button class="btn btn-outline" onclick="alert('Cancellation requested.')"><i class="fa-solid fa-times"></i> Cancel Request</button>` : ''}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            };
+
+            renderBookings();
+
+            // Tabs
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderBookings(tab.getAttribute('data-filter'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>

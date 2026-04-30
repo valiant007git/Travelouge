@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Travelogue</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Left Side Image -->
+        <div class="auth-image">
+            <h1 class="logo brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h1>
+            <p>Your Story Begins Here. Login to access your upcoming adventures, past journeys, and exclusive packages.</p>
+        </div>
+
+        <!-- Right Side Form -->
+        <div class="auth-form-wrapper">
+            <div class="auth-form-content">
+                
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="tab-client">Client Login</div>
+                    <div class="auth-tab" id="tab-admin">Admin Login</div>
+                </div>
+
+                <div id="main-error" class="main-error">Invalid credentials. Please try again.</div>
+
+                <form id="login-form">
+                    <input type="hidden" id="login-type" value="client">
+                    
+                    <div class="form-group" id="email-group">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label>Email Address</label>
+                        <div class="error-msg">Please enter a valid email</div>
+                    </div>
+
+                    <div class="form-group" id="password-group">
+                        <input type="password" id="password" placeholder=" " required>
+                        <label>Password</label>
+                        <i class="fa-solid fa-eye toggle-password" id="toggle-pw"></i>
+                        <div class="error-msg">Password is required</div>
+                    </div>
+
+                    <div class="form-extras">
+                        <label>
+                            <input type="checkbox" id="remember"> Remember Me
+                        </label>
+                        <a href="#" id="forgot-pw">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn" id="submit-btn">Login</button>
+                </form>
+
+                <div class="social-login" id="social-login-section">
+                    <p>Or continue with</p>
+                    <div class="social-btns">
+                        <button class="social-btn google"><i class="fa-brands fa-google"></i> Google</button>
+                        <button class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;" id="signup-link-section">
+                    <span style="color: var(--text-light);">Don't have an account?</span> 
+                    <a href="signup.html">Sign Up</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect page (if already logged in, redirect away)
+        protectPage('guest');
+
+        const tabClient = document.getElementById('tab-client');
+        const tabAdmin = document.getElementById('tab-admin');
+        const loginType = document.getElementById('login-type');
+        const socialSection = document.getElementById('social-login-section');
+        const signupSection = document.getElementById('signup-link-section');
+        const mainError = document.getElementById('main-error');
+        const togglePw = document.getElementById('toggle-pw');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Tab Switching
+        tabClient.addEventListener('click', () => {
+            tabClient.classList.add('active');
+            tabAdmin.classList.remove('active');
+            loginType.value = 'client';
+            socialSection.style.display = 'block';
+            signupSection.style.display = 'block';
+            mainError.style.display = 'none';
+        });
+
+        tabAdmin.addEventListener('click', () => {
+            tabAdmin.classList.add('active');
+            tabClient.classList.remove('active');
+            loginType.value = 'admin';
+            socialSection.style.display = 'none';
+            signupSection.style.display = 'none';
+            mainError.style.display = 'none';
+        });
+
+        // Toggle Password
+        togglePw.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePw.classList.remove('fa-eye');
+                togglePw.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePw.classList.remove('fa-eye-slash');
+                togglePw.classList.add('fa-eye');
+            }
+        });
+
+        // Form Submission
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            mainError.style.display = 'none';
+            
+            const email = document.getElementById('email').value;
+            const password = passwordInput.value;
+            const type = loginType.value;
+
+            // Loading state
+            submitBtn.classList.add('loading');
+            
+            setTimeout(() => { // Simulate network delay for UX
+                submitBtn.classList.remove('loading');
+                
+                let res;
+                if (type === 'client') {
+                    res = loginClient(email, password);
+                } else {
+                    res = loginAdmin(email, password);
+                }
+
+                if (res.success) {
+                    const redirect = new URLSearchParams(window.location.search).get('redirect');
+                    if(redirect) {
+                        window.location.href = decodeURIComponent(redirect);
+                    } else {
+                        window.location.href = type === 'admin' ? '../admin/admin.html' : '../client/client-dashboard.html';
+                    }
+                } else {
+                    mainError.innerText = res.message;
+                    mainError.style.display = 'block';
+                }
+            }, 800);
+        });
+    </script>
+</body>
+</html>

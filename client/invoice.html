@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        body { background: var(--bg-primary); padding: 40px 20px; font-family: 'Inter', sans-serif; }
+        
+        .invoice-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 18px 50px rgba(22, 50, 79, 0.12);
+            padding: 50px;
+        }
+
+        /* Print Controls */
+        .print-controls {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .company-info .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        
+        .company-info p, .invoice-meta p, .client-details p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .invoice-meta { text-align: right; }
+        .invoice-meta h2 {
+            font-size: 2.5rem;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0;
+            margin-bottom: 15px;
+        }
+
+        .billing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .client-details h4 { color: var(--navy); margin-bottom: 10px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; display: inline-block; }
+
+        /* Table */
+        .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .invoice-table th, .invoice-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
+        .invoice-table th { background: var(--bg-light); color: var(--navy); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0; }
+        .invoice-table th:last-child, .invoice-table td:last-child { text-align: right; }
+        
+        .item-desc h5 { color: var(--navy); margin-bottom: 5px; font-size: 1rem; }
+        .item-desc p { color: var(--text-light); font-size: 0.85rem; }
+
+        /* Totals */
+        .totals-section { width: 350px; margin-left: auto; }
+        .totals-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--text-light); font-size: 0.95rem; }
+        .totals-row.grand-total { border-bottom: none; border-top: 2px solid var(--navy); color: var(--navy); font-size: 1.3rem; font-weight: bold; padding-top: 15px; margin-top: 5px; }
+
+        .invoice-footer {
+            margin-top: 50px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+        }
+        .invoice-footer h4 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.5rem; margin-bottom: 10px; }
+        .invoice-footer p { color: var(--text-light); font-size: 0.85rem; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .print-controls { display: none; }
+            .invoice-wrapper { box-shadow: none; padding: 0; max-width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .billing-grid { grid-template-columns: 1fr; gap: 20px; }
+            .invoice-header { flex-direction: column; gap: 20px; }
+            .invoice-meta { text-align: left; }
+            .totals-section { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="print-controls">
+        <a href="booking.html" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Back to Bookings</a>
+        <button class="btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Invoice</button>
+    </div>
+
+    <div class="invoice-wrapper" id="invoice-content">
+        
+        <div class="invoice-header">
+            <div class="company-info">
+                <div class="brand"><i class="fa-solid fa-compass" style="color:var(--gold);"></i> Travelogue</div>
+                <p>123 Mall Road, Chowrasta</p>
+                <p>Darjeeling, West Bengal 734101</p>
+                <p>GSTIN: 19AAACC1234D1Z5</p>
+                <p>Email: info@travelogue.com</p>
+            </div>
+            <div class="invoice-meta">
+                <h2>INVOICE</h2>
+                <p><strong>Invoice No:</strong> <span id="inv-no">Loading...</span></p>
+                <p><strong>Date:</strong> <span id="inv-date">Loading...</span></p>
+                <p><strong>Booking Ref:</strong> <span id="inv-ref">Loading...</span></p>
+            </div>
+        </div>
+
+        <div class="billing-grid">
+            <div class="client-details">
+                <h4>Billed To</h4>
+                <p><strong id="client-name">Loading...</strong></p>
+                <p id="client-email">Loading...</p>
+                <p id="client-phone">Loading...</p>
+            </div>
+            <div class="client-details">
+                <h4>Payment Status</h4>
+                <p style="color:var(--success); font-weight:bold; font-size:1.1rem; margin-top:5px;"><i class="fa-solid fa-check-circle"></i> PAID IN FULL</p>
+            </div>
+        </div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Pax</th>
+                    <th>Unit Price</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="item-desc">
+                        <h5 id="item-title">Tour Package</h5>
+                        <p id="item-desc">Travel dates: Loading...</p>
+                    </td>
+                    <td id="item-pax">1</td>
+                    <td id="item-unit">₹0</td>
+                    <td id="item-total">₹0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals-section">
+            <div class="totals-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">₹0</span>
+            </div>
+            <div class="totals-row">
+                <span>GST (18%):</span>
+                <span id="tax">₹0</span>
+            </div>
+            <div class="totals-row grand-total">
+                <span>Grand Total:</span>
+                <span id="grand-total">₹0</span>
+            </div>
+        </div>
+
+        <div class="invoice-footer">
+            <h4>Thank you for traveling with us!</h4>
+            <p>If you have any questions regarding this invoice, please contact support@travelogue.com</p>
+        </div>
+
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        protectPage('client');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            
+            // Get ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('id');
+
+            if(!bookingId) {
+                alert("Invalid invoice request.");
+                window.location.href = 'booking.html';
+                return;
+            }
+
+            const inquiries = JSON.parse(localStorage.getItem('travelogue_inquiries')) || [];
+            const booking = inquiries.find(inq => inq.id == bookingId && inq.email === user.email);
+
+            if(!booking || booking.status !== 'Confirmed') {
+                alert("Invoice not found or not confirmed.");
+                window.location.href = 'booking.html';
+                return;
+            }
+
+            // Populate data
+            const invDate = new Date().toLocaleDateString();
+            const travelDate = new Date(booking.date).toLocaleDateString();
+            const pax = parseInt(booking.pax) || 1;
+            
+            // Dummy logic for price
+            const unitPrice = 8500;
+            const subtotal = unitPrice * pax;
+            const tax = subtotal * 0.18;
+            const grandTotal = subtotal + tax;
+
+            document.getElementById('inv-no').innerText = `INV-2026-${booking.id.toString().slice(-4)}`;
+            document.getElementById('inv-date').innerText = invDate;
+            document.getElementById('inv-ref').innerText = `TRV-${booking.id}`;
+
+            document.getElementById('client-name').innerText = `${user.firstName} ${user.lastName}`;
+            document.getElementById('client-email').innerText = user.email;
+            document.getElementById('client-phone').innerText = user.phone || 'N/A';
+
+            document.getElementById('item-title').innerText = `${booking.destination} Tour Package`;
+            document.getElementById('item-desc').innerText = `Travel Date: ${travelDate} | Duration: ${booking.duration || 'Standard'}`;
+            document.getElementById('item-pax').innerText = pax;
+            
+            document.getElementById('item-unit').innerText = `₹${unitPrice.toLocaleString()}`;
+            document.getElementById('item-total').innerText = `₹${subtotal.toLocaleString()}`;
+
+            document.getElementById('subtotal').innerText = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('tax').innerText = `₹${tax.toLocaleString()}`;
+            document.getElementById('grand-total').innerText = `₹${grandTotal.toLocaleString()}`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="brand-font"><i class="fa-solid fa-compass"></i> Admin</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-link active" data-target="overview"><i class="fa-solid fa-chart-pie"></i> Overview</li>
+            <li class="nav-link" data-target="clients"><i class="fa-solid fa-users"></i> Client Management</li>
+            <li class="nav-link" data-target="inquiries"><i class="fa-solid fa-envelope-open-text"></i> Inquiries</li>
+            <li class="nav-link" data-target="bookings"><i class="fa-solid fa-suitcase-rolling"></i> Bookings</li>
+            <li class="nav-link" data-target="reviews"><i class="fa-solid fa-star"></i> Reviews</li>
+            <li class="nav-link" data-target="destinations"><i class="fa-solid fa-map-location-dot"></i> Destinations</li>
+            <li class="nav-link" data-target="revenue"><i class="fa-solid fa-sack-dollar"></i> Revenue</li>
+            <li class="nav-link" data-target="settings"><i class="fa-solid fa-gear"></i> Settings</li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div></div> <!-- Hamburger placeholder for mobile -->
+            <div class="topbar-right">
+                <div class="user-info">
+                    <i class="fa-solid fa-user-shield" style="color:var(--gold)"></i>
+                    <span id="top-admin-name">Loading...</span>
+                </div>
+                <button id="logout-btn" class="btn"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            
+            <!-- OVERVIEW PAGE -->
+            <section id="overview" class="page-section active">
+                <h2 class="page-title brand-font">Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-details"><h3>Total Clients</h3><p class="stat-number" id="stat-clients">0</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="stat-details"><h3>Total Inquiries</h3><p class="stat-number" id="stat-inq">0</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="stat-details"><h3>Pending Inquiries</h3><p class="stat-number" id="stat-inq-pend" style="color:var(--orange)">0</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <div class="stat-details"><h3>Pending Reviews</h3><p class="stat-number" id="stat-rev-pend">0</p></div>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
+                    <div class="card">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Monthly Bookings</h3>
+                        <div class="css-chart">
+                            <div class="bar" style="height: 40%;"><span>Jan</span><div class="val">40</div></div>
+                            <div class="bar" style="height: 60%;"><span>Feb</span><div class="val">60</div></div>
+                            <div class="bar" style="height: 30%;"><span>Mar</span><div class="val">30</div></div>
+                            <div class="bar" style="height: 80%;"><span>Apr</span><div class="val">80</div></div>
+                            <div class="bar" style="height: 50%;"><span>May</span><div class="val">50</div></div>
+                            <div class="bar" style="height: 90%;"><span>Jun</span><div class="val">90</div></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 style="color:var(--navy); margin-bottom:15px;">Recent Inquiries</h3>
+                        <table class="data-table">
+                            <tbody id="overview-inq-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INQUIRIES MANAGEMENT -->
+            <section id="inquiries" class="page-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                    <h2 class="page-title brand-font" style="margin:0;">Inquiries Management</h2>
+                    <button class="btn" id="export-csv"><i class="fa-solid fa-download"></i> Export CSV</button>
+                </div>
+                
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" id="inq-search" placeholder="Search by name or Ref No...">
+                        </div>
+                        <select id="inq-filter-status" style="padding:10px; border:1px solid #ddd; border-radius:4px; outline:none;">
+                            <option value="">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref No</th>
+                                    <th>Client Name</th>
+                                    <th>Destination</th>
+                                    <th>Travel Date</th>
+                                    <th>Budget</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inquiries-tbody">
+                                <!-- JS Injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLIENTS MANAGEMENT -->
+            <section id="clients" class="page-section">
+                <h2 class="page-title brand-font">Client Management</h2>
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Country</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="clients-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- REVIEWS MANAGEMENT -->
+            <section id="reviews" class="page-section">
+                <h2 class="page-title brand-font">Reviews Management</h2>
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Name</th><th>Rating</th><th>Review Text</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="reviews-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Supporting management sections -->
+            <section id="bookings" class="page-section">
+                <h2 class="page-title brand-font">Bookings Management</h2>
+                <div class="module-grid">
+                    <div class="module-card"><div class="module-kpi">18</div><h3>Upcoming Departures</h3><p>Confirmed hill, forest, and coastal trips scheduled for the next 30 days.</p></div>
+                    <div class="module-card"><div class="module-kpi">7</div><h3>Awaiting Vendor Confirmation</h3><p>Hotel, vehicle, and guide confirmations that need team follow-up.</p></div>
+                    <div class="module-card"><div class="module-kpi">4</div><h3>High-Touch Journeys</h3><p>Premium itineraries with concierge notes and special guest preferences.</p></div>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--navy); margin-bottom:15px;">Priority Booking Queue</h3>
+                    <ul class="admin-list">
+                        <li><strong>Darjeeling Anniversary Escape</strong><span>Hotel upgrade pending</span></li>
+                        <li><strong>Sikkim Family Circuit</strong><span>Nathula permit check</span></li>
+                        <li><strong>Mandarmani Coast Luxe</strong><span>Sea-facing room requested</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="destinations" class="page-section">
+                <h2 class="page-title brand-font">Destinations</h2>
+                <div class="module-grid">
+                    <div class="module-card"><h3>Darjeeling</h3><p>Tea estates, Tiger Hill, heritage hotels, and slow hill-town days.</p></div>
+                    <div class="module-card"><h3>Sikkim</h3><p>Gangtok, Pelling, monasteries, glacial lakes, and private mountain drives.</p></div>
+                    <div class="module-card"><h3>Dooars</h3><p>Jungle resorts, safaris, river landscapes, and family wildlife stays.</p></div>
+                    <div class="module-card"><h3>Sitong</h3><p>Orange orchards, boutique homestays, viewpoints, and quiet village routes.</p></div>
+                    <div class="module-card"><h3>Mandarmani</h3><p>Premium coastal stays, beach leisure, seafood trails, and Kolkata transfers.</p></div>
+                </div>
+            </section>
+
+            <section id="revenue" class="page-section">
+                <h2 class="page-title brand-font">Revenue Reports</h2>
+                <div class="module-grid">
+                    <div class="module-card"><div class="module-kpi">₹8.4L</div><h3>Projected Monthly Sales</h3><p>Estimated from confirmed journeys and active quotes.</p></div>
+                    <div class="module-card"><div class="module-kpi">42%</div><h3>Premium Package Mix</h3><p>Share of boutique, private-transfer, and concierge itineraries.</p></div>
+                    <div class="module-card"><div class="module-kpi">₹31K</div><h3>Average Trip Value</h3><p>Across Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani inquiries.</p></div>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--navy); margin-bottom:15px;">Top Performing Routes</h3>
+                    <ul class="admin-list">
+                        <li><strong>Sikkim + Darjeeling Combo</strong><span>32% of package revenue</span></li>
+                        <li><strong>Dooars Wildlife</strong><span>21% of package revenue</span></li>
+                        <li><strong>Mandarmani Coast Luxe</strong><span>17% of package revenue</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="settings" class="page-section">
+                <h2 class="page-title brand-font">Settings</h2>
+                <div class="card">
+                    <div class="settings-row"><div><strong style="color:var(--navy);">Luxury Light Theme</strong><br><span>Public website and dashboards use the premium light palette.</span></div><span class="status-badge status-Confirmed">Active</span></div>
+                    <div class="settings-row"><div><strong style="color:var(--navy);">Inquiry Notifications</strong><br><span>New custom-trip inquiries are surfaced in the admin queue.</span></div><span class="status-badge status-Confirmed">Enabled</span></div>
+                    <div class="settings-row"><div><strong style="color:var(--navy);">Destination Focus</strong><br><span>Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani are the active brand regions.</span></div><span class="status-badge status-Confirmed">Aligned</span></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="inq-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 style="color:var(--navy);">Edit Inquiry Status</h3>
+                <button class="close-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="inq-form">
+                    <input type="hidden" id="edit-inq-id">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="edit-inq-status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%;">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandarmani | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <style>
+        .dest-hero {
+            height: 80vh;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.68), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--navy);
+            position: relative;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 30px;
+            position: sticky;
+            top: 80px;
+            background: var(--bg-light);
+            z-index: 100;
+            padding-top: 20px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            color: var(--navy);
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .overview-section {
+            margin-bottom: 40px;
+        }
+
+        .overview-section h3 {
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .attraction-grid,
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .attraction-card,
+        .itinerary-day,
+        .review-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .attraction-card {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .attraction-card img {
+            width: 92px;
+            height: 92px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .itinerary-day {
+            padding: 24px;
+            margin-bottom: 18px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .review-card {
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .review-stars {
+            color: var(--gold);
+        }
+
+        .booking-sidebar {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .price-tag {
+            font-size: 2.4rem;
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .price-tag span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-weight: normal;
+        }
+
+        .sidebar-group {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+
+        .sidebar-group input,
+        .sidebar-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .sidebar-features {
+            list-style: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-features li {
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .sidebar-features i {
+            color: var(--success);
+            width: 25px;
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lb-img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: var(--navy);
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 992px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .booking-sidebar { position: static; margin-top: 30px; }
+        }
+
+        @media (max-width: 576px) {
+            .tabs-header { overflow-x: auto; white-space: nowrap; }
+            .attraction-grid,
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="top-bar" id="top-bar">
+            <div class="container top-bar-inner">
+                <div class="top-bar-left">
+                    <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                    <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+                </div>
+                <div class="top-bar-right">
+                    <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                    <span class="divider">|</span>
+                    <div id="auth-links-top" style="display:inline-flex; gap:15px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-navbar">
+            <div class="container nav-container">
+                <a href="../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+                <nav class="desktop-nav">
+                    <ul class="nav-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../pages/destinations.html" class="active">Destinations</a></li>
+                        <li><a href="../pages/packages.html">Packages</a></li>
+                        <li><a href="../pages/about.html">About</a></li>
+                        <li><a href="../pages/blog.html">Blog</a></li>
+                        <li><a href="../pages/gallery.html">Gallery</a></li>
+                        <li><a href="../pages/faq.html">FAQ</a></li>
+                        <li><a href="../pages/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-actions">
+                    <a href="../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                    <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile-menu-overlay" id="mobile-menu">
+            <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+            <ul class="mobile-nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/destinations.html" class="active">Destinations</a></li>
+                <li><a href="../pages/packages.html">Packages</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../pages/blog.html">Blog</a></li>
+                <li><a href="../pages/gallery.html">Gallery</a></li>
+                <li><a href="../pages/faq.html">FAQ</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-auth-actions" id="mobile-auth-actions"></div>
+        </div>
+    </header>
+
+    <section class="dest-hero">
+        <div>
+            <h1 class="brand-font">Mandarmani</h1>
+            <p>A polished coastal escape with premium resorts, quiet beach time, and easy access from Kolkata.</p>
+        </div>
+    </section>
+
+    <div class="main-layout">
+        <div class="main-content">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="itinerary">Itinerary</button>
+                <button class="tab-btn" data-tab="gallery">Gallery</button>
+                <button class="tab-btn" data-tab="reviews">Reviews</button>
+            </div>
+
+            <div class="tab-content active" id="overview">
+                <div class="overview-section">
+                    <h3>About Mandarmani</h3>
+                    <p style="color:var(--text-light); line-height:1.8;">Mandarmani is one of Bengal's easiest luxury coastal resets: long beach walks, seafood lunches, quiet resort afternoons, and relaxed family-friendly pacing. It pairs beautifully with Dooars or Darjeeling for travelers who want a forest-to-coast itinerary.</p>
+                </div>
+
+                <div class="overview-section">
+                    <h3>Best Time To Visit</h3>
+                    <p style="color:var(--text-light); line-height:1.8;">October to March brings the most comfortable weather. Winter weekends are lively, while weekdays are best for travelers who prefer a calmer, premium beach stay.</p>
+                </div>
+
+                <div class="overview-section">
+                    <h3>Top Experiences</h3>
+                    <div class="attraction-grid">
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Mandarmani beach">
+                            <div>
+                                <h4>Slow Beach Mornings</h4>
+                                <p style="font-size:0.9rem; color:var(--text-light);">Early walks, soft light, and unhurried resort breakfasts.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300" alt="Premium resort">
+                            <div>
+                                <h4>Premium Resort Stays</h4>
+                                <p style="font-size:0.9rem; color:var(--text-light);">Comfortable rooms, pools, lawns, and sea-facing upgrades where available.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300" alt="Seafood dining">
+                            <div>
+                                <h4>Seafood Trail</h4>
+                                <p style="font-size:0.9rem; color:var(--text-light);">Fresh local plates with relaxed lunch stops along the route.</p>
+                            </div>
+                        </div>
+                        <div class="attraction-card">
+                            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=300" alt="Coastal road">
+                            <div>
+                                <h4>Coastal Drive</h4>
+                                <p style="font-size:0.9rem; color:var(--text-light);">A comfortable private transfer from Kolkata with planned refreshment stops.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="itinerary">
+                <div class="overview-section">
+                    <h3>Sample Itinerary (3D/2N)</h3>
+                    <div class="itinerary-day">
+                        <h4>Day 1: Kolkata to Mandarmani</h4>
+                        <p style="color:var(--text-light);">Private pickup, coastal drive, resort check-in, and a relaxed sunset walk by the beach.</p>
+                    </div>
+                    <div class="itinerary-day">
+                        <h4>Day 2: Leisure, Beach, and Seafood</h4>
+                        <p style="color:var(--text-light);">Slow breakfast, beach time, optional Tajpur visit, seafood lunch, and an evening by the resort lawn or pool.</p>
+                    </div>
+                    <div class="itinerary-day">
+                        <h4>Day 3: Departure</h4>
+                        <p style="color:var(--text-light);">Morning at leisure before checkout and a private transfer back to Kolkata.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="gallery">
+                <div class="overview-section">
+                    <h3>Mandarmani Gallery</h3>
+                    <div class="gallery-grid">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700" class="gal-img" alt="Mandarmani beach">
+                        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700" class="gal-img" alt="Luxury resort">
+                        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=700" class="gal-img" alt="Sea waves">
+                        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700" class="gal-img" alt="Coastal road">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="reviews">
+                <div class="overview-section">
+                    <h3>Traveler Reviews</h3>
+                    <div class="review-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                            <strong>Arijit Bose</strong>
+                            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        </div>
+                        <p style="color:var(--text-light); font-size:0.95rem;">"Exactly the polished short break we needed. The resort choice and drive coordination were excellent."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside>
+            <div class="booking-sidebar">
+                <div class="price-tag">₹5,500<span> /person</span></div>
+                <div class="sidebar-group"><label>Duration</label><select id="book-dur"><option value="3D/2N">3 Days / 2 Nights</option><option value="4D/3N">4 Days / 3 Nights</option></select></div>
+                <div class="sidebar-group"><label>Travel Date</label><input type="date" id="book-date"></div>
+                <div class="sidebar-group"><label>Group Size</label><input type="number" id="book-pax" min="1" value="2"></div>
+                <button class="book-btn" id="sidebar-book-btn">Request to Book</button>
+                <ul class="sidebar-features">
+                    <li><i class="fa-solid fa-check"></i> Private Kolkata transfers</li>
+                    <li><i class="fa-solid fa-check"></i> Premium resort options</li>
+                    <li><i class="fa-solid fa-check"></i> Flexible family pacing</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close"><i class="fa-solid fa-times"></i></button>
+        <img src="" class="lb-img" id="lb-img" alt="Expanded Mandarmani view">
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Premium regional journeys across hills, forests, villages, and coast.</p>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="../pages/about.html">About Us</a></li>
+                    <li><a href="../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../pages/contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 Travelogue. All Rights Reserved.</p></div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            document.querySelectorAll('.gal-img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lbImg.src = img.src.replace('w=700', 'w=1400');
+                    lightbox.classList.add('active');
+                });
+            });
+
+            document.querySelector('.lb-close').addEventListener('click', () => {
+                lightbox.classList.remove('active');
+            });
+
+            document.getElementById('sidebar-book-btn').addEventListener('click', () => {
+                const date = document.getElementById('book-date').value;
+                const pax = document.getElementById('book-pax').value;
+                const dur = document.getElementById('book-dur').value;
+                window.location.href = `../client/inquiry.html?dest=Mandarmani&date=${date}&pax=${pax}&dur=${dur}`;
+            });
+        });
+    </script>
+</body>
+</html>

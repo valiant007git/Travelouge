@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .page-hero {
+            padding: 180px 20px 100px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        
+        .section-padding { padding: 80px 20px; }
+        
+        /* Filter Bar */
+        .filter-container {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            margin-top: -120px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        .filter-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .filter-group select:focus { border-color: var(--gold); }
+        .filter-btn {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+        }
+        .filter-btn:hover { background: var(--gold-hover); transform: translateY(-2px); }
+
+        /* Package Grid */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .pkg-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .pkg-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .pkg-img { height: 200px; position: relative; overflow: hidden; }
+        .pkg-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .pkg-card:hover .pkg-img img { transform: scale(1.1); }
+        .pkg-duration {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.82); color: var(--navy);
+            padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+        .pkg-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .pkg-title { font-size: 1.4rem; color: var(--navy); margin-bottom: 15px; }
+        .pkg-highlights { list-style: none; margin-bottom: 20px; flex: 1; }
+        .pkg-highlights li { font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px; display: flex; gap: 8px; align-items: start; }
+        .pkg-highlights i { color: var(--gold); margin-top: 3px; }
+        .pkg-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 20px; }
+        .pkg-price { font-size: 1.5rem; color: var(--navy); font-weight: 700; font-family: 'Playfair Display', serif; }
+        .pkg-price span { font-size: 0.8rem; font-weight: normal; color: var(--text-light); font-family: 'Inter', sans-serif; }
+        .pkg-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .pkg-actions .btn { flex: 1; padding: 10px; font-size: 0.9rem; }
+
+        /* Detail Modal specific */
+        .modal-body.pkg-details { max-height: 70vh; overflow-y: auto; padding: 30px; }
+        .itinerary-day { margin-bottom: 20px; border-left: 2px solid var(--gold); padding-left: 20px; position: relative; }
+        .itinerary-day::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-card); border-radius: 50%; border: 2px solid var(--gold); }
+        .itinerary-day h4 { color: var(--navy); margin-bottom: 5px; }
+        .itinerary-day p { color: var(--text-light); font-size: 0.95rem; }
+        .inc-exc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .inc-exc-grid ul { list-style: none; }
+        .inc-exc-grid li { font-size: 0.9rem; margin-bottom: 5px; }
+        .inc-exc-grid .inc li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--success); margin-right: 8px; }
+        .inc-exc-grid .exc li::before { content: '\f00d'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--red); margin-right: 8px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html" class="active">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html" class="active">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="page-hero">
+        <h1 class="brand-font">Find Your Perfect Package</h1>
+        <p>Curated itineraries designed for every traveler, budget, and dream.</p>
+    </section>
+
+    <section class="section-padding" style="background: var(--bg-light); padding-top: 0;">
+        <div class="container">
+            
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label>Destination</label>
+                    <select id="filt-dest">
+                        <option value="all">All Destinations</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Darjeeling">Darjeeling</option>
+                        <option value="Sitong">Sitong</option>
+                        <option value="Dooars">Dooars</option>
+                        <option value="Mandarmani">Mandarmani</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Duration</label>
+                    <select id="filt-dur">
+                        <option value="all">Any Duration</option>
+                        <option value="short">1 - 3 Days</option>
+                        <option value="med">4 - 5 Days</option>
+                        <option value="long">6+ Days</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Travel Style</label>
+                    <select id="filt-style">
+                        <option value="all">All Styles</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Family">Family</option>
+                        <option value="Honeymoon">Honeymoon</option>
+                        <option value="Nature">Nature & Wildlife</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn" id="apply-filter"><i class="fa-solid fa-filter"></i> Apply Filters</button>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="pkg-grid">
+                <!-- Package 1 -->
+                <div class="pkg-card" data-dest="Sikkim" data-dur="4" data-style="Adventure">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">4D / 3N</div>
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&q=80" alt="Sikkim Explorer">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Sikkim Explorer</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Gangtok, Tsomgo Lake, Nathula Pass</li>
+                            <li><i class="fa-solid fa-hotel"></i> 3-Star Accommodation</li>
+                            <li><i class="fa-solid fa-car"></i> Private Cab Transfers</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹8,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg1">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Sikkim Explorer" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 2 -->
+                <div class="pkg-card" data-dest="Darjeeling" data-dur="3" data-style="Family">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">3D / 2N</div>
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80" alt="Darjeeling Classic">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Darjeeling Classic</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Tiger Hill, Batasia Loop, Tea Gardens</li>
+                            <li><i class="fa-solid fa-hotel"></i> 4-Star Accommodation</li>
+                            <li><i class="fa-solid fa-utensils"></i> Breakfast Included</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹5,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg2">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Darjeeling Classic" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 3 -->
+                <div class="pkg-card" data-dest="Sitong" data-dur="2" data-style="Nature">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">2D / 1N</div>
+                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600&q=80" alt="Sitong Retreat">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Sitong Retreat</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Orange Orchards, Ahaldara Viewpoint</li>
+                            <li><i class="fa-solid fa-house"></i> Premium Homestay</li>
+                            <li><i class="fa-solid fa-fire"></i> Evening Bonfire</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹3,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg3">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Sitong Retreat" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 4 -->
+                <div class="pkg-card" data-dest="Dooars" data-dur="4" data-style="Nature">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">4D / 3N</div>
+                        <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&q=80" alt="Dooars Wildlife">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Dooars Wildlife</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Gorumara, Jaldapara, Jayanti</li>
+                            <li><i class="fa-solid fa-truck-monster"></i> 2 Jeep Safaris</li>
+                            <li><i class="fa-solid fa-tree"></i> Jungle Resort Stay</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹7,499<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg4">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Dooars Wildlife" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 5 -->
+                <div class="pkg-card" data-dest="Sikkim" data-dur="6" data-style="Family">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">6D / 5N</div>
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80" alt="Combo Tour">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Sikkim + Darjeeling Combo</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Gangtok, Pelling, Darjeeling</li>
+                            <li><i class="fa-solid fa-hotel"></i> 4-Star Premium Stay</li>
+                            <li><i class="fa-solid fa-camera"></i> Guided Sightseeing</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹13,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg5">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Combo Tour" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 6 -->
+                <div class="pkg-card" data-dest="all" data-dur="8" data-style="Adventure">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">8D / 7N</div>
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="Grand Tour">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">North Bengal Grand Tour</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Dooars, Darjeeling, Kalimpong, Sitong</li>
+                            <li><i class="fa-solid fa-utensils"></i> All Meals Included</li>
+                            <li><i class="fa-solid fa-star"></i> Dedicated Trip Manager</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹18,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg6">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Grand Tour" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 7 -->
+                <div class="pkg-card" data-dest="Sikkim" data-dur="5" data-style="Honeymoon">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">5D / 4N</div>
+                        <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600&q=80" alt="Honeymoon">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Honeymoon Special Sikkim</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Gangtok, Lachen, Lachung</li>
+                            <li><i class="fa-solid fa-wine-glass"></i> Candlelight Dinner & Cake</li>
+                            <li><i class="fa-solid fa-car"></i> Luxury SUV Transfer</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹22,999<span>/couple</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg7">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Honeymoon" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 8 -->
+                <div class="pkg-card" data-dest="Dooars" data-dur="5" data-style="Nature">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">5D / 4N</div>
+                        <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&q=80" alt="Nature">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Dooars + Sitong Nature</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Jaldapara, Lataguri, Sitong</li>
+                            <li><i class="fa-solid fa-camera"></i> Wildlife Photography Tour</li>
+                            <li><i class="fa-solid fa-bed"></i> Eco-Resort Accommodations</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹11,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg8">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Dooars Nature" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package 9 -->
+                <div class="pkg-card" data-dest="Mandarmani" data-dur="3" data-style="Family">
+                    <div class="pkg-img">
+                        <div class="pkg-duration">3D / 2N</div>
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80" alt="Mandarmani Coast">
+                    </div>
+                    <div class="pkg-content">
+                        <h3 class="pkg-title brand-font">Mandarmani Coast Luxe</h3>
+                        <ul class="pkg-highlights">
+                            <li><i class="fa-solid fa-location-dot"></i> Mandarmani beach, Tajpur, local seafood trail</li>
+                            <li><i class="fa-solid fa-hotel"></i> Premium sea-facing resort stay</li>
+                            <li><i class="fa-solid fa-car"></i> Private Kolkata transfers</li>
+                        </ul>
+                        <div class="pkg-footer">
+                            <div class="pkg-price">₹9,999<span>/person</span></div>
+                        </div>
+                        <div class="pkg-actions">
+                            <button class="btn btn-outline view-details" data-id="pkg9">View Details</button>
+                            <a href="../client/inquiry.html?pkg=Mandarmani Coast Luxe" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Detail Modal -->
+    <div class="modal-overlay" id="pkg-modal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="brand-font" id="modal-title" style="color:var(--navy);">Package Details</h2>
+                <button class="close-modal" style="background:none; border:none; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body pkg-details">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                    <h3 id="modal-price" style="color:var(--gold); font-size: 1.8rem; font-family:'Playfair Display';"></h3>
+                    <a href="../client/inquiry.html" class="btn" id="modal-book-btn">Book This Package</a>
+                </div>
+
+                <h3 class="brand-font" style="margin-bottom:15px; color:var(--navy); border-bottom:1px solid #eee; padding-bottom:10px;">Itinerary</h3>
+                <div id="modal-itinerary">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="inc-exc-grid">
+                    <div class="inc">
+                        <h4 style="color:var(--navy); margin-bottom:10px;">Inclusions</h4>
+                        <ul>
+                            <li>Accommodation on Twin Sharing</li>
+                            <li>Breakfast and Dinner</li>
+                            <li>All transfers in private vehicle</li>
+                            <li>Sightseeing as per itinerary</li>
+                            <li>Driver allowance, toll & parking</li>
+                        </ul>
+                    </div>
+                    <div class="exc">
+                        <h4 style="color:var(--navy); margin-bottom:10px;">Exclusions</h4>
+                        <ul>
+                            <li>Airfare / Train fare</li>
+                            <li>Entry fees to monuments</li>
+                            <li>Personal expenses (laundry, phone)</li>
+                            <li>Travel Insurance</li>
+                            <li>Anything not mentioned in inclusions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Your trusted partner for exploring the untouched beauty of Eastern India and Sikkim.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="packages.html" class="active">Packages</a></li>
+                    <li><a href="blog.html">Travel Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Contact Info</h3>
+                <ul style="">
+                    <li><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 10px;"></i> Mall Road, Darjeeling, WB 734101</li>
+                    <li><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 10px;"></i> +91 98765 43210</li>
+                    <li><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 10px;"></i> info@travelogue.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Travelogue. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Logic
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
+            } else {
+                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
+            }
+
+            // Filtering
+            const fDest = document.getElementById('filt-dest');
+            const fDur = document.getElementById('filt-dur');
+            const fStyle = document.getElementById('filt-style');
+            const btnApply = document.getElementById('apply-filter');
+            const cards = document.querySelectorAll('.pkg-card');
+
+            btnApply.addEventListener('click', () => {
+                const dVal = fDest.value;
+                const durVal = fDur.value;
+                const sVal = fStyle.value;
+
+                cards.forEach(c => {
+                    const cDest = c.getAttribute('data-dest');
+                    const cDur = parseInt(c.getAttribute('data-dur'));
+                    const cStyle = c.getAttribute('data-style');
+
+                    let matchDest = (dVal === 'all' || cDest === dVal || cDest === 'all');
+                    let matchStyle = (sVal === 'all' || cStyle === sVal);
+                    
+                    let matchDur = true;
+                    if(durVal === 'short') matchDur = cDur <= 3;
+                    if(durVal === 'med') matchDur = cDur >= 4 && cDur <= 5;
+                    if(durVal === 'long') matchDur = cDur >= 6;
+
+                    if(matchDest && matchStyle && matchDur) {
+                        c.style.display = 'flex';
+                    } else {
+                        c.style.display = 'none';
+                    }
+                });
+            });
+
+            // Modal Logic
+            const detailsBtns = document.querySelectorAll('.view-details');
+            const modal = document.getElementById('pkg-modal');
+            const closeBtn = modal.querySelector('.close-modal');
+            
+            // Dummy itinerary generator
+            const generateItinerary = (days) => {
+                let html = '';
+                for(let i=1; i<=days; i++) {
+                    html += `
+                        <div class="itinerary-day">
+                            <h4>Day ${i}: Sightseeing / Leisure</h4>
+                            <p>Breakfast at hotel. Proceed for full day local sightseeing. Evening free for leisure activities. Overnight stay at hotel.</p>
+                        </div>
+                    `;
+                }
+                return html;
+            };
+
+            detailsBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const card = e.target.closest('.pkg-card');
+                    const title = card.querySelector('.pkg-title').innerText;
+                    const price = card.querySelector('.pkg-price').innerText;
+                    const dur = parseInt(card.getAttribute('data-dur'));
+
+                    document.getElementById('modal-title').innerText = title;
+                    document.getElementById('modal-price').innerText = price;
+                    document.getElementById('modal-book-btn').href = `../client/inquiry.html?pkg=${encodeURIComponent(title)}`;
+                    
+                    document.getElementById('modal-itinerary').innerHTML = generateItinerary(dur);
+                    
+                    modal.classList.add('active');
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            
+            // Allow checking query params to pre-filter (e.g. from index page)
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('dest')) {
+                fDest.value = params.get('dest');
+                btnApply.click();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelogue | Premium Darjeeling, Sikkim & Dooars Journeys</title>
+    <meta name="description" content="Curated luxury journeys through Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani with Travelogue.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- 1. Navigation Bar -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../index.html">Home</a></li>
+                    <li><a href="../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../index.html">Home</a></li>
+            <li><a href="../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <!-- 2. Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in">
+            <h1>Luxury Journeys Through the Eastern Himalayas</h1>
+            <p>Private, beautifully planned escapes across Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani.</p>
+            
+            <div class="search-bar">
+                <div class="search-field">
+                    <label>Destination</label>
+                    <input type="text" placeholder="Darjeeling, Sikkim, Dooars...">
+                </div>
+                <div class="search-field">
+                    <label>Check-in</label>
+                    <input type="date">
+                </div>
+                <div class="search-field">
+                    <label>Check-out</label>
+                    <input type="date">
+                </div>
+                <div class="search-field">
+                    <label>Guests</label>
+                    <select>
+                        <option>1 Guest</option>
+                        <option selected>2 Guests</option>
+                        <option>3 Guests</option>
+                        <option>4+ Guests</option>
+                    </select>
+                </div>
+                <button class="search-btn">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Popular Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="container">
+            <h2 class="section-title fade-in">Signature Destinations</h2>
+            <p class="section-subtitle fade-in">Handpicked hill, forest, village, and coast escapes crafted for travelers who like details handled beautifully.</p>
+            
+            <div class="dest-grid">
+                                <!-- Card 1 -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img">
+                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Darjeeling, India">
+                        <div class="dest-overlay">
+                            <a href="destinations/darjeeling.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
+                        </div>
+                    </div>
+                    <div class="dest-info">
+                        <div class="dest-header">
+                            <div class="dest-title">
+                                <h3>Darjeeling</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> West Bengal, India</p>
+                            </div>
+                            <div class="dest-rating">
+                                <i class="fa-solid fa-star"></i> 4.9
+                            </div>
+                        </div>
+                        <div class="dest-price">
+                            <div><span>From </span>₹8,500</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sikkim, India">
+                        <div class="dest-overlay">
+                            <a href="destinations/sikkim.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
+                        </div>
+                    </div>
+                    <div class="dest-info">
+                        <div class="dest-header">
+                            <div class="dest-title">
+                                <h3>Sikkim</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> Northeast India</p>
+                            </div>
+                            <div class="dest-rating">
+                                <i class="fa-solid fa-star"></i> 4.8
+                            </div>
+                        </div>
+                        <div class="dest-price">
+                            <div><span>From </span>₹10,200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img">
+                        <img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sitong, India">
+                        <div class="dest-overlay">
+                            <a href="destinations/sittong.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
+                        </div>
+                    </div>
+                    <div class="dest-info">
+                        <div class="dest-header">
+                            <div class="dest-title">
+                                <h3>Sitong</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> Kurseong Hills, India</p>
+                            </div>
+                            <div class="dest-rating">
+                                <i class="fa-solid fa-star"></i> 4.7
+                            </div>
+                        </div>
+                        <div class="dest-price">
+                            <div><span>From </span>₹4,900</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mandarmani, India">
+                        <div class="dest-overlay">
+                            <a href="destinations/mandarmani.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
+                        </div>
+                    </div>
+                    <div class="dest-info">
+                        <div class="dest-header">
+                            <div class="dest-title">
+                                <h3>Mandarmani</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> West Bengal, India</p>
+                            </div>
+                            <div class="dest-rating">
+                                <i class="fa-solid fa-star"></i> 4.5
+                            </div>
+                        </div>
+                        <div class="dest-price">
+                            <div><span>From </span>₹5,500</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img">
+                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dooars, India">
+                        <div class="dest-overlay">
+                            <a href="destinations/dooars.html" class="btn btn-outline" style="background-color: rgba(255,255,255,0.86); border-color: rgba(22, 50, 79, 0.16); color: var(--navy);">Explore</a>
+                        </div>
+                    </div>
+                    <div class="dest-info">
+                        <div class="dest-header">
+                            <div class="dest-title">
+                                <h3>Dooars</h3>
+                                <p><i class="fa-solid fa-location-dot"></i> West Bengal, India</p>
+                            </div>
+                            <div class="dest-rating">
+                                <i class="fa-solid fa-star"></i> 4.8
+                            </div>
+                        </div>
+                        <div class="dest-price">
+                            <div><span>From </span>₹6,900</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Featured Travel Packages -->
+    <section class="packages" id="packages">
+        <div class="container">
+            <h2 class="section-title fade-in">Curated Travel Packages</h2>
+            <p class="section-subtitle fade-in">Elegant, flexible itineraries with local hosts, private transfers, and stays chosen for comfort and character.</p>
+            
+            <div class="pricing-grid">
+                <!-- Package 1 -->
+                <div class="pricing-card fade-in">
+                    <h3 class="pkg-name">Hill House Escape</h3>
+                    <div class="pkg-price">₹12,500<span>/person</span></div>
+                    <span class="pkg-duration">3 Days / 2 Nights</span>
+                    <ul class="pkg-features">
+                        <li><i class="fa-solid fa-check"></i> Boutique Darjeeling or Sitong stay</li>
+                        <li><i class="fa-solid fa-check"></i> Private arrival transfer</li>
+                        <li><i class="fa-solid fa-check"></i> Tea estate and viewpoint circuit</li>
+                        <li><i class="fa-solid fa-check"></i> Local concierge support</li>
+                    </ul>
+                    <a href="client/inquiry.html?pkg=Hill%20House%20Escape" class="btn btn-outline">Plan Trip</a>
+                </div>
+
+                <!-- Package 2 -->
+                <div class="pricing-card popular fade-in">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3 class="pkg-name">Eastern Himalayan Grand</h3>
+                    <div class="pkg-price">₹24,900<span>/person</span></div>
+                    <span class="pkg-duration">7 Days / 6 Nights</span>
+                    <ul class="pkg-features">
+                        <li><i class="fa-solid fa-check"></i> Darjeeling, Gangtok, and Pelling route</li>
+                        <li><i class="fa-solid fa-check"></i> Premium hotels and daily breakfast</li>
+                        <li><i class="fa-solid fa-check"></i> Curated monastery and lake visits</li>
+                        <li><i class="fa-solid fa-check"></i> Airport or NJP transfers</li>
+                        <li><i class="fa-solid fa-check"></i> Dedicated trip manager</li>
+                    </ul>
+                    <a href="client/inquiry.html?pkg=Eastern%20Himalayan%20Grand" class="btn">Plan Trip</a>
+                </div>
+
+                <!-- Package 3 -->
+                <div class="pricing-card fade-in">
+                    <h3 class="pkg-name">Forest to Coast Luxe</h3>
+                    <div class="pkg-price">₹36,500<span>/person</span></div>
+                    <span class="pkg-duration">8 Days / 7 Nights</span>
+                    <ul class="pkg-features">
+                        <li><i class="fa-solid fa-check"></i> Dooars jungle lodge and Mandarmani resort</li>
+                        <li><i class="fa-solid fa-check"></i> Private safari and river experiences</li>
+                        <li><i class="fa-solid fa-check"></i> Sea-facing room upgrade where available</li>
+                        <li><i class="fa-solid fa-check"></i> Chauffeured intercity transfers</li>
+                        <li><i class="fa-solid fa-check"></i> Personal concierge planning</li>
+                    </ul>
+                    <a href="client/inquiry.html?pkg=Forest%20to%20Coast%20Luxe" class="btn btn-outline">Plan Trip</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Why Choose Travelogue -->
+    <section class="features" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">Why Choose Travelogue</h2>
+            <p class="section-subtitle fade-in">A quiet, high-touch travel service built around local knowledge, polished logistics, and warm hospitality.</p>
+            
+            <div class="features-grid">
+                <div class="feature-block fade-in">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h3 class="feature-title">Transparent Luxury Pricing</h3>
+                    <p class="feature-desc">Clear inclusions, thoughtful upgrades, and no surprise add-ons after your itinerary is confirmed.</p>
+                </div>
+                <div class="feature-block fade-in">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">Local On-Trip Support</h3>
+                    <p class="feature-desc">Regional coordinators stay available from arrival through departure for smooth, reassuring travel.</p>
+                </div>
+                <div class="feature-block fade-in">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <h3 class="feature-title">Handpicked Stays</h3>
+                    <p class="feature-desc">Boutique hotels, refined homestays, forest lodges, and beach resorts selected for comfort and soul.</p>
+                </div>
+                <div class="feature-block fade-in">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <h3 class="feature-title">Flexible Itineraries</h3>
+                    <p class="feature-desc">Routes are tuned around season, group pace, road conditions, and the experiences you value most.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title fade-in">Stories from Our Travelers</h2>
+            <p class="section-subtitle fade-in">Real notes from travelers who wanted comfort, character, and a little quiet magic.</p>
+            
+            <div class="testimonial-container fade-in">
+                <div class="testimonial-slider">
+                    <!-- Review 1 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Sarah J." class="testi-avatar">
+                            <div class="testi-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="testi-text">"Our Darjeeling anniversary trip felt intimate and effortless. The hotel, tea estate visit, and Tiger Hill timing were beautifully handled."</p>
+                            <h4 class="testi-name">Ananya Sen</h4>
+                            <span class="testi-location">Kolkata, India</span>
+                        </div>
+                    </div>
+                    <!-- Review 2 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Michael T." class="testi-avatar">
+                            <div class="testi-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <p class="testi-text">"Sikkim was planned with just the right balance of monasteries, viewpoints, and unhurried evenings. The transfers were spotless."</p>
+                            <h4 class="testi-name">Rohan Mehta</h4>
+                            <span class="testi-location">Mumbai, India</span>
+                        </div>
+                    </div>
+                    <!-- Review 3 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Elena R." class="testi-avatar">
+                            <div class="testi-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="testi-text">"The Dooars lodge and safari arrangements were excellent. It felt premium without losing the feeling of being close to the forest."</p>
+                            <h4 class="testi-name">Priyanka Roy</h4>
+                            <span class="testi-location">Bengaluru, India</span>
+                        </div>
+                    </div>
+                    <!-- Review 4 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="David L." class="testi-avatar">
+                            <div class="testi-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="testi-text">"Sitong was exactly the quiet winter break we wanted. The homestay was graceful, warm, and tucked right into the orange orchards."</p>
+                            <h4 class="testi-name">Neha Kapoor</h4>
+                            <span class="testi-location">Delhi, India</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Newsletter Signup -->
+    <section class="newsletter fade-in" id="contact">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Receive Seasonal Journey Notes</h2>
+                <p>Get refined route ideas, hill-season updates, and early access to limited boutique stays.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">
+                        <i class="fa-solid fa-compass"></i> Travelogue
+                    </a>
+                    <p>Premium, locally grounded travel planning for Darjeeling, Sikkim, Dooars, Sitong, and Mandarmani.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#packages">Travel Packages</a></li>
+                        <li><a href="pages/blog.html">Blog</a></li>
+                        <li><a href="pages/terms.html">Terms & Conditions</a></li>
+                        <li><a href="pages/privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Popular Destinations</h4>
+                    <ul class="footer-links">
+                        <li><a href="destinations/darjeeling.html">Darjeeling</a></li>
+                        <li><a href="destinations/sikkim.html">Sikkim</a></li>
+                        <li><a href="destinations/dooars.html">Dooars</a></li>
+                        <li><a href="destinations/sittong.html">Sitong</a></li>
+                        <li><a href="destinations/mandarmani.html">Mandarmani</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>12 Park Street,<br>Kolkata, West Bengal 700016</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>+91 98300 12345</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>hello@travelogue.in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Travelogue. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactions -->
+    <!-- Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="auth/auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Check Auth Status for index.html Navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                const user = getCurrentUser();
+                if(isAdmin()) {
+                    if(authActions) authActions.innerHTML = `
+                        <a href="admin/admin.html" class="btn desktop-cta" style="background: linear-gradient(135deg, var(--gold) 0%, rgba(201,162,39,0.84) 100%); color: var(--white); border: none;">Admin Panel</a>
+                        <button onclick="logoutUser()" class="btn desktop-cta btn-outline" style="background: transparent; color: var(--gold); border: 1px solid var(--gold);">Logout</button>
+                    `;
+                } else {
+                    const avatar = user.avatar ? `<img src="${user.avatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;">` : `<i class="fa-solid fa-user-circle"></i>`;
+                    if(authActions) authActions.innerHTML = `
+                        <a href="client/client-dashboard.html" class="btn desktop-cta btn-outline" style="background: transparent; color: var(--gold); border: 1px solid var(--gold); display:flex; align-items:center; gap:8px;">
+                            ${avatar} Dashboard
+                        </a>
+                        <a href="client/inquiry.html" class="btn desktop-cta">Plan Trip</a>
+                    `;
+                }
+            }
+        });
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
+    </script>
+</body>
+</html>

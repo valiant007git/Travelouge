@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Travelogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .page-hero {
+            padding: 180px 20px 100px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1518104593124-ac2eeb9a4f75?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        
+        .section-padding { padding: 80px 20px; }
+        
+        .faq-search-container {
+            max-width: 600px;
+            margin: -130px auto 50px;
+            position: relative;
+            z-index: 10;
+        }
+        .faq-search {
+            width: 100%;
+            padding: 20px 30px;
+            padding-left: 60px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-md);
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .faq-search-icon {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        
+        .faq-category {
+            margin-bottom: 40px;
+        }
+        .faq-category h2 {
+            color: var(--navy);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .accordion-item {
+            background: var(--white);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--navy);
+            background: var(--white);
+            transition: var(--transition);
+        }
+        .accordion-header:hover { color: var(--gold); }
+        .accordion-header i { transition: transform 0.3s ease; color: var(--gold); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fafafa;
+        }
+        .accordion-body p { padding: 0 20px 20px; color: var(--text-light); line-height: 1.6; }
+        
+        .accordion-item.active .accordion-body { max-height: 300px; } /* Set a large enough max-height */
+        .accordion-item.active .accordion-header i { transform: rotate(180deg); }
+
+        .cta-section {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin-top: 60px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+        .cta-section h2 { color: var(--navy); margin-bottom: 15px; }
+
+        .hidden-item { display: none !important; }
+        .hidden-category { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <section class="page-hero">
+        <h1 class="brand-font">Frequently Asked Questions</h1>
+        <p>Everything you need to know before you embark on your journey.</p>
+    </section>
+
+    <section class="section-padding" style="background: var(--bg-light); padding-top: 0;">
+        <div class="container">
+            
+            <div class="faq-search-container">
+                <i class="fa-solid fa-search faq-search-icon"></i>
+                <input type="text" id="faq-search" class="faq-search" placeholder="Search questions (e.g. 'cancellation')">
+            </div>
+
+            <div class="faq-container" id="faq-container">
+                
+                <!-- Category 1 -->
+                <div class="faq-category">
+                    <h2 class="brand-font">Booking & Payments</h2>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">How do I book a tour package? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>You can easily book a package by logging into your Client Dashboard, navigating to the Packages section, and clicking "Book Now". Alternatively, you can use our Plan Trip inquiry form.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">What payment methods do you accept? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>We accept all major Credit/Debit Cards, Net Banking, and UPI payments (Google Pay, PhonePe, Paytm). For international clients, we also accept PayPal and Wire Transfers.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Is online payment secure? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Absolutely. All transactions are processed through 256-bit encrypted gateways that comply with PCI-DSS standards. We never store your card details on our servers.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Can I pay in installments? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Yes, for bookings made at least 60 days in advance, you can secure your reservation with a 30% deposit. The remaining 70% must be paid 15 days prior to the departure date.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">What is your cancellation policy? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Cancellations made 30+ days before travel will receive a 90% refund. Cancellations made 15-29 days prior receive a 50% refund. Cancellations within 14 days are non-refundable.</p></div>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="faq-category">
+                    <h2 class="brand-font">Travel & Destinations</h2>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">What is the best time to visit Sikkim? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>The best time to visit Sikkim is either during Spring (March to May) when the rhododendrons are blooming, or Autumn (September to November) for clear skies and the best views of Mt. Kanchenjunga.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Do I need a permit for Sikkim? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Yes, foreign nationals require an Inner Line Permit (ILP) to enter Sikkim. Indian nationals require Protected Area Permits (PAP) for certain areas like Nathula Pass and North Sikkim. We arrange all permits for our clients.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Is Darjeeling safe for solo female travelers? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Yes, Darjeeling is widely considered one of the safest destinations in India for solo female travelers. The locals are hospitable, crime rates are very low, and the environment is highly tourist-friendly.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">What should I pack for a hill station trip? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Layered clothing is key. Bring thermal wear, a good quality windproof/waterproof jacket, comfortable walking/trekking shoes, sunglasses, sunscreen, and essential personal medications.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Are vegetarian meals available? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Absolutely! All our partnered hotels and homestays provide excellent vegetarian options. Vegan and Jain meal requests can also be accommodated if informed in advance.</p></div>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="faq-category">
+                    <h2 class="brand-font">Accommodation</h2>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">What types of accommodation do you offer? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>We offer everything from budget-friendly eco-stays and authentic local homestays to luxury 5-star heritage resorts, depending on your selected package and budget.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Are homestays safe and comfortable? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Yes, we personally verify every homestay we partner with. They offer modern amenities, clean attached bathrooms, and incredible local hospitality that hotels simply cannot match.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Can I request a specific hotel? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>If you are booking a Custom Tour, you can absolutely request specific properties. For fixed packages, we provide a list of our standard partner hotels of equivalent categories.</p></div>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="faq-category">
+                    <h2 class="brand-font">Group & Custom Tours</h2>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">Can you arrange custom private tours? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Yes! Our travel experts specialize in crafting bespoke itineraries. Simply fill out the "Plan Trip" form with your requirements and we will design a trip just for you.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Do you offer group discounts? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>We offer special group rates for parties of 8 or more travelers. Please contact our support team directly for group quotes and corporate bookings.</p></div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">Can I modify the itinerary? <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="accordion-body"><p>Custom tours can be modified completely before booking. Fixed packages have some flexibility for minor tweaks, subject to availability and additional costs.</p></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="cta-section">
+                <h2 class="brand-font">Still have questions?</h2>
+                <p style="margin-bottom: 25px; ">Our travel experts are ready to assist you.</p>
+                <a href="contact.html" class="btn">Contact Support</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Your trusted partner for exploring the untouched beauty of Eastern India and Sikkim.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="blog.html">Travel Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Contact Info</h3>
+                <ul style="">
+                    <li><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 10px;"></i> Mall Road, Darjeeling, WB 734101</li>
+                    <li><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 10px;"></i> +91 98765 43210</li>
+                    <li><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 10px;"></i> info@travelogue.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Travelogue. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Logic
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
+            } else {
+                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
+            }
+
+            // Accordion Logic
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all
+                    document.querySelectorAll('.accordion-item').forEach(acc => {
+                        acc.classList.remove('active');
+                    });
+                    
+                    // Toggle current
+                    if(!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Search Logic
+            const searchInput = document.getElementById('faq-search');
+            const categories = document.querySelectorAll('.faq-category');
+            
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                
+                categories.forEach(cat => {
+                    let hasVisibleItem = false;
+                    const items = cat.querySelectorAll('.accordion-item');
+                    
+                    items.forEach(item => {
+                        const question = item.querySelector('.accordion-header').innerText.toLowerCase();
+                        const answer = item.querySelector('.accordion-body').innerText.toLowerCase();
+                        
+                        if(question.includes(term) || answer.includes(term)) {
+                            item.classList.remove('hidden-item');
+                            hasVisibleItem = true;
+                        } else {
+                            item.classList.add('hidden-item');
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    if(hasVisibleItem) {
+                        cat.classList.remove('hidden-category');
+                    } else {
+                        cat.classList.add('hidden-category');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

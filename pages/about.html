@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Travelogue</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    
+    <style>
+        .about-hero {
+            padding: 180px 20px 100px;
+            background: linear-gradient(to bottom, rgba(250,249,246,0.78), rgba(245,239,230,0.94)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            text-align: center;
+            color: var(--navy);
+        }
+        
+        .section-padding { padding: 80px 20px; }
+        
+        /* Story Section */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .story-img img { border-radius: 12px; box-shadow: var(--shadow-md); }
+        
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .team-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .team-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .team-img { width: 100%; height: 300px; object-fit: cover; }
+        .team-info { padding: 20px; }
+        .team-socials a { color: var(--navy); margin: 0 10px; font-size: 1.2rem; }
+        .team-socials a:hover { color: var(--gold); }
+        
+        /* Values Section */
+        .values-section { background-color: var(--bg-secondary); color: var(--text-primary); }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; }
+        .value-card { padding: 30px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.72); backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
+        .value-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 20px; }
+        
+        /* Timeline */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: var(--gold); }
+        .timeline-item { display: flex; justify-content: flex-end; padding-right: 50%; position: relative; margin-bottom: 50px; width: 100%; }
+        .timeline-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 50%; }
+        .timeline-content { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); width: 80%; position: relative; }
+        .timeline-item:nth-child(odd) .timeline-content { margin-right: 30px; text-align: right; }
+        .timeline-item:nth-child(even) .timeline-content { margin-left: 30px; }
+        .timeline-year { position: absolute; top: 20px; font-size: 1.2rem; font-weight: bold; color: var(--gold); }
+        .timeline-item:nth-child(odd) .timeline-year { right: -90px; }
+        .timeline-item:nth-child(even) .timeline-year { left: -90px; }
+        .timeline-dot { position: absolute; left: 50%; top: 20px; transform: translateX(-50%); width: 20px; height: 20px; background: var(--bg-card); border: 4px solid var(--gold); border-radius: 50%; z-index: 1; }
+        
+        /* Stats */
+        .stats-section { background: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; position: relative; color: var(--navy); text-align: center; }
+        .stats-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(250,249,246,0.82); }
+        .stats-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .stat-item h3 { font-size: 3rem; color: var(--gold); margin-bottom: 10px; font-family: 'Inter', sans-serif; }
+        
+        /* Partners */
+        .partners-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.6; }
+        .partners-grid i { font-size: 4rem; color: var(--navy); transition: var(--transition); }
+        .partners-grid i:hover { color: var(--gold); opacity: 1; }
+        
+        @media (max-width: 768px) {
+            .story-grid { grid-template-columns: 1fr; }
+            .timeline::before { left: 30px; }
+            .timeline-item { padding-right: 0; padding-left: 60px; justify-content: flex-start; }
+            .timeline-item:nth-child(even) { padding-left: 60px; }
+            .timeline-item:nth-child(odd) .timeline-content { margin-right: 0; text-align: left; }
+            .timeline-item:nth-child(odd) .timeline-year { right: auto; left: -50px; }
+            .timeline-item:nth-child(even) .timeline-year { left: -50px; }
+            .timeline-dot { left: 30px; }
+            .timeline-content { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+    <div class="top-bar" id="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span><i class="fa-solid fa-phone"></i> +91-XXXXXXXXXX</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@travelogue.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fa-brands fa-whatsapp" style="color:var(--success);"></i> Chat with us</a>
+                <span class="divider">|</span>
+                <div id="auth-links-top" style="display:inline-flex; gap:15px;">
+                    <!-- Injected by utils.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-navbar">
+        <div class="container nav-container">
+            <a href="../../../../../index.html" class="logo"><i class="fa-solid fa-compass"></i> Travelogue</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+                    <li><a href="../../../../../pages/packages.html">Packages</a></li>
+                    <li><a href="../../../../../pages/about.html" class="active">About</a></li>
+                    <li><a href="../../../../../pages/blog.html">Blog</a></li>
+                    <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+                    <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+                    <li><a href="../../../../../pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="../../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu" id="close-menu"><i class="fa-solid fa-times"></i></button>
+        <ul class="mobile-nav-links">
+            <li><a href="../../../../../index.html">Home</a></li>
+            <li><a href="../../../../../pages/destinations.html">Destinations</a></li>
+            <li><a href="../../../../../pages/packages.html">Packages</a></li>
+            <li><a href="../../../../../pages/about.html" class="active">About</a></li>
+            <li><a href="../../../../../pages/blog.html">Blog</a></li>
+            <li><a href="../../../../../pages/gallery.html">Gallery</a></li>
+            <li><a href="../../../../../pages/faq.html">FAQ</a></li>
+            <li><a href="../../../../../pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-actions" id="mobile-auth-actions">
+            <!-- Injected by utils.js -->
+        </div>
+    </div>
+</header>
+
+    <!-- Hero -->
+    <section class="about-hero">
+        <h1 class="brand-font" style="font-size: 3.5rem; color: var(--gold);">Our Story</h1>
+        <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Crafting unforgettable journeys through the mystical landscapes of Eastern India and Sikkim since 2018.</p>
+    </section>
+
+    <!-- Story -->
+    <section class="section-padding container">
+        <div class="story-grid">
+            <div class="story-content">
+                <h2 class="brand-font" style="font-size: 2.5rem; margin-bottom: 20px;">How Travelogue Began</h2>
+                <p style="color: var(--text-light); margin-bottom: 15px;">What started as a passionate group of local explorers has blossomed into the region's most trusted travel agency. We realized that true travel isn't just about visiting a place; it's about connecting with its soul.</p>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Our mission is to unveil the hidden gems of Sikkim, Darjeeling, Sitong, the Dooars, and Mandarmani while promoting sustainable tourism that uplifts local communities.</p>
+                <h3 class="brand-font" style="color: var(--gold); margin-bottom: 10px;">Our Vision</h3>
+                <p style="color: var(--text-light);">To be the bridge between curious travelers and the untouched beauty of the Himalayas, ensuring every journey leaves a positive footprint.</p>
+            </div>
+            <div class="story-img">
+                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80" alt="Himalayas">
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="section-padding values-section">
+        <div class="container">
+            <h2 class="section-title brand-font">Our Core Values</h2>
+            <p class="section-subtitle">The principles that guide every itinerary we craft.</p>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fa-solid fa-heart"></i>
+                    <h3>Passion</h3>
+                    <p style="margin-top:10px;">We love what we do, and it reflects in every trip we organize.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Integrity</h3>
+                    <p style="margin-top:10px;">Honest pricing and transparent policies. No hidden surprises.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h3>Sustainability</h3>
+                    <p style="margin-top:10px;">Protecting the fragile ecosystem of the hills, forests, and coast for future generations.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fa-solid fa-star"></i>
+                    <h3>Excellence</h3>
+                    <p style="margin-top:10px;">Delivering premium, polished experiences from arrival to departure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section-padding" style="background:var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title brand-font">Our Journey</h2>
+            <div class="timeline" style="margin-top: 50px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2018</div>
+                    <div class="timeline-content">
+                        <h3 class="brand-font">The Beginning</h3>
+                        <p style="color:var(--text-light); font-size:0.9rem;">Founded in Darjeeling by two local trekking guides with a vision to offer authentic experiences.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-content">
+                        <h3 class="brand-font">Expansion to Sikkim</h3>
+                        <p style="color:var(--text-light); font-size:0.9rem;">Opened our second office in Gangtok, expanding our reach to the pristine landscapes of Sikkim.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-content">
+                        <h3 class="brand-font">Award Winning</h3>
+                        <p style="color:var(--text-light); font-size:0.9rem;">Recognized as the 'Best Regional Tour Operator' by the North East Tourism Board.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-content">
+                        <h3 class="brand-font">Going Digital</h3>
+                        <p style="color:var(--text-light); font-size:0.9rem;">Launched our full-fledged digital booking portal, bringing the Himalayas to your fingertips.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="section-padding container">
+        <h2 class="section-title brand-font">Meet The Team</h2>
+        <p class="section-subtitle">The experts behind your perfect vacation.</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Team" class="team-img">
+                <div class="team-info">
+                    <h3 class="brand-font">Arjun Sharma</h3>
+                    <p style="color:var(--gold); font-size:0.9rem; margin-bottom:10px;">Founder & CEO</p>
+                    <div class="team-socials">
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Team" class="team-img">
+                <div class="team-info">
+                    <h3 class="brand-font">Priya Rai</h3>
+                    <p style="color:var(--gold); font-size:0.9rem; margin-bottom:10px;">Head of Operations</p>
+                    <div class="team-socials">
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Team" class="team-img">
+                <div class="team-info">
+                    <h3 class="brand-font">David Lepcha</h3>
+                    <p style="color:var(--gold); font-size:0.9rem; margin-bottom:10px;">Lead Guide</p>
+                    <div class="team-socials">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Team" class="team-img">
+                <div class="team-info">
+                    <h3 class="brand-font">Anita Gurung</h3>
+                    <p style="color:var(--gold); font-size:0.9rem; margin-bottom:10px;">Customer Experience</p>
+                    <div class="team-socials">
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section-padding stats-section">
+        <div class="stats-overlay"></div>
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <h3>5000+</h3>
+                <p>Happy Travelers</p>
+            </div>
+            <div class="stat-item">
+                <h3>4</h3>
+                <p>Core Destinations</p>
+            </div>
+            <div class="stat-item">
+                <h3>8</h3>
+                <p>Years Experience</p>
+            </div>
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>5-Star Reviews</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="section-padding container">
+        <h2 class="section-title brand-font">Our Partners</h2>
+        <div class="partners-grid" style="margin-top: 40px;">
+            <i class="fa-brands fa-aws"></i>
+            <i class="fa-brands fa-cc-visa"></i>
+            <i class="fa-brands fa-cc-mastercard"></i>
+            <i class="fa-brands fa-google-pay"></i>
+            <i class="fa-brands fa-apple-pay"></i>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="brand-font"><i class="fa-solid fa-compass"></i> Travelogue</h3>
+                <p style="margin-top: 15px;">Your trusted partner for exploring the untouched beauty of Eastern India and Sikkim.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="blog.html">Travel Blog</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 class="brand-font">Contact Info</h3>
+                <ul style="">
+                    <li><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 10px;"></i> Mall Road, Darjeeling, WB 734101</li>
+                    <li><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 10px;"></i> +91 98765 43210</li>
+                    <li><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 10px;"></i> info@travelogue.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Travelogue. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth Navbar Logic
+            const authActions = document.getElementById('desktop-auth-actions');
+            if(isLoggedIn()) {
+                const user = getCurrentUser();
+                if(isAdmin()) {
+                    if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
+                } else {
+                    if(authActions) authActions.innerHTML = `
+                        <a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a>
+                        <a href="../client/inquiry.html" class="btn">Plan Trip</a>
+                    `;
+                }
+            } else {
+                if(authActions) authActions.innerHTML = `
+                    <a href="../auth/login.html" class="btn btn-outline">Login</a>
+                    <a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
