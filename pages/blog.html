@@ -367,54 +367,6 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Auth Logic
-            const authActions = document.getElementById('desktop-auth-actions');
-            if(isLoggedIn()) {
-                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
-                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
-            } else {
-                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
-            }
-
-            // Category Filtering
-            const catFilters = document.querySelectorAll('.cat-filter');
-            const blogCards = document.querySelectorAll('.blog-card');
-
-            catFilters.forEach(filter => {
-                filter.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    catFilters.forEach(f => f.style.color = '');
-                    filter.style.color = 'var(--gold)';
-                    
-                    const cat = filter.getAttribute('data-cat');
-                    
-                    blogCards.forEach(card => {
-                        if(cat === 'all' || card.getAttribute('data-cat') === cat) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-
-            // Search filtering
-            const searchInput = document.getElementById('blog-search');
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                blogCards.forEach(card => {
-                    const title = card.querySelector('.blog-title').innerText.toLowerCase();
-                    const excerpt = card.querySelector('.blog-excerpt').innerText.toLowerCase();
-                    if(title.includes(term) || excerpt.includes(term)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+    
 </body>
 </html>

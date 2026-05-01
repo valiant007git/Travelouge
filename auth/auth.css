@@ -328,6 +328,67 @@ a:hover {
 .social-btn.google i { color: #DB4437; }
 .social-btn.facebook i { color: #4267B2; }
 
+/* Social button loading state */
+.social-btn.social-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.social-btn.social-loading i {
+    color: transparent !important;
+}
+
+.social-btn.social-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.social-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Social divider for signup page */
+.social-divider {
+    text-align: center;
+    margin: 20px 0 10px;
+    position: relative;
+}
+
+.social-divider span {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 0 15px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 1;
+}
+
+.social-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+}
+
+.social-login-signup {
+    margin-top: 0 !important;
+    margin-bottom: 10px;
+}
+
 /* Progress Bar (Signup) */
 .progress-container {
     width: 100%;

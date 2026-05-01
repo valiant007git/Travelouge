@@ -80,6 +80,12 @@ const getBaseUrl = () => {
 
 const logoutUser = () => {
     localStorage.removeItem('travelogue_session');
+
+    // Sign out of Firebase if active
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+        try { firebase.auth().signOut(); } catch (e) { /* ignore */ }
+    }
+
     window.location.href = '/index.html';
 };
 
@@ -88,6 +94,7 @@ const isLoggedIn = () => {
     if (!session) return false;
     
     const now = Date.now();
+    // 30-minute inactivity timeout
     if (now - session.lastActive > 1800000) {
         localStorage.removeItem('travelogue_session');
         return false;
@@ -138,10 +145,123 @@ const protectPage = (requiredRole) => {
     }
 };
 
-// Listeners to update activity
+// ============================================================
+// SOCIAL LOGIN (Firebase Auth)
+// ============================================================
+
+/**
+ * Handles a Firebase social auth result.
+ * Creates or finds the local user, sets session, returns success/failure.
+ */
+const _handleSocialAuthResult = (firebaseUser) => {
+    const email = firebaseUser.email;
+    const displayName = firebaseUser.displayName || '';
+    const photoURL = firebaseUser.photoURL || '';
+    const nameParts = displayName.split(' ');
+    const firstName = nameParts[0] || 'User';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    const users = getUsers();
+    let user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (user) {
+        // Existing user — update avatar if missing
+        if (!user.avatar && photoURL) {
+            user.avatar = photoURL;
+            setUsers(users);
+        }
+    } else {
+        // Auto-create a new client account for social login users
+        user = {
+            id: users.length ? Math.max(...users.map(u => u.id)) + 1 : 1,
+            role: 'client',
+            email: email.toLowerCase(),
+            firstName: firstName,
+            lastName: lastName,
+            avatar: photoURL,
+            phone: firebaseUser.phoneNumber || '',
+            socialProvider: firebaseUser.providerData[0]?.providerId || 'social',
+            password: null // Social login users don't have passwords
+        };
+        users.push(user);
+        setUsers(users);
+    }
+
+    // Don't allow social login for admin accounts
+    if (user.role === 'admin') {
+        return { success: false, message: 'Admin accounts cannot use social login. Please use email/password.' };
+    }
+
+    setSession(user);
+    return { success: true, user };
+};
+
+/**
+ * Login with Google via Firebase popup
+ * Returns a Promise that resolves to { success, message?, user? }
+ */
+const loginWithGoogle = async () => {
+    if (typeof initFirebase === 'function') initFirebase();
+    
+    if (typeof isFirebaseReady === 'function' && !isFirebaseReady()) {
+        return { success: false, message: 'Google login is not configured yet. Please set up Firebase credentials.' };
+    }
+
+    try {
+        const result = await firebaseAuth.signInWithPopup(googleProvider);
+        return _handleSocialAuthResult(result.user);
+    } catch (error) {
+        console.error('Google login error:', error);
+        if (error.code === 'auth/popup-closed-by-user') {
+            return { success: false, message: 'Login cancelled.' };
+        }
+        if (error.code === 'auth/popup-blocked') {
+            return { success: false, message: 'Popup was blocked by browser. Please allow popups for this site.' };
+        }
+        if (error.code === 'auth/network-request-failed') {
+            return { success: false, message: 'Network error. Please check your internet connection.' };
+        }
+        return { success: false, message: error.message || 'Google login failed. Please try again.' };
+    }
+};
+
+/**
+ * Login with Facebook via Firebase popup
+ * Returns a Promise that resolves to { success, message?, user? }
+ */
+const loginWithFacebook = async () => {
+    if (typeof initFirebase === 'function') initFirebase();
+
+    if (typeof isFirebaseReady === 'function' && !isFirebaseReady()) {
+        return { success: false, message: 'Facebook login is not configured yet. Please set up Firebase credentials.' };
+    }
+
+    try {
+        const result = await firebaseAuth.signInWithPopup(facebookProvider);
+        return _handleSocialAuthResult(result.user);
+    } catch (error) {
+        console.error('Facebook login error:', error);
+        if (error.code === 'auth/popup-closed-by-user') {
+            return { success: false, message: 'Login cancelled.' };
+        }
+        if (error.code === 'auth/popup-blocked') {
+            return { success: false, message: 'Popup was blocked by browser. Please allow popups for this site.' };
+        }
+        if (error.code === 'auth/account-exists-with-different-credential') {
+            return { success: false, message: 'An account already exists with the same email but a different sign-in method. Try logging in with Google or email.' };
+        }
+        if (error.code === 'auth/network-request-failed') {
+            return { success: false, message: 'Network error. Please check your internet connection.' };
+        }
+        return { success: false, message: error.message || 'Facebook login failed. Please try again.' };
+    }
+};
+
+// ============================================================
+// Activity listeners (click and keypress only — mousemove removed for performance)
+// ============================================================
 document.addEventListener('click', updateActivity);
 document.addEventListener('keypress', updateActivity);
-document.addEventListener('mousemove', updateActivity); // Sometimes helpful, but can be heavy. Let's keep click/keypress
 
 // Initialize auth
 initAuth();

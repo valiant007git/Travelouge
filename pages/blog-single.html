@@ -332,30 +332,6 @@
 
     <script src="../assets/js/utils.js"></script>
     <script src="../auth/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const authActions = document.getElementById('desktop-auth-actions');
-            if(isLoggedIn()) {
-                const user = getCurrentUser();
-                
-                // Pre-fill comment form if logged in
-                if(isClient()) {
-                    document.getElementById('c-name').value = `${user.firstName} ${user.lastName}`.trim();
-                    document.getElementById('c-email').value = user.email;
-                }
-
-                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
-                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
-            } else {
-                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
-            }
-
-            document.getElementById('commentForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                showToast('Thank you! Your comment has been submitted and is awaiting moderation.', 'success');
-                e.target.reset();
-            });
-        });
-    </script>
+    
 </body>
 </html>

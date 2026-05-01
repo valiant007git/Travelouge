@@ -36,6 +36,18 @@
 
                 <div id="main-error" class="main-error"></div>
 
+                <!-- Social Login (Quick Sign Up) -->
+                <div class="social-login social-login-signup" id="social-signup-section">
+                    <p>Quick sign up with</p>
+                    <div class="social-btns">
+                        <button class="social-btn google" id="google-signup-btn"><i class="fa-brands fa-google"></i> Google</button>
+                        <button class="social-btn facebook" id="facebook-signup-btn"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
+                    </div>
+                    <div class="social-divider">
+                        <span>or fill the form below</span>
+                    </div>
+                </div>
+
                 <form id="signup-form">
                     
                     <!-- STEP 1: Personal Info -->
@@ -160,7 +172,7 @@
                         </div>
                         <h2 style="color: var(--navy); margin-bottom: 10px;" class="brand-font" id="welcome-msg">Welcome to Travelogue!</h2>
                         <p style="color: var(--text-light); margin-bottom: 20px;">Your account has been successfully created.</p>
-                        <p style="font-size: 0.9rem;">Redirecting to login in <span id="countdown" style="font-weight: bold; color: var(--gold);">3</span> seconds...</p>
+                        <p style="font-size: 0.9rem;">Redirecting to your dashboard in <span id="countdown" style="font-weight: bold; color: var(--gold);">3</span> seconds...</p>
                     </div>
 
                 </form>
@@ -174,11 +186,19 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="auth.js"></script>
     <script>
         protectPage('guest');
 
+        // Initialize Firebase on page load
+        if (typeof initFirebase === 'function') initFirebase();
+
         let currentStep = 1;
+        let isSubmitting = false;
         const mainError = document.getElementById('main-error');
         const progressBar = document.getElementById('progress-bar');
         const stepIndicator = document.getElementById('step-indicator');
@@ -309,12 +329,21 @@
                 document.getElementById('progress-container').style.display = 'none';
                 document.getElementById('step-indicator').style.display = 'none';
                 document.getElementById('login-link-section').style.display = 'none';
+                document.getElementById('social-signup-section').style.display = 'none';
             }
         };
 
+        // Form Submission (email/password signup)
         document.getElementById('signup-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            if (isSubmitting) return;
+
             if(validateStep(3)) {
+                isSubmitting = true;
+                const submitBtn = document.getElementById('submit-btn');
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+
                 // Submit
                 const formData = {
                     firstName: document.getElementById('fname').value,
@@ -337,6 +366,7 @@
                     
                     document.getElementById('welcome-msg').innerText = `Welcome to Travelogue, ${formData.firstName}!`;
                     
+                    // Redirect to DASHBOARD (not login) since signupClient auto-logs in
                     let count = 3;
                     const cd = document.getElementById('countdown');
                     const interval = setInterval(() => {
@@ -344,13 +374,89 @@
                         cd.innerText = count;
                         if(count === 0) {
                             clearInterval(interval);
-                            window.location.href = 'login.html'; // Or directly to dashboard
+                            window.location.href = '/client/client-dashboard.html';
                         }
                     }, 1000);
                 } else {
                     mainError.innerText = res.message;
                     mainError.style.display = 'block';
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                    isSubmitting = false;
                 }
+            }
+        });
+
+        // ============================================================
+        // SOCIAL SIGNUP HANDLERS (same as login — creates account if new)
+        // ============================================================
+
+        const handleSocialSignupResult = (res) => {
+            if (res.success) {
+                // Show success screen
+                document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+                currentStep = 4;
+                document.getElementById('step-4').classList.add('active');
+                updateProgress();
+
+                const user = res.user || getCurrentUser();
+                document.getElementById('welcome-msg').innerText = `Welcome to Travelogue, ${user.firstName || 'Traveler'}!`;
+
+                let count = 3;
+                const cd = document.getElementById('countdown');
+                const interval = setInterval(() => {
+                    count--;
+                    cd.innerText = count;
+                    if (count === 0) {
+                        clearInterval(interval);
+                        window.location.href = '/client/client-dashboard.html';
+                    }
+                }, 1000);
+            } else {
+                mainError.innerText = res.message;
+                mainError.style.display = 'block';
+            }
+        };
+
+        document.getElementById('google-signup-btn').addEventListener('click', async () => {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            mainError.style.display = 'none';
+            const btn = document.getElementById('google-signup-btn');
+            btn.classList.add('social-loading');
+            btn.disabled = true;
+
+            try {
+                const res = await loginWithGoogle();
+                handleSocialSignupResult(res);
+            } catch (err) {
+                mainError.innerText = 'Google sign up failed. Please try again.';
+                mainError.style.display = 'block';
+            } finally {
+                btn.classList.remove('social-loading');
+                btn.disabled = false;
+                isSubmitting = false;
+            }
+        });
+
+        document.getElementById('facebook-signup-btn').addEventListener('click', async () => {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            mainError.style.display = 'none';
+            const btn = document.getElementById('facebook-signup-btn');
+            btn.classList.add('social-loading');
+            btn.disabled = true;
+
+            try {
+                const res = await loginWithFacebook();
+                handleSocialSignupResult(res);
+            } catch (err) {
+                mainError.innerText = 'Facebook sign up failed. Please try again.';
+                mainError.style.display = 'block';
+            } finally {
+                btn.classList.remove('social-loading');
+                btn.disabled = false;
+                isSubmitting = false;
             }
         });
 

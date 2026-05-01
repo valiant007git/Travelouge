@@ -195,26 +195,62 @@ document.addEventListener('DOMContentLoaded', () => {
         const topAuth = document.getElementById('auth-links-top');
         const mobileAuth = document.getElementById('mobile-auth-actions');
 
-        if (isLoggedIn()) {
-            const dashLink = (typeof isAdmin === 'function' && isAdmin()) ? `${base}admin/admin.html` : `${base}client/client-dashboard.html`;
-            const dashText = (typeof isAdmin === 'function' && isAdmin()) ? 'Admin Panel' : 'Dashboard';
-
-            if (topAuth) {
-                topAuth.innerHTML = `<a href="${dashLink}">${dashText}</a>`;
+        // Auto-create desktop-auth-actions if it doesn't exist in the nav-actions
+        let desktopAuth = document.getElementById('desktop-auth-actions');
+        if (!desktopAuth) {
+            const navActions = document.querySelector('.nav-actions');
+            if (navActions) {
+                desktopAuth = document.createElement('div');
+                desktopAuth.id = 'desktop-auth-actions';
+                desktopAuth.className = 'desktop-auth-actions';
+                navActions.insertBefore(desktopAuth, navActions.firstChild);
             }
+        }
+
+        if (isLoggedIn()) {
+            const isAdminUser = (typeof isAdmin === 'function' && isAdmin());
+            const dashLink = isAdminUser ? `${base}admin/admin.html` : `${base}client/client-dashboard.html`;
+            const dashText = isAdminUser ? 'Admin Panel' : 'Dashboard';
+
+            // Top bar auth
+            if (topAuth) {
+                topAuth.innerHTML = `
+                    <a href="${dashLink}">${dashText}</a>
+                    <a href="#" onclick="logoutUser(); return false;" style="color: var(--text-secondary);">Logout</a>
+                `;
+            }
+
+            // Desktop navbar auth actions (compact)
+            if (desktopAuth) {
+                desktopAuth.innerHTML = `
+                    <a href="${dashLink}" class="nav-auth-link"><i class="fa-solid fa-${isAdminUser ? 'shield-halved' : 'user-circle'}"></i> ${dashText}</a>
+                    <a href="#" class="nav-auth-link nav-logout-link" onclick="logoutUser(); return false;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                `;
+            }
+
+            // Mobile menu auth
             if (mobileAuth) {
                 mobileAuth.innerHTML = `
                     <a href="${dashLink}">${dashText}</a>
+                    <a href="#" onclick="logoutUser(); return false;">Logout</a>
                     <a href="${base}client/inquiry.html" class="btn plan-trip-btn">Plan Trip</a>
                 `;
             }
         } else {
+            // Guest state
             if (topAuth) {
                 topAuth.innerHTML = `
                     <a href="${base}auth/login.html">Login</a>
                     <a href="${base}auth/signup.html">Sign Up</a>
                 `;
             }
+
+            if (desktopAuth) {
+                desktopAuth.innerHTML = `
+                    <a href="${base}auth/login.html" class="nav-auth-link"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                `;
+            }
+
             if (mobileAuth) {
                 mobileAuth.innerHTML = `
                     <a href="${base}auth/login.html">Login</a>

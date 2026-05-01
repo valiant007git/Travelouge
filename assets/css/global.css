@@ -340,7 +340,53 @@ header {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Desktop auth actions (injected by utils.js) */
+.desktop-auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.nav-auth-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--navy);
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: var(--transition);
+    white-space: nowrap;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.nav-auth-link:hover {
+    color: var(--gold);
+    background: rgba(196, 154, 44, 0.06);
+    border-color: rgba(196, 154, 44, 0.18);
+}
+
+.nav-auth-link i {
+    font-size: 0.9rem;
+}
+
+.nav-logout-link {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    padding: 5px 10px;
+}
+
+.nav-logout-link:hover {
+    color: var(--danger, #e74c3c);
+    background: rgba(231, 76, 60, 0.06);
+    border-color: rgba(231, 76, 60, 0.18);
 }
 
 .plan-trip-btn {
@@ -632,6 +678,7 @@ header {
     .main-navbar { padding: 15px 0; }
     .main-navbar.scrolled { padding: 15px 0; }
     .nav-actions .plan-trip-btn { display: none; }
+    .desktop-auth-actions { display: none; }
 }
 
 @media (max-width: 768px) {

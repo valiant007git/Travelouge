@@ -62,8 +62,8 @@
                 <div class="social-login" id="social-login-section">
                     <p>Or continue with</p>
                     <div class="social-btns">
-                        <button class="social-btn google"><i class="fa-brands fa-google"></i> Google</button>
-                        <button class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
+                        <button class="social-btn google" id="google-login-btn"><i class="fa-brands fa-google"></i> Google</button>
+                        <button class="social-btn facebook" id="facebook-login-btn"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
                     </div>
                 </div>
 
@@ -76,10 +76,17 @@
         </div>
     </div>
 
+    <!-- Firebase SDK (compat for simple usage) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="/auth/firebase-config.js"></script>
     <script src="/auth/auth.js"></script>
     <script>
         // Protect page (if already logged in, redirect away)
         protectPage('guest');
+
+        // Initialize Firebase on page load
+        if (typeof initFirebase === 'function') initFirebase();
 
         const tabClient = document.getElementById('tab-client');
         const tabAdmin = document.getElementById('tab-admin');
@@ -90,6 +97,11 @@
         const togglePw = document.getElementById('toggle-pw');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
+        const googleBtn = document.getElementById('google-login-btn');
+        const facebookBtn = document.getElementById('facebook-login-btn');
+
+        // Duplicate-click guard
+        let isSubmitting = false;
 
         // Tab Switching
         tabClient.addEventListener('click', () => {
@@ -123,9 +135,12 @@
             }
         });
 
-        // Form Submission
+        // Form Submission (email/password)
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            if (isSubmitting) return;
+            isSubmitting = true;
+
             mainError.style.display = 'none';
             
             const email = document.getElementById('email').value;
@@ -134,10 +149,9 @@
 
             // Loading state
             submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
             
-            setTimeout(() => { // Simulate network delay for UX
-                submitBtn.classList.remove('loading');
-                
+            setTimeout(() => {
                 let res;
                 if (type === 'client') {
                     res = loginClient(email, password);
@@ -155,8 +169,71 @@
                 } else {
                     mainError.innerText = res.message;
                     mainError.style.display = 'block';
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                    isSubmitting = false;
                 }
             }, 800);
+        });
+
+        // ============================================================
+        // SOCIAL LOGIN HANDLERS
+        // ============================================================
+
+        const handleSocialLoginResult = (res) => {
+            if (res.success) {
+                const redirect = new URLSearchParams(window.location.search).get('redirect');
+                if (redirect) {
+                    window.location.href = decodeURIComponent(redirect);
+                } else {
+                    window.location.href = '/client/client-dashboard.html';
+                }
+            } else {
+                mainError.innerText = res.message;
+                mainError.style.display = 'block';
+            }
+        };
+
+        // Google Login
+        googleBtn.addEventListener('click', async () => {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            mainError.style.display = 'none';
+            googleBtn.classList.add('social-loading');
+            googleBtn.disabled = true;
+
+            try {
+                const res = await loginWithGoogle();
+                handleSocialLoginResult(res);
+            } catch (err) {
+                mainError.innerText = 'Google login failed. Please try again.';
+                mainError.style.display = 'block';
+            } finally {
+                googleBtn.classList.remove('social-loading');
+                googleBtn.disabled = false;
+                isSubmitting = false;
+            }
+        });
+
+        // Facebook Login
+        facebookBtn.addEventListener('click', async () => {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            mainError.style.display = 'none';
+            facebookBtn.classList.add('social-loading');
+            facebookBtn.disabled = true;
+
+            try {
+                const res = await loginWithFacebook();
+                handleSocialLoginResult(res);
+            } catch (err) {
+                mainError.innerText = 'Facebook login failed. Please try again.';
+                mainError.style.display = 'block';
+            } finally {
+                facebookBtn.classList.remove('social-loading');
+                facebookBtn.disabled = false;
+                isSubmitting = false;
+            }
         });
     </script>
 </body>

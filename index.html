@@ -58,6 +58,7 @@
                 </ul>
             </nav>
             <div class="nav-actions">
+                <div id="desktop-auth-actions" class="desktop-auth-actions"></div>
                 <a href="../../../../client/inquiry.html" class="btn plan-trip-btn" id="plan-trip-desktop">Plan Trip</a>
                 <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
             </div>
@@ -501,28 +502,6 @@
     <script defer src="auth/auth.js"></script>
     <script defer src="script.js"></script>
     <script>
-        // Check Auth Status for index.html Navbar
-        document.addEventListener('DOMContentLoaded', () => {
-            const authActions = document.getElementById('desktop-auth-actions');
-            if(isLoggedIn()) {
-                const user = getCurrentUser();
-                if(isAdmin()) {
-                    if(authActions) authActions.innerHTML = `
-                        <a href="admin/admin.html" class="btn desktop-cta" style="background: linear-gradient(135deg, var(--gold) 0%, rgba(201,162,39,0.84) 100%); color: var(--white); border: none;">Admin Panel</a>
-                        <button onclick="logoutUser()" class="btn desktop-cta btn-outline" style="background: transparent; color: var(--gold); border: 1px solid var(--gold);">Logout</button>
-                    `;
-                } else {
-                    const avatar = user.avatar ? `<img src="${user.avatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;">` : `<i class="fa-solid fa-user-circle"></i>`;
-                    if(authActions) authActions.innerHTML = `
-                        <a href="client/client-dashboard.html" class="btn desktop-cta btn-outline" style="background: transparent; color: var(--gold); border: 1px solid var(--gold); display:flex; align-items:center; gap:8px;">
-                            ${avatar} Dashboard
-                        </a>
-                        <a href="client/inquiry.html" class="btn desktop-cta">Plan Trip</a>
-                    `;
-                }
-            }
-        });
-
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

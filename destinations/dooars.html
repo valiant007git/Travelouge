@@ -340,63 +340,6 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const authActions = document.getElementById('desktop-auth-actions');
-            if(isLoggedIn()) {
-                if(isAdmin()) if(authActions) authActions.innerHTML = `<a href="../admin/admin.html" class="btn btn-outline">Admin Panel</a>`;
-                else if(authActions) authActions.innerHTML = `<a href="../client/client-dashboard.html" class="btn btn-outline">Dashboard</a><a href="../client/inquiry.html" class="btn">Plan Trip</a>`;
-                if(isClient()) {
-                    document.getElementById('add-review-section').style.display = 'block';
-                    document.getElementById('login-prompt').style.display = 'none';
-                }
-            } else {
-                if(authActions) authActions.innerHTML = `<a href="../auth/login.html" class="btn btn-outline">Login</a><a href="../auth/signup.html" class="btn btn-outline">Sign Up</a>`;
-            }
-
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
-                });
-            });
-
-            const dayTitles = document.querySelectorAll('.day-title');
-            dayTitles.forEach(title => {
-                title.addEventListener('click', () => {
-                    const parent = title.parentElement;
-                    const isActive = parent.classList.contains('active');
-                    document.querySelectorAll('.itinerary-day').forEach(d => d.classList.remove('active'));
-                    if(!isActive) parent.classList.add('active');
-                });
-            });
-
-            const galImgs = document.querySelectorAll('.gal-img');
-            const lightbox = document.getElementById('lightbox');
-            const lbImg = document.getElementById('lb-img');
-            
-            galImgs.forEach(img => {
-                img.addEventListener('click', () => {
-                    lbImg.src = img.src.replace('w=600', 'w=1200');
-                    lightbox.classList.add('active');
-                });
-            });
-            document.querySelector('.lb-close').addEventListener('click', () => lightbox.classList.remove('active'));
-
-            document.getElementById('sidebar-book-btn').addEventListener('click', () => {
-                const date = document.getElementById('book-date').value;
-                const pax = document.getElementById('book-pax').value;
-                const dur = document.getElementById('book-dur').value;
-                window.location.href = `../client/inquiry.html?dest=Dooars&date=${date}&pax=${pax}&dur=${dur}`;
-            });
-
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('book-date').setAttribute('min', today);
-        });
-    </script>
+    
 </body>
 </html>
