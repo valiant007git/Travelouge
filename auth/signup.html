@@ -264,16 +264,24 @@
             if(step === 1) {
                 const fname = document.getElementById('fname').value;
                 const lname = document.getElementById('lname').value;
-                const email = document.getElementById('signup-email').value;
-                if(!fname || !lname || !email) {
+                const emailInput = document.getElementById('signup-email');
+                const email = emailInput.value;
+                const phone = document.getElementById('phone').value;
+                const dob = document.getElementById('dob').value;
+                if(!fname || !lname || !email || !phone || !dob) {
                     mainError.innerText = 'Please fill all required fields.';
+                    mainError.style.display = 'block';
+                    return false;
+                }
+                if(!emailInput.checkValidity()) {
+                    mainError.innerText = 'Please enter a valid email address.';
                     mainError.style.display = 'block';
                     return false;
                 }
                 
                 // check email duplicate
                 const users = JSON.parse(localStorage.getItem('travelogue_users')) || [];
-                if(users.find(u => u.email === email)) {
+                if(users.find(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
                     mainError.innerText = 'Email is already registered. Please login.';
                     mainError.style.display = 'block';
                     return false;

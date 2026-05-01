@@ -58,14 +58,16 @@ const loginAdmin = (email, password) => {
 
 const signupClient = (formData) => {
     const users = getUsers();
-    if (users.find(u => u.email === formData.email)) {
+    const cleanEmail = formData.email.replace(/[\s\u200B-\u200D\uFEFF]/g, '').toLowerCase();
+    if (users.find(u => u.email.toLowerCase() === cleanEmail)) {
         return { success: false, message: 'Email is already registered.' };
     }
     
     const newUser = {
         id: users.length ? Math.max(...users.map(u => u.id)) + 1 : 1,
         role: 'client',
-        ...formData
+        ...formData,
+        email: cleanEmail
     };
     
     users.push(newUser);

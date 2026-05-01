@@ -18,7 +18,7 @@
         .sidebar-header h2 { font-size: 1.8rem; color: var(--navy); }
         .client-profile { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); }
         .client-avatar { width: 70px; height: 70px; background: rgba(201,162,39,0.16); color: var(--navy); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; margin: 0 auto 10px; border: 1px solid rgba(201,162,39,0.35); }
-        .nav-links { list-style: none; padding: 20px 0; flex: 1; }
+        .nav-links { list-style: none; padding: 20px 0; flex: 1; display: flex; flex-direction: column; }
         .nav-link { padding: 15px 22px; display: flex; align-items: center; cursor: pointer; transition: 0.25s; text-decoration: none; color: rgba(22, 50, 79, 0.78); border-left: 3px solid transparent; }
         .nav-link i { margin-right: 15px; width: 20px; text-align: center; color: var(--gold); }
         .nav-link:hover, .nav-link.active { background: rgba(22, 50, 79, 0.06); border-left-color: var(--gold); color: var(--navy); }
@@ -125,8 +125,8 @@
         </div>
     </main>
 
-    <script defer src="../assets/js/utils.js"></script>
-    <script defer src="../auth/auth.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../auth/auth.js"></script>
     <script>
         protectPage('client');
         
@@ -145,7 +145,7 @@
 
             // Logout
             document.getElementById('logout-btn').addEventListener('click', () => {
-                logout();
+                logoutUser();
             });
 
             // Load Bookings (from inquiries logic)
@@ -175,8 +175,13 @@
                     if(inq.status === 'Confirmed') statusClass = 'status-confirmed';
                     if(inq.status === 'Cancelled') statusClass = 'status-cancelled';
 
+                    const travelDate = inq.dateFrom || inq.date || inq.travelDate;
+                    const adults = Number(inq.adults || 0);
+                    const children = Number(inq.children || 0);
+                    const travelers = Number(inq.pax || 0) || adults + children;
+                    const travelerText = travelers > 0 ? `${travelers} Person(s)` : 'Not specified';
                     // Mock cost for display
-                    const cost = inq.status === 'Confirmed' ? `₹${(inq.pax * 8500).toLocaleString()}` : 'Pending Quote';
+                    const cost = inq.status === 'Confirmed' && travelers > 0 ? `₹${(travelers * 8500).toLocaleString()}` : 'Pending Quote';
 
                     const card = document.createElement('div');
                     card.className = 'booking-card';
@@ -191,7 +196,7 @@
                         <div class="booking-details">
                             <div class="detail-item">
                                 <span>Travel Date</span>
-                                <strong>${new Date(inq.date).toLocaleDateString()}</strong>
+                                <strong>${travelDate ? new Date(travelDate).toLocaleDateString() : 'Not specified'}</strong>
                             </div>
                             <div class="detail-item">
                                 <span>Duration</span>
@@ -199,7 +204,7 @@
                             </div>
                             <div class="detail-item">
                                 <span>Travelers</span>
-                                <strong>${inq.pax} Person(s)</strong>
+                                <strong>${travelerText}</strong>
                             </div>
                             <div class="detail-item">
                                 <span>Total Cost</span>
