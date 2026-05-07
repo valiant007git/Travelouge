@@ -364,7 +364,7 @@
             <i class="fa-solid fa-circle-check"></i>
             <h2 class="brand-font" style="color:var(--navy); margin-bottom:10px;">Inquiry Received!</h2>
             <p>Thank you for reaching out. Our travel experts will review your request and get back to you shortly.</p>
-            <div class="ref-number" id="ref-number-display">TRV-XXXXXX</div>
+            <div class="ref-number" id="ref-number-display"></div>
             <a href="client-dashboard.html" class="btn" style="color:var(--navy);">Go to Dashboard</a>
         </div>
     </div>
@@ -372,6 +372,13 @@
     <script src="../assets/js/utils.js"></script>
     <script src="../auth/auth.js"></script>
     <script>
+        // Generate booking ref on page load
+        const _refChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let _pendingRef = 'TRV-';
+        for (let i = 0; i < 6; i++) _pendingRef += _refChars.charAt(Math.floor(Math.random() * _refChars.length));
+        localStorage.setItem('travelogue_last_ref', _pendingRef);
+        document.getElementById('ref-number-display').textContent = _pendingRef;
+
         // Setup Date min
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('inq-date-from').setAttribute('min', today);
@@ -426,11 +433,8 @@
         document.getElementById('inquiry-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Generate Ref (6 random uppercase alphanumeric chars)
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let refNo = 'TRV-';
-            for (let i = 0; i < 6; i++) refNo += chars.charAt(Math.floor(Math.random() * chars.length));
-            localStorage.setItem('travelogue_last_ref', refNo);
+            // Use the ref already generated on page load
+            const refNo = _pendingRef;
             
             const formData = {
                 id: Date.now(),
