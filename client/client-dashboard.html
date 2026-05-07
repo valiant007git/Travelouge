@@ -115,7 +115,8 @@
         <header class="topbar">
             <div class="user-info">
                 <span id="top-user-name">Loading...</span>
-                <img src="https://via.placeholder.com/40" id="top-user-img" alt="Profile">
+                <img src="" id="top-user-img" alt="Profile" style="display:none;">
+                <div id="top-user-avatar" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);overflow:hidden;"></div>
             </div>
         </header>
 
@@ -140,19 +141,23 @@
                     </div>
                 </div>
 
+                <!-- Booking Tracker -->
+                <div class="card" id="booking-tracker-card" style="display:none;">
+                    <h3 style="color:var(--navy);margin-bottom:20px;">Your Trip Status</h3>
+                    <div id="booking-tracker-container"></div>
+                </div>
+
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                         <h3 style="color:var(--navy);">Recent Inquiries</h3>
                         <a href="inquiry.html" class="btn"><i class="fa-solid fa-plus"></i> New Inquiry</a>
                     </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr><th>Ref No</th><th>Destination</th><th>Date Submitted</th><th>Status</th></tr>
-                        </thead>
-                        <tbody id="recent-inquiries-tbody">
-                            <!-- JS injected -->
-                        </tbody>
-                    </table>
+                    <div id="recent-inquiries-wrap">
+                        <table class="data-table">
+                            <thead><tr><th>Ref No</th><th>Destination</th><th>Date Submitted</th><th>Status</th></tr></thead>
+                            <tbody id="recent-inquiries-tbody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
@@ -226,15 +231,48 @@
 
     <script src="../assets/js/utils.js"></script>
     <script src="../auth/auth.js"></script>
+    <script src="../assets/js/features.js"></script>
     <script>
-        protectPage('client');
+        // ── Auth Guard with 2s spinner ────────────────────────
+        (function() {
+            const token = localStorage.getItem('travelogue_session') || localStorage.getItem('travelogue_token');
+            if (!token) {
+                document.body.innerHTML = `<div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-gray,#FAF9F6);gap:20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+                    <p style="font-family:Inter,sans-serif;color:#888;">Checking session... redirecting to login</p></div>`;
+                setTimeout(() => { window.location.href = '../auth/login.html'; }, 2000);
+                return;
+            }
+        })();
+        if (typeof protectPage === 'function') protectPage('client');
         
         const user = getCurrentUser();
         
         // Setup UI
-        document.getElementById('top-user-name').innerText = `${user.firstName || 'Client'} ${user.lastName || ''}`.trim();
-        if(user.avatar) document.getElementById('top-user-img').src = user.avatar;
+        const userName = `${user.firstName || 'Client'} ${user.lastName || ''}`.trim();
+        document.getElementById('top-user-name').innerText = userName;
+        // Initials avatar (replaces via.placeholder)
+        const avatarDiv = document.getElementById('top-user-avatar');
+        if (user.avatar) {
+            avatarDiv.innerHTML = `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover;">` ;
+        } else if (window.generateInitialsAvatar) {
+            avatarDiv.innerHTML = `<img src="${window.generateInitialsAvatar(userName, 40)}" style="width:100%;height:100%;">`;
+        }
         document.getElementById('welcome-title').innerText = `Welcome back, ${user.firstName || 'Traveler'}!`;
+
+        // Booking tracker — use last inquiry stage
+        const lastInqStatus = (() => {
+            const inqs = JSON.parse(localStorage.getItem('travelogue_inquiries') || '[]').filter(i => i.clientId === user.id);
+            if (!inqs.length) return -1;
+            const statusMap = { 'Pending': 0, 'Under Review': 1, 'UnderReview': 1, 'Itinerary Sent': 2, 'Payment Confirmed': 3, 'Completed': 4 };
+            const last = inqs[inqs.length - 1];
+            return statusMap[last.status] ?? 0;
+        })();
+        if (lastInqStatus >= 0) {
+            document.getElementById('booking-tracker-card').style.display = 'block';
+            if (window.initBookingTracker) window.initBookingTracker('booking-tracker-container', lastInqStatus);
+        }
 
         // Navigation
         const navLinks = document.querySelectorAll('.nav-link[data-target]');
@@ -275,10 +313,19 @@
             // Recent Inquiries
             const recentBody = document.getElementById('recent-inquiries-tbody');
             recentBody.innerHTML = '';
-            myInquiries.slice(-3).reverse().forEach(i => {
-                let sClass = i.status.replace(' ', '');
-                recentBody.innerHTML += `<tr><td>${i.refNo}</td><td>${i.destination}</td><td>${new Date(i.submittedOn).toLocaleDateString()}</td><td><span class="status-badge status-${sClass}">${i.status}</span></td></tr>`;
-            });
+            const recentSlice = myInquiries.slice(-3).reverse();
+            if (recentSlice.length === 0) {
+                recentBody.innerHTML = `<tr><td colspan="4" style="padding:30px;text-align:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.5" style="margin-bottom:10px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                    <p style="font-weight:600;color:var(--navy);">No inquiries yet</p>
+                    <p style="color:var(--text-light);font-size:0.85rem;">Plan your first trip and our experts will craft the perfect itinerary.</p>
+                    <a href="inquiry.html" class="btn" style="margin-top:12px;display:inline-block;">Start Planning</a></td></tr>`;
+            } else {
+                recentSlice.forEach(i => {
+                    let sClass = i.status.replace(' ', '');
+                    recentBody.innerHTML += `<tr><td>${i.refNo}</td><td>${i.destination}</td><td>${new Date(i.submittedOn).toLocaleDateString()}</td><td><span class="status-badge status-${sClass}">${i.status}</span></td></tr>`;
+                });
+            }
 
             // All Inquiries
             const allBody = document.getElementById('all-inquiries-tbody');
@@ -293,23 +340,29 @@
             // Bookings
             const bookGrid = document.getElementById('bookings-grid');
             bookGrid.innerHTML = '';
-            if(myBookings.length === 0) bookGrid.innerHTML = '<p>You have no active bookings.</p>';
-            myBookings.forEach(b => {
-                bookGrid.innerHTML += `
-                    <div class="booking-card">
-                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&fm=webp&q=75" class="booking-img" loading="lazy">
-                        <div class="booking-info">
-                            <h4>${b.destination} - ${b.package}</h4>
-                            <p><i class="fa-solid fa-calendar"></i> ${b.dates}</p>
-                            <p><i class="fa-solid fa-money-bill"></i> ${b.price}</p>
-                            <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
-                                <span class="status-badge status-Confirmed">Confirmed</span>
-                                <button class="btn-outline" onclick="alert('Downloading invoice for ${b.refNo}...')">Invoice</button>
+            if(myBookings.length === 0) {
+                bookGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.2" style="margin-bottom:16px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <h4 style="color:var(--navy);margin-bottom:8px;">No bookings yet</h4>
+                    <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:16px;">Your confirmed bookings will appear here once processed.</p>
+                    <a href="../pages/packages.html" class="btn">Explore Packages</a></div>`;
+            } else {
+                myBookings.forEach(b => {
+                    bookGrid.innerHTML += `
+                        <div class="booking-card">
+                            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&fm=webp&q=75" class="booking-img" loading="lazy">
+                            <div class="booking-info">
+                                <h4>${b.destination} - ${b.package}</h4>
+                                <p><i class="fa-solid fa-calendar"></i> ${b.dates}</p>
+                                <p><i class="fa-solid fa-money-bill"></i> ${b.price}</p>
+                                <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
+                                    <span class="status-badge status-Confirmed">Confirmed</span>
+                                    <button class="btn-outline" onclick="alert('Downloading invoice for ${b.refNo}...')">Invoice</button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                `;
-            });
+                        </div>`;
+                });
+            }
 
             // Reviews
             const revContainer = document.getElementById('my-reviews-container');
@@ -325,9 +378,13 @@
                                 <span style="font-size:0.8rem; color:${statColor};">${r.status.toUpperCase()}</span>
                             </div>
                             <p style="margin-top:10px; font-style:italic;">"${r.text}"</p>
-                        </div>
-                    `;
+                        </div>`;
                 });
+            } else {
+                revContainer.innerHTML = `<div style="text-align:center;padding:40px 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.5" style="margin-bottom:12px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <h4 style="color:var(--navy);margin-bottom:6px;">No reviews yet</h4>
+                    <p style="color:var(--text-light);font-size:0.85rem;">Share your experience to help fellow travelers.</p></div>`;
             }
 
             // Profile

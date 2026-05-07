@@ -426,8 +426,11 @@
         document.getElementById('inquiry-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Generate Ref
-            const refNo = 'TRV-' + Math.floor(100000 + Math.random() * 900000);
+            // Generate Ref (6 random uppercase alphanumeric chars)
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let refNo = 'TRV-';
+            for (let i = 0; i < 6; i++) refNo += chars.charAt(Math.floor(Math.random() * chars.length));
+            localStorage.setItem('travelogue_last_ref', refNo);
             
             const formData = {
                 id: Date.now(),

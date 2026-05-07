@@ -268,11 +268,7 @@
                 <div class="overview-section">
                     <h3>Traveler Reviews</h3>
                     <div id="reviews-container">
-                        <div class="review-card">
-                            <div class="review-header">
-                                <strong>Sarah Jenkins</strong>
-                                <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
+                        </div>
                             <p style="color:var(--text-light); font-size:0.9rem;">"A perfect weekend getaway. The homestay was cozy, and the view from Ahaldara was unforgettable."</p>
                         </div>
                     </div>
@@ -324,6 +320,68 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    
+    <script defer src="../assets/js/features.js"></script>
+    <script>
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    function activateTab(id) {
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+      tabContents.forEach(t => t.classList.toggle('active', t.id === id));
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', () => { activateTab(btn.dataset.tab); history.replaceState(null, '', '#' + btn.dataset.tab); }));
+    const hash = location.hash.replace('#', '');
+    activateTab(hash && document.getElementById(hash) ? hash : 'overview');
+
+    document.querySelectorAll('.day-title').forEach(t => t.addEventListener('click', () => t.closest('.itinerary-day').classList.toggle('active')));
+
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    document.querySelectorAll('.gal-img').forEach((img,i) => img.addEventListener('click', () => { lbImg.src = img.src; lb.classList.add('active'); document.body.style.overflow='hidden'; }));
+    document.querySelector('.lb-close').addEventListener('click', () => { lb.classList.remove('active'); document.body.style.overflow=''; });
+    lb.addEventListener('click', e => { if (e.target === lb) { lb.classList.remove('active'); document.body.style.overflow=''; } });
+    document.addEventListener('keydown', e => { if (e.key==='Escape' && lb.classList.contains('active')) { lb.classList.remove('active'); document.body.style.overflow=''; } });
+
+    const temps = [8, 10, 15, 19, 22, 24, 24, 23, 21, 16, 12, 9];
+    const minT = 8, maxT = 24;
+    document.querySelectorAll('.weather-bar').forEach((bar, i) => {
+      const t = temps[i]; if (t === undefined) return;
+      const ratio = maxT === minT ? 0.5 : (t - minT) / (maxT - minT);
+      bar.style.background = `rgb(${Math.round(44 + ratio*190)},${Math.round(140 - ratio*50)},${Math.round(220 - ratio*175)})`;
+      bar.style.height = (20 + ratio * 75) + '%';
+    });
+
+    const storedReviews = JSON.parse(localStorage.getItem('travelogue_reviews') || '[]')
+      .filter(r => r.destination === 'Sitong' && r.status === 'published');
+    if (window.renderReviews) window.renderReviews(storedReviews, 'reviews-container');
+
+    const sbb = document.getElementById('sidebar-book-btn');
+    if (sbb) sbb.addEventListener('click', () => {
+      const date = document.getElementById('book-date')?.value || '';
+      const pax = document.getElementById('book-pax')?.value || 2;
+      const dur = document.getElementById('book-dur')?.value || '';
+      window.location.href = `../client/inquiry.html?dest=Sitong&date=${date}&pax=${pax}&dur=${dur}`;
+    });
+
+    if (typeof isLoggedIn === 'function' && isLoggedIn()) {
+      const s = document.getElementById('add-review-section');
+      const l = document.getElementById('login-prompt');
+      if (s) s.style.display = 'block';
+      if (l) l.style.display = 'none';
+    }
+    const drf = document.getElementById('dest-review-form');
+    if (drf) drf.addEventListener('submit', e => {
+      e.preventDefault();
+      const user = typeof getCurrentUser === 'function' ? getCurrentUser() : {};
+      const revs = JSON.parse(localStorage.getItem('travelogue_reviews') || '[]');
+      revs.push({ id: Date.now(), name: `${user.firstName||''} ${user.lastName||''}`.trim()||'Traveler', location: user.country||'', rating: parseInt(document.getElementById('rev-rate').value), text: document.getElementById('rev-text').value, destination: 'Sitong', status: 'hidden' });
+      localStorage.setItem('travelogue_reviews', JSON.stringify(revs));
+      alert('Review submitted for approval!'); drf.reset();
+    });
+
+    if (window.addWishlistButton) {
+      const hero = document.querySelector('.dest-hero');
+      if (hero) { hero.style.position='relative'; window.addWishlistButton(hero, { id: 'dest-sittong', name: 'Sitong', img: 'https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=300', type: 'Destination' }); }
+    }
+    </script>
 </body>
 </html>

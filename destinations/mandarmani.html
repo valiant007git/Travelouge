@@ -417,12 +417,18 @@
             <div class="tab-content" id="reviews">
                 <div class="overview-section">
                     <h3>Traveler Reviews</h3>
-                    <div class="review-card">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <strong>Arijit Bose</strong>
-                            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        </div>
-                        <p style="color:var(--text-light); font-size:0.95rem;">"Exactly the polished short break we needed. The resort choice and drive coordination were excellent."</p>
+                    <div id="reviews-container">
+                    </div>
+                    <div class="review-form" id="add-review-section" style="display:none;">
+                        <h4>Write a Review</h4>
+                        <form id="dest-review-form">
+                            <div class="sidebar-group" style="margin-top:15px;"><label>Rating (1-5)</label><input type="number" id="rev-rate" min="1" max="5" value="5" required></div>
+                            <div class="sidebar-group"><label>Your Review</label><textarea id="rev-text" rows="3" required></textarea></div>
+                            <button type="submit" class="btn">Submit Review</button>
+                        </form>
+                    </div>
+                    <div id="login-prompt" style="margin-top:20px; padding:20px; background:#f9f9f9; text-align:center; border-radius:8px;">
+                        <p>Please <a href="../auth/login.html" style="text-decoration:underline;">login</a> to write a review.</p>
                     </div>
                 </div>
             </div>
@@ -469,39 +475,53 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
+    <script defer src="../assets/js/features.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
-                });
-            });
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    function activateTab(id) {
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+      tabContents.forEach(t => t.classList.toggle('active', t.id === id));
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', () => { activateTab(btn.dataset.tab); history.replaceState(null,'','#'+btn.dataset.tab); }));
+    const hash = location.hash.replace('#','');
+    activateTab(hash && document.getElementById(hash) ? hash : 'overview');
 
-            const lightbox = document.getElementById('lightbox');
-            const lbImg = document.getElementById('lb-img');
-            document.querySelectorAll('.gal-img').forEach(img => {
-                img.addEventListener('click', () => {
-                    lbImg.src = img.src.replace('w=700', 'w=1400');
-                    lightbox.classList.add('active');
-                });
-            });
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    document.querySelectorAll('.gal-img').forEach(img => img.addEventListener('click', () => { lbImg.src = img.src.replace('w=700','w=1400'); lb.classList.add('active'); document.body.style.overflow='hidden'; }));
+    document.querySelector('.lb-close').addEventListener('click', () => { lb.classList.remove('active'); document.body.style.overflow=''; });
+    lb.addEventListener('click', e => { if (e.target===lb) { lb.classList.remove('active'); document.body.style.overflow=''; } });
+    document.addEventListener('keydown', e => { if (e.key==='Escape'&&lb.classList.contains('active')) { lb.classList.remove('active'); document.body.style.overflow=''; } });
 
-            document.querySelector('.lb-close').addEventListener('click', () => {
-                lightbox.classList.remove('active');
-            });
+    document.getElementById('sidebar-book-btn').addEventListener('click', () => {
+      const date = document.getElementById('book-date').value;
+      const pax = document.getElementById('book-pax').value;
+      const dur = document.getElementById('book-dur').value;
+      window.location.href = `../client/inquiry.html?dest=Mandarmani&date=${date}&pax=${pax}&dur=${dur}`;
+    });
 
-            document.getElementById('sidebar-book-btn').addEventListener('click', () => {
-                const date = document.getElementById('book-date').value;
-                const pax = document.getElementById('book-pax').value;
-                const dur = document.getElementById('book-dur').value;
-                window.location.href = `../client/inquiry.html?dest=Mandarmani&date=${date}&pax=${pax}&dur=${dur}`;
-            });
-        });
+    const storedReviews = JSON.parse(localStorage.getItem('travelogue_reviews')||'[]').filter(r=>r.destination==='Mandarmani'&&r.status==='published');
+    if (window.renderReviews) window.renderReviews(storedReviews,'reviews-container');
+
+    if (typeof isLoggedIn==='function'&&isLoggedIn()) {
+      const s=document.getElementById('add-review-section'); const l=document.getElementById('login-prompt');
+      if(s)s.style.display='block'; if(l)l.style.display='none';
+    }
+    const drf=document.getElementById('dest-review-form');
+    if(drf) drf.addEventListener('submit',e=>{
+      e.preventDefault();
+      const user=typeof getCurrentUser==='function'?getCurrentUser():{};
+      const revs=JSON.parse(localStorage.getItem('travelogue_reviews')||'[]');
+      revs.push({id:Date.now(),name:`${user.firstName||''} ${user.lastName||''}`.trim()||'Traveler',location:user.country||'',rating:parseInt(document.getElementById('rev-rate').value),text:document.getElementById('rev-text').value,destination:'Mandarmani',status:'hidden'});
+      localStorage.setItem('travelogue_reviews',JSON.stringify(revs));
+      alert('Review submitted for approval!');drf.reset();
+    });
+
+    if(window.addWishlistButton){
+      const hero=document.querySelector('.dest-hero');
+      if(hero){hero.style.position='relative';window.addWishlistButton(hero,{id:'dest-mandarmani',name:'Mandarmani',img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300',type:'Destination'});}
+    }
     </script>
 </body>
 </html>

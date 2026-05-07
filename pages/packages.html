@@ -474,7 +474,76 @@
         </div>
     </div>
 
+    <!-- Trip Cost Estimator -->
+    <section class="section-padding" style="background:var(--white);">
+        <div class="container" style="max-width:900px;">
+            <h2 class="section-title brand-font">Trip Cost Estimator</h2>
+            <p class="section-subtitle">Get an instant estimate for your dream journey.</p>
+            <div style="background:linear-gradient(135deg,rgba(22,50,79,0.04),rgba(201,162,39,0.06));border:1px solid var(--border);border-radius:16px;padding:36px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+                    <div>
+                        <label style="display:block;font-weight:600;color:var(--navy);margin-bottom:8px;">Destination</label>
+                        <select id="est-dest" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;outline:none;font-size:1rem;">
+                            <option value="darjeeling">Darjeeling</option>
+                            <option value="sikkim">Sikkim</option>
+                            <option value="dooars">Dooars</option>
+                            <option value="sitong">Sitong</option>
+                            <option value="mandarmani">Mandarmani</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:600;color:var(--navy);margin-bottom:8px;">Accommodation Tier</label>
+                        <select id="est-tier" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;outline:none;font-size:1rem;">
+                            <option value="800">Budget (₹800/night)</option>
+                            <option value="1800">3-Star (₹1,800/night)</option>
+                            <option value="3200" selected>4-Star (₹3,200/night)</option>
+                            <option value="6000">5-Star (₹6,000/night)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:600;color:var(--navy);margin-bottom:8px;">Adults: <span id="est-adults-val" style="color:var(--gold);">2</span></label>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <button id="est-adults-dec" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">−</button>
+                            <span id="est-adults-num" style="font-size:1.4rem;font-weight:700;color:var(--navy);min-width:24px;text-align:center;">2</span>
+                            <button id="est-adults-inc" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;">+</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:600;color:var(--navy);margin-bottom:8px;">Nights: <span id="est-nights-val" style="color:var(--gold);">3</span></label>
+                        <input type="range" id="est-nights" min="1" max="10" value="3" style="width:100%;accent-color:var(--gold);">
+                    </div>
+                </div>
+
+                <div style="margin-top:28px;background:var(--white);border-radius:12px;padding:24px;border:1px solid var(--border);">
+                    <h4 style="color:var(--navy);margin-bottom:16px;font-family:'Playfair Display',serif;">Cost Breakdown</h4>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+                        <div style="text-align:center;padding:14px;background:rgba(201,162,39,0.08);border-radius:8px;">
+                            <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:4px;">Stay</div>
+                            <div id="est-stay" style="font-weight:700;color:var(--navy);">₹19,200</div>
+                        </div>
+                        <div style="text-align:center;padding:14px;background:rgba(201,162,39,0.08);border-radius:8px;">
+                            <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:4px;">Transfers</div>
+                            <div id="est-transfers" style="font-weight:700;color:var(--navy);">₹2,000</div>
+                        </div>
+                        <div style="text-align:center;padding:14px;background:rgba(201,162,39,0.08);border-radius:8px;">
+                            <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:4px;">Meals</div>
+                            <div id="est-meals" style="font-weight:700;color:var(--navy);">₹1,200</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--gold);padding-top:16px;">
+                        <div>
+                            <div style="font-size:0.85rem;color:var(--text-light);">Estimated Total</div>
+                            <div id="est-total" style="font-size:2.2rem;font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);">₹22,400</div>
+                        </div>
+                        <a id="est-plan-btn" href="../client/inquiry.html" class="btn" style="padding:14px 28px;">Plan This Trip →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
+
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-col">
@@ -520,6 +589,221 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    
+    <script defer src="../assets/js/features.js"></script>
+    <script>
+    // ── Per-Package Data ──────────────────────────────────────
+    const PKG_DATA = {
+      pkg1: { id:'pkg1', name:'Sikkim Explorer', dest:'Sikkim', duration:'4D/3N', price:'₹8,999', priceNum:8999, unit:'person',
+        img:'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&fm=webp&q=75',
+        highlights:['Gangtok city tour','Tsomgo Lake & Nathula Pass','MG Marg evening walk'],
+        itinerary:[{day:'Day 1',title:'Arrival in Gangtok',desc:'Transfer from NJP/Bagdogra. Check-in, evening at MG Marg.'},{day:'Day 2',title:'Tsomgo Lake & Nathula',desc:'Full-day excursion to Tsomgo Lake (12,400 ft) and Nathula Pass (14,140 ft) — India–China border.'},{day:'Day 3',title:'Gangtok Sightseeing',desc:'Rumtek Monastery, Enchey Monastery, Do-Drul Chorten, Institute of Tibetology.'},{day:'Day 4',title:'Departure',desc:'Morning transfer back to NJP/Bagdogra.'}],
+        inc:['Accommodation twin sharing','Breakfast & dinner daily','Private cab transfers','All sightseeing','Driver allowance & tolls'],
+        exc:['Airfare/train fare','Entry fees','Personal expenses','Travel insurance'] },
+      pkg2: { id:'pkg2', name:'Darjeeling Classic', dest:'Darjeeling', duration:'3D/2N', price:'₹5,999', priceNum:5999, unit:'person',
+        img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&fm=webp&q=75',
+        highlights:['Tiger Hill sunrise','Batasia Loop toy train','Happy Valley Tea Estate'],
+        itinerary:[{day:'Day 1',title:'Arrival & Mall Road',desc:'Transfer from NJP. Check-in. Evening stroll on Chowrasta Mall Road.'},{day:'Day 2',title:'Tiger Hill & Sightseeing',desc:'4 AM Tiger Hill sunrise, Ghoom Monastery, Batasia Loop, HMI & Zoo, tea garden visit.'},{day:'Day 3',title:'Departure',desc:'Tea shopping, transfer back to NJP.'}],
+        inc:['4-Star accommodation','Breakfast included','Private vehicle','Guided sightseeing'],
+        exc:['Airfare/train fare','Toy train tickets','Personal expenses','Travel insurance'] },
+      pkg3: { id:'pkg3', name:'Sitong Retreat', dest:'Sitong', duration:'2D/1N', price:'₹3,999', priceNum:3999, unit:'person',
+        img:'https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600&fm=webp&q=75',
+        highlights:['Orange orchard walk','Ahaldara viewpoint','Evening bonfire'],
+        itinerary:[{day:'Day 1',title:'Arrival & Nature Walk',desc:'Arrive at Sitong. Settle into homestay. Orange orchard walk, evening bonfire & local dinner.'},{day:'Day 2',title:'Viewpoint & Departure',desc:'Early morning Ahaldara viewpoint for Kanchenjunga view. Breakfast and departure.'}],
+        inc:['Premium homestay','All meals','Bonfire evening','Nature guide'],
+        exc:['Transport to/from Sitong','Personal expenses','Tips'] },
+      pkg4: { id:'pkg4', name:'Dooars Wildlife', dest:'Dooars', duration:'4D/3N', price:'₹7,499', priceNum:7499, unit:'person',
+        img:'https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&fm=webp&q=75',
+        highlights:['Gorumara jeep safari','Jaldapara elephant safari','Jayanti river camp'],
+        itinerary:[{day:'Day 1',title:'Arrival at Lataguri',desc:'Transfer to Lataguri, check-in jungle resort, evening nature walk.'},{day:'Day 2',title:'Gorumara Safari',desc:'Morning jeep safari in Gorumara NP. Afternoon at Murti river.'},{day:'Day 3',title:'Jaldapara',desc:'Elephant safari at Jaldapara. Visit Chilapata Forest & Jayanti.'},{day:'Day 4',title:'Departure',desc:'Morning bird watching, transfer to NJP.'}],
+        inc:['Jungle resort stay','Breakfast & dinner','2 jeep safaris','Elephant safari','All transfers'],
+        exc:['Airfare/train','Entry fees to parks','Personal expenses','Alcohol'] },
+      pkg5: { id:'pkg5', name:'Sikkim + Darjeeling Combo', dest:'Sikkim/Darjeeling', duration:'6D/5N', price:'₹13,999', priceNum:13999, unit:'person',
+        img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&fm=webp&q=75',
+        highlights:['Gangtok & Pelling','Tsomgo Lake','Tiger Hill sunrise','Tea garden tour'],
+        itinerary:[{day:'Day 1',title:'Arrive Gangtok',desc:'NJP pickup, check-in Gangtok.'},{day:'Day 2',title:'Tsomgo & Nathula',desc:'Full-day excursion.'},{day:'Day 3',title:'Gangtok–Pelling',desc:'Drive to Pelling, visit Rabdentse ruins.'},{day:'Day 4',title:'Pelling–Darjeeling',desc:'Drive via Jorethang. Check-in Darjeeling.'},{day:'Day 5',title:'Tiger Hill & Sightseeing',desc:'Tiger Hill sunrise, full sightseeing day.'},{day:'Day 6',title:'Departure',desc:'NJP transfer.'}],
+        inc:['4-Star accommodation','Breakfast & dinner','All sightseeing & transfers','Dedicated trip manager'],
+        exc:['Airfare/train','Personal expenses','Travel insurance'] },
+      pkg6: { id:'pkg6', name:'North Bengal Grand Tour', dest:'Multi-region', duration:'8D/7N', price:'₹18,999', priceNum:18999, unit:'person',
+        img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&fm=webp&q=75',
+        highlights:['Dooars safari','Darjeeling','Kalimpong monastery','Sitong village'],
+        itinerary:[{day:'Day 1-2',title:'Dooars',desc:'Gorumara & Jaldapara safaris.'},{day:'Day 3',title:'Kalimpong',desc:'Drive to Kalimpong, Durpin Monastery, flower nurseries.'},{day:'Day 4-5',title:'Darjeeling',desc:'Tiger Hill, sightseeing, toy train experience.'},{day:'Day 6',title:'Sitong',desc:'Overnight homestay, orange orchards.'},{day:'Day 7-8',title:'Return',desc:'Leisurely return via NJP.'}],
+        inc:['All accommodation','All meals included','All transfers','Dedicated trip manager','All safaris'],
+        exc:['Airfare/train','Personal expenses','Travel insurance','Tips'] },
+      pkg7: { id:'pkg7', name:'Honeymoon Special Sikkim', dest:'Sikkim', duration:'5D/4N', price:'₹22,999', priceNum:22999, unit:'couple',
+        img:'https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=600&fm=webp&q=75',
+        highlights:['Candlelight dinner','Lachen & Gurudongmar Lake','Luxury SUV transfers'],
+        itinerary:[{day:'Day 1',title:'Arrive Gangtok',desc:'Luxury SUV pickup, rose-petal room decoration, welcome dinner.'},{day:'Day 2',title:'Tsomgo & Nathula',desc:'Romantic excursion, hot beverages at the lake.'},{day:'Day 3',title:'Lachen',desc:'Drive to Lachen through stunning valleys.'},{day:'Day 4',title:'Gurudongmar Lake',desc:'Early morning visit to one of the highest lakes in the world (17,800 ft).'},{day:'Day 5',title:'Return & Departure',desc:'Candlelight farewell dinner, NJP transfer.'}],
+        inc:['5-Star accommodation','All meals + candlelight dinner','Luxury SUV','Welcome cake','All sightseeing'],
+        exc:['Airfare/train','Personal shopping','Alcohol'] },
+      pkg8: { id:'pkg8', name:'Dooars + Sitong Nature', dest:'Dooars/Sitong', duration:'5D/4N', price:'₹11,999', priceNum:11999, unit:'person',
+        img:'https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&fm=webp&q=75',
+        highlights:['Wildlife photography safari','Eco-resort stay','Sitong village walk'],
+        itinerary:[{day:'Day 1-2',title:'Dooars Wildlife',desc:'Lataguri eco-resort, Gorumara safari, wildlife photography.'},{day:'Day 3',title:'Jaldapara',desc:'Elephant safari and bird watching at Chilapata.'},{day:'Day 4',title:'Sitong',desc:'Drive to Sitong, orchard walk, bonfire.'},{day:'Day 5',title:'Departure',desc:'Morning nature walk and NJP transfer.'}],
+        inc:['Eco-resort & homestay','Breakfast & dinner','Jeep & elephant safaris','Photography guide'],
+        exc:['Airfare/train','Personal expenses','Alcohol'] },
+      pkg9: { id:'pkg9', name:'Mandarmani Coast Luxe', dest:'Mandarmani', duration:'3D/2N', price:'₹9,999', priceNum:9999, unit:'person',
+        img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&fm=webp&q=75',
+        highlights:['Sea-facing resort','Tajpur beach visit','Seafood trail & ATV rides'],
+        itinerary:[{day:'Day 1',title:'Arrival at Mandarmani',desc:'Transfer from Kolkata (4 hrs). Check-in sea-facing resort. Sunset beach walk.'},{day:'Day 2',title:'Beach Activities',desc:'Morning ATV ride on beach, visit Tajpur beach, afternoon swimming, seafood dinner.'},{day:'Day 3',title:'Departure',desc:'Breakfast, last beach walk, return to Kolkata.'}],
+        inc:['Sea-facing resort accommodation','Breakfast & dinner','Private Kolkata transfers','Beach activities'],
+        exc:['Train/bus to Kolkata','ATV charges (₹500 extra)','Personal expenses'] }
+    };
+
+    // ── Modal Logic ──────────────────────────────────────────
+    const modal = document.getElementById('pkg-modal');
+    document.querySelectorAll('.view-details').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pkg = PKG_DATA[btn.dataset.id];
+        if (!pkg) return;
+        document.getElementById('modal-title').textContent = pkg.name;
+        document.getElementById('modal-price').textContent = pkg.price + '/' + pkg.unit;
+        document.getElementById('modal-book-btn').href = `../client/inquiry.html?pkg=${encodeURIComponent(pkg.name)}&dest=${encodeURIComponent(pkg.dest)}`;
+        document.getElementById('modal-itinerary').innerHTML = pkg.itinerary.map(d =>
+          `<div class="itinerary-day"><h4>${d.day}: ${d.title}</h4><p>${d.desc}</p></div>`).join('');
+        const incEl = modal.querySelector('.inc ul');
+        const excEl = modal.querySelector('.exc ul');
+        incEl.innerHTML = pkg.inc.map(i => `<li>${i}</li>`).join('');
+        excEl.innerHTML = pkg.exc.map(i => `<li>${i}</li>`).join('');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+      modal.style.display = 'none'; document.body.style.overflow = '';
+    });
+    modal.addEventListener('click', e => { if (e.target === modal) { modal.style.display='none'; document.body.style.overflow=''; } });
+
+    // ── Package Filter ────────────────────────────────────────
+    document.getElementById('apply-filter').addEventListener('click', () => {
+      const dest = document.getElementById('filt-dest').value;
+      const dur = document.getElementById('filt-dur').value;
+      const style = document.getElementById('filt-style').value;
+      document.querySelectorAll('.pkg-card').forEach(card => {
+        const dMatch = dest === 'all' || card.dataset.dest === dest;
+        const days = parseInt(card.dataset.dur);
+        const durMatch = dur === 'all' || (dur==='short'&&days<=3) || (dur==='med'&&days>=4&&days<=5) || (dur==='long'&&days>=6);
+        const sMatch = style === 'all' || card.dataset.style === style;
+        card.style.display = (dMatch && durMatch && sMatch) ? '' : 'none';
+      });
+    });
+
+    // ── Comparison Tray ──────────────────────────────────────
+    let compareList = [];
+    const trayStyle = document.createElement('style');
+    trayStyle.textContent = `
+      .compare-tray{position:fixed;bottom:0;left:0;right:0;background:var(--white,#fff);border-top:2px solid var(--gold,#C9A227);padding:14px 20px;display:none;align-items:center;gap:16px;z-index:800;box-shadow:0 -8px 32px rgba(22,50,79,0.12);flex-wrap:wrap;}
+      .compare-tray.visible{display:flex;}
+      .cmp-slot{background:rgba(22,50,79,0.05);border:1px dashed var(--border);border-radius:8px;padding:8px 14px;font-size:0.85rem;color:var(--navy,#16324F);min-width:130px;}
+      .cmp-slot.filled{background:rgba(201,162,39,0.1);border-style:solid;border-color:var(--gold,#C9A227);}
+      .cmp-clear{background:none;border:none;cursor:pointer;color:var(--text-light);font-size:0.8rem;text-decoration:underline;}
+      #cmp-modal-overlay{position:fixed;inset:0;background:rgba(22,50,79,0.6);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px;}
+      #cmp-modal-overlay.open{display:flex;}
+      #cmp-modal-box{background:var(--white,#fff);border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:30px;}
+      .cmp-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+      .cmp-table th,.cmp-table td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;}
+      .cmp-table th{background:rgba(22,50,79,0.04);color:var(--navy,#16324F);font-weight:700;width:22%;}
+      .cmp-table td{vertical-align:top;}
+      .pkg-cmp-cb{display:none;}
+      .pkg-cmp-label{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-light);cursor:pointer;padding:4px 10px;border:1px solid var(--border);border-radius:20px;margin-top:6px;transition:all 0.2s;}
+      .pkg-cmp-label:hover,.pkg-cmp-label.checked{background:rgba(201,162,39,0.12);border-color:var(--gold,#C9A227);color:var(--navy,#16324F);}
+    `;
+    document.head.appendChild(trayStyle);
+    const tray = document.createElement('div');
+    tray.className = 'compare-tray';
+    tray.innerHTML = `<strong style="color:var(--navy);font-size:0.9rem;">Compare:</strong><div id="cmp-slots" style="display:flex;gap:10px;flex:1;flex-wrap:wrap;"></div><button id="cmp-now-btn" class="btn" style="padding:10px 20px;">Compare Now</button><button class="cmp-clear" id="cmp-clear">Clear All</button>`;
+    document.body.appendChild(tray);
+    const cmpModalHTML = `<div id="cmp-modal-overlay"><div id="cmp-modal-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;"><h2 class="brand-font" style="color:var(--navy);">Package Comparison</h2><button id="cmp-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div><div id="cmp-table-wrap"></div></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', cmpModalHTML);
+
+    document.querySelectorAll('.pkg-actions').forEach((actions, i) => {
+      const card = actions.closest('.pkg-card');
+      const pkgId = actions.querySelector('.view-details').dataset.id;
+      const lbl = document.createElement('label');
+      lbl.className = 'pkg-cmp-label';
+      lbl.innerHTML = `<input type="checkbox" class="pkg-cmp-cb" data-id="${pkgId}"> ☰ Compare`;
+      actions.appendChild(lbl);
+      const cb = lbl.querySelector('input');
+      cb.addEventListener('change', () => {
+        if (cb.checked) {
+          if (compareList.length >= 3) { cb.checked = false; alert('Max 3 packages to compare.'); return; }
+          compareList.push(pkgId); lbl.classList.add('checked');
+        } else {
+          compareList = compareList.filter(id => id !== pkgId); lbl.classList.remove('checked');
+        }
+        renderTray();
+      });
+    });
+
+    function renderTray() {
+      const slots = document.getElementById('cmp-slots');
+      slots.innerHTML = compareList.map(id => `<div class="cmp-slot filled">${PKG_DATA[id]?.name || id}</div>`).join('') +
+        Array(3 - compareList.length).fill('<div class="cmp-slot">Empty slot</div>').join('');
+      tray.classList.toggle('visible', compareList.length > 0);
+    }
+    document.getElementById('cmp-clear').addEventListener('click', () => {
+      compareList = [];
+      document.querySelectorAll('.pkg-cmp-cb').forEach(cb => { cb.checked = false; cb.closest('label').classList.remove('checked'); });
+      renderTray();
+    });
+    document.getElementById('cmp-now-btn').addEventListener('click', () => {
+      if (compareList.length < 2) { alert('Select at least 2 packages to compare.'); return; }
+      const pkgs = compareList.map(id => PKG_DATA[id]);
+      const rows = [
+        ['Price', pkgs.map(p => `<strong>${p.price}</strong>/${p.unit}`)],
+        ['Duration', pkgs.map(p => p.duration)],
+        ['Destination', pkgs.map(p => p.dest)],
+        ['Highlights', pkgs.map(p => p.highlights.map(h => `• ${h}`).join('<br>'))],
+        ['Inclusions', pkgs.map(p => p.inc.map(i => `✓ ${i}`).join('<br>'))],
+        ['Exclusions', pkgs.map(p => p.exc.map(i => `✗ ${i}`).join('<br>'))],
+        ['Book', pkgs.map(p => `<a href="../client/inquiry.html?pkg=${encodeURIComponent(p.name)}" class="btn" style="font-size:0.8rem;padding:8px 14px;">Book Now</a>`)]
+      ];
+      document.getElementById('cmp-table-wrap').innerHTML = `<table class="cmp-table"><thead><tr><th>Feature</th>${pkgs.map(p=>`<th>${p.name}</th>`).join('')}</tr></thead><tbody>${rows.map(([lbl,vals])=>`<tr><th>${lbl}</th>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      document.getElementById('cmp-modal-overlay').classList.add('open');
+    });
+    document.getElementById('cmp-close').addEventListener('click', () => document.getElementById('cmp-modal-overlay').classList.remove('open'));
+    document.getElementById('cmp-modal-overlay').addEventListener('click', e => { if (e.target.id === 'cmp-modal-overlay') e.target.classList.remove('open'); });
+
+    // ── Wishlist hearts on pkg cards ─────────────────────────
+    document.querySelectorAll('.pkg-card').forEach(card => {
+      const imgDiv = card.querySelector('.pkg-img');
+      if (!imgDiv) return;
+      imgDiv.style.position = 'relative';
+      const pkgId = card.querySelector('.view-details')?.dataset.id;
+      const pkg = PKG_DATA[pkgId];
+      if (pkg && window.addWishlistButton) {
+        window.addWishlistButton(imgDiv, { id: pkg.id, name: pkg.name, img: pkg.img, type: 'Package' });
+      }
+    });
+
+    // ── Trip Cost Estimator ───────────────────────────────────
+    let estAdults = 2;
+    const fmt = n => '₹' + n.toLocaleString('en-IN');
+    function calcCost() {
+      const nights = parseInt(document.getElementById('est-nights').value);
+      const tier = parseInt(document.getElementById('est-tier').value);
+      const dest = document.getElementById('est-dest').value;
+      const stay = tier * nights * estAdults;
+      const transfers = 1000 + estAdults * 200;
+      const meals = 400 * nights * estAdults;
+      const total = stay + transfers + meals;
+      document.getElementById('est-nights-val').textContent = nights;
+      document.getElementById('est-adults-val').textContent = estAdults;
+      document.getElementById('est-adults-num').textContent = estAdults;
+      document.getElementById('est-stay').textContent = fmt(stay);
+      document.getElementById('est-transfers').textContent = fmt(transfers);
+      document.getElementById('est-meals').textContent = fmt(meals);
+      document.getElementById('est-total').textContent = fmt(total);
+      const tierName = document.getElementById('est-tier').selectedOptions[0].text.split(' ')[0];
+      document.getElementById('est-plan-btn').href =
+        `../client/inquiry.html?dest=${dest}&pax=${estAdults}&dur=${nights}&acc=${encodeURIComponent(tierName)}`;
+    }
+    document.getElementById('est-nights').addEventListener('input', calcCost);
+    document.getElementById('est-tier').addEventListener('change', calcCost);
+    document.getElementById('est-dest').addEventListener('change', calcCost);
+    document.getElementById('est-adults-inc').addEventListener('click', () => { if (estAdults < 20) estAdults++; calcCost(); });
+    document.getElementById('est-adults-dec').addEventListener('click', () => { if (estAdults > 1) estAdults--; calcCost(); });
+    calcCost();
+    </script>
+
 </body>
 </html>

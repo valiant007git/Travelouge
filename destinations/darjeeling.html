@@ -334,6 +334,89 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    
+    <script defer src="../assets/js/features.js"></script>
+    <script>
+    // ── Tab Navigation with URL hash deep-linking ─────────────
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    function activateTab(id) {
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+      tabContents.forEach(t => t.classList.toggle('active', t.id === id));
+    }
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activateTab(btn.dataset.tab);
+        history.replaceState(null, '', '#' + btn.dataset.tab);
+      });
+    });
+    const hash = location.hash.replace('#', '');
+    activateTab(hash && document.getElementById(hash) ? hash : 'overview');
+
+    // ── Itinerary accordion ───────────────────────────────────
+    document.querySelectorAll('.day-title').forEach(title => {
+      title.addEventListener('click', () => title.closest('.itinerary-day').classList.toggle('active'));
+    });
+
+    // ── Destination gallery lightbox ──────────────────────────
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const galImgs = document.querySelectorAll('.gal-img');
+    let lbIdx = 0;
+    galImgs.forEach((img, i) => img.addEventListener('click', () => { lbIdx = i; lbImg.src = img.src; lb.classList.add('active'); document.body.style.overflow='hidden'; }));
+    document.querySelector('.lb-close').addEventListener('click', () => { lb.classList.remove('active'); document.body.style.overflow=''; });
+    lb.addEventListener('click', e => { if (e.target === lb) { lb.classList.remove('active'); document.body.style.overflow=''; } });
+    document.addEventListener('keydown', e => { if (!lb.classList.contains('active')) return; if (e.key==='Escape'){lb.classList.remove('active');document.body.style.overflow='';} });
+
+    // ── Color-coded temperature bars ──────────────────────────
+    const temps = [10,12,16,20,23,25,25,24,22,18,15,11];
+    const minT = Math.min(...temps), maxT = Math.max(...temps);
+    document.querySelectorAll('.weather-bar').forEach((bar, i) => {
+      const t = temps[i], ratio = (t - minT) / (maxT - minT);
+      const r = Math.round(44 + ratio * (234 - 44));
+      const g = Math.round(140 + ratio * (90 - 140));
+      const b = Math.round(220 + ratio * (45 - 220));
+      bar.style.background = `rgb(${r},${g},${b})`;
+      bar.style.height = (20 + ratio * 75) + '%';
+    });
+
+    // ── Reviews ───────────────────────────────────────────────
+    const storedReviews = JSON.parse(localStorage.getItem('travelogue_reviews') || '[]')
+      .filter(r => r.destination === 'Darjeeling' && r.status === 'published');
+    window.renderReviews(storedReviews, 'reviews-container');
+
+    // ── Sidebar booking button ────────────────────────────────
+    document.getElementById('sidebar-book-btn').addEventListener('click', () => {
+      const date = document.getElementById('book-date').value;
+      const pax = document.getElementById('book-pax').value;
+      const dur = document.getElementById('book-dur').value;
+      window.location.href = `../client/inquiry.html?dest=Darjeeling&date=${date}&pax=${pax}&dur=${dur}`;
+    });
+
+    // ── Review form (login gate) ──────────────────────────────
+    if (typeof isLoggedIn === 'function' && isLoggedIn()) {
+      document.getElementById('add-review-section').style.display = 'block';
+      document.getElementById('login-prompt').style.display = 'none';
+    }
+    const destReviewForm = document.getElementById('dest-review-form');
+    if (destReviewForm) {
+      destReviewForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const user = typeof getCurrentUser === 'function' ? getCurrentUser() : {};
+        const reviews = JSON.parse(localStorage.getItem('travelogue_reviews') || '[]');
+        reviews.push({ id: Date.now(), name: `${user.firstName||''} ${user.lastName||''}`.trim() || 'Traveler', location: user.country || '', rating: parseInt(document.getElementById('rev-rate').value), text: document.getElementById('rev-text').value, destination: 'Darjeeling', status: 'hidden' });
+        localStorage.setItem('travelogue_reviews', JSON.stringify(reviews));
+        alert('Review submitted for approval!'); destReviewForm.reset();
+      });
+    }
+
+    // ── Wishlist heart on hero ────────────────────────────────
+    if (window.addWishlistButton) {
+      const heroSection = document.querySelector('.dest-hero');
+      if (heroSection) {
+        heroSection.style.position = 'relative';
+        window.addWishlistButton(heroSection, { id: 'dest-darjeeling', name: 'Darjeeling', img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=300', type: 'Destination' });
+      }
+    }
+    </script>
 </body>
 </html>

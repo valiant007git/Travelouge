@@ -144,10 +144,30 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, rgba(22,50,79,0.06), rgba(22,50,79,0.03));
+            border: 1px solid var(--border);
         }
         .video-wrapper iframe {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .video-coming-soon {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px;
+            color: var(--navy);
+        }
+        .video-coming-soon svg { opacity: 0.5; }
+        .video-coming-soon h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin: 0; color: var(--navy); }
+        .video-coming-soon p { color: var(--text-light); font-size: 0.9rem; margin: 0; }
+        .video-title-tag {
+            position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: rgba(255,255,255,0.82); backdrop-filter: blur(8px);
+            border: 1px solid var(--border); border-radius: 20px;
+            padding: 5px 18px; font-size: 0.82rem; font-weight: 600;
+            color: var(--navy); white-space: nowrap;
         }
 
         @media (max-width: 992px) { .masonry-grid { column-count: 3; } .video-grid { grid-template-columns: 1fr; } }
@@ -268,23 +288,32 @@
             
             <div class="video-grid">
                 <div class="video-wrapper">
-                    <!-- Placeholder YouTube Iframe -->
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&mute=1" title="Sikkim Tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="video-coming-soon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <h4>Coming Soon</h4>
+                        <p>Our Sikkim travel vlog is being edited.</p>
+                    </div>
+                    <div class="video-title-tag">Sikkim Vlog — Coming Soon</div>
                 </div>
                 <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1&mute=1" title="Darjeeling Tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="video-coming-soon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <h4>Coming Soon</h4>
+                        <p>Our Darjeeling travel vlog is coming soon.</p>
+                    </div>
+                    <div class="video-title-tag">Darjeeling Vlog — Coming Soon</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <button class="lb-close"><i class="fa-solid fa-times"></i></button>
-        <button class="lb-prev"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery lightbox">
+        <button class="lb-close" aria-label="Close lightbox"><i class="fa-solid fa-times"></i></button>
+        <button class="lb-prev" aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
         <img src="" alt="Gallery Image" class="lb-img" id="lb-img">
         <div class="lb-caption" id="lb-caption"></div>
-        <button class="lb-next"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="lb-next" aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
     <!-- Footer -->
@@ -333,6 +362,76 @@
 
     <script defer src="../assets/js/utils.js"></script>
     <script defer src="../auth/auth.js"></script>
-    
+    <script defer src="../assets/js/features.js"></script>
+    <script>
+    // ── Gallery Filter ──────────────────────────────────────
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.filter;
+            galleryItems.forEach(item => {
+                const cats = item.dataset.cat || '';
+                const show = filter === 'all' || cats.split(' ').includes(filter);
+                item.classList.toggle('hide', !show);
+            });
+        });
+    });
+
+    // ── Lightbox (with keyboard, swipe, captions) ────────────
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCap = document.getElementById('lb-caption');
+    let lbItems = [], lbIdx = 0;
+
+    function buildItems() {
+        lbItems = Array.from(document.querySelectorAll('.gallery-item:not(.hide) img'));
+    }
+    function openLB(idx) {
+        buildItems(); lbIdx = idx;
+        lb.style.display = 'flex'; requestAnimationFrame(() => lb.style.opacity = '1');
+        showSlide(lbIdx);
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLB() {
+        lb.style.opacity = '0';
+        setTimeout(() => { lb.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    }
+    function showSlide(i) {
+        const img = lbItems[i];
+        lbImg.src = img.src.replace('w=600', 'w=1200');
+        lbImg.alt = img.alt;
+        const overlay = img.nextElementSibling;
+        lbCap.textContent = overlay ? overlay.querySelector('p')?.textContent || img.alt : img.alt;
+    }
+    function prev() { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; showSlide(lbIdx); }
+    function next() { lbIdx = (lbIdx + 1) % lbItems.length; showSlide(lbIdx); }
+
+    galleryItems.forEach((item, idx) => {
+        item.addEventListener('click', () => {
+            const visibleIdx = Array.from(document.querySelectorAll('.gallery-item:not(.hide)')).indexOf(item);
+            openLB(visibleIdx);
+        });
+    });
+    document.querySelector('.lb-close').addEventListener('click', closeLB);
+    document.querySelector('.lb-prev').addEventListener('click', prev);
+    document.querySelector('.lb-next').addEventListener('click', next);
+    document.addEventListener('keydown', e => {
+        if (lb.style.display !== 'flex') return;
+        if (e.key === 'Escape') closeLB();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+    });
+    // Swipe support
+    let touchStartX = 0;
+    lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
+    }, { passive: true });
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+    </script>
 </body>
 </html>
